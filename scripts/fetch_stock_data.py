@@ -86,7 +86,7 @@ def fetch_etnet_codes():
 def fetch_tushare_prices(codes, name_mapping):
     if not TUSHARE_TOKEN:
         print('⚠️  TUSHARE_TOKEN not set, using mock data')
-        return get_mock_data(codes)
+        return get_mock_data(codes, name_mapping)
 
     print('📊 Fetching Tushare prices...')
     ts.set_token(TUSHARE_TOKEN)
