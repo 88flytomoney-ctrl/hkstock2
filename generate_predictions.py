@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
 generate_predictions.py
-HK Stock AI Prediction Script using NVIDIA MiniMax M2.7 API.
+HK Stock AI Prediction Script using Dreamfield MiniMax-M2.7-highspeed API.
 
 Workflow:
   1. Scrape ETNet Top 10 stock codes
   2. Fetch 5-day historical OHLCV data via Tushare
-  3. For each stock → call NVIDIA MiniMax M2.7 API → get 5-day future predictions
+  3. For each stock → call Dreamfield API → get 5-day future predictions
   4. Merge historical + predicted → save to public/data/predictions.json
 
 Usage:
     python generate_predictions.py
 
 Environment:
-    NVIDIA_API_KEY   — NVIDIA NGC API key (required)
+    NVIDIA_API_KEY   — Your system API key passed down via GitHub Actions secrets (required)
     TUSHARE_TOKEN    — Tushare API token (optional, falls back to mock data)
 """
 
@@ -30,29 +30,29 @@ import tushare as ts
 from datetime import datetime, timedelta, date
 from pathlib import Path
 
-# ── NVIDIA OpenAI-compatible client ───────────────────────────────────────────
+# ── OpenAI-compatible client ──────────────────────────────────────────────────
 from openai import OpenAI
 
 NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY", "")
 os.environ["OPENAI_API_KEY"] = NVIDIA_API_KEY  # openai library checks this env var
 
-def get_nvidia_client():
-    """Lazy creation so env vars are set before instantiation."""
+def get_dreamfield_client():
+    """Lazy creation using Dreamfield API endpoints instead of NVIDIA NIM."""
     return OpenAI(
-        base_url="https://integrate.api.nvidia.com/v1",
+        base_url="https://www.dreamfield.top/v1/",
         api_key=NVIDIA_API_KEY,
     )
 
 # ── Config ────────────────────────────────────────────────────────────────────
-ETNET_URL    = "https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=turnover"
-HKEX_XLSX    = "https://www.hkex.com.hk/chi/services/trading/securities/securitieslists/ListOfSecurities_c.xlsx"
-LIMIT        = 10
-TOP_N        = 10
-OUTPUT_FILE  = Path("public/data/predictions.json")
-HIST_DATA    = Path("public/data/stocks.json")          # written by fetch_stock_data.py
-DAYS_BACK    = 10
+ETNET_URL     = "https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=turnover"
+HKEX_XLSX     = "https://www.hkex.com.hk/chi/services/trading/securities/securitieslists/ListOfSecurities_c.xlsx"
+LIMIT         = 10
+TOP_N         = 10
+OUTPUT_FILE   = Path("public/data/predictions.json")
+HIST_DATA     = Path("public/data/stocks.json")          # written by fetch_stock_data.py
+DAYS_BACK     = 10
 TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "")
-NVIDIA_MODEL = "minimaxai/minimax-m2.7"
+AI_MODEL_ID   = "MiniMax-M2.7-highspeed"                 # Updated: Specific Dreamfield Model ID
 
 
 # ── Step 1: Build name mapping from HKEX xlsx ────────────────────────────────
@@ -190,14 +190,14 @@ def get_mock_data(codes, name_mapping):
     return results
 
 
-# ── Step 4: Call NVIDIA MiniMax M2.7 for each stock ─────────────────────────
+# ── Step 4: Call Dreamfield MiniMax Engine for each stock ───────────────────
 def call_nvidia_ai(history_rows, stock_code, stock_name):
-    """Send 5-day historical data to NVIDIA MiniMax M2.7 and return 5-day predicted rows."""
+    """Send 5-day historical data to Dreamfield gateway and return 5-day predicted rows."""
     if not NVIDIA_API_KEY:
-        print(f"  ⚠️  No NVIDIA_API_KEY — skipping AI prediction for {stock_code}")
+        print(f"  ⚠️  No Secret API Key found — skipping AI prediction loop for {stock_code}")
         return None
 
-    # Build context string
+    # Build content context string dynamically from incoming loop variable values
     segments = []
     for row in history_rows:
         seg = (
@@ -212,29 +212,35 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
         f"Based on these 5 days of actual Hong Kong stock data for {stock_name} ({stock_code}), "
         f"predict the next 5 upcoming trading days sequentially. "
         f"Return ONLY a valid JSON array containing exactly 5 items formatted precisely like this sample: "
-        f'[{{"date": "MM/DD_PRED", "open": 74.50, "high": 76.00, "low": 72.10, "close": 75.30, "volume": "180.5M"}}]. '
+        f'{{"date": "MM/DD_PRED", "open": 74.50, "high": 76.00, "low": 72.10, "close": 75.30, "volume": "180.5M"}}'
         f"Use realistic price continuation based on the trend in the historical data. "
         f"Data: {historical_context}"
     )
 
-    client = get_nvidia_client()
+    client = get_dreamfield_client()
     try:
         response = client.chat.completions.create(
-            model=NVIDIA_MODEL,
+            model=AI_MODEL_ID,
             messages=[{"role": "user", "content": prompt}],
             temperature=1.0,
             max_tokens=2048,
             timeout=30,
         )
+        
         raw = response.choices[0].message.content.strip()
-        # Strip markdown code fences if present
+        
+        # Enhanced structural parsing to clear markdown string wraps dynamically
         if raw.startswith("```"):
-            raw = raw.split("```")[1]
+            raw = raw.split("\n", 1)[1]
+            if raw.endswith("```"):
+                raw = raw.rsplit("\n", 1)[0]
             if raw.startswith("json"):
                 raw = raw[4:]
+        raw = raw.strip()
+        
         predicted_rows = json.loads(raw)
 
-        # Normalise predicted rows
+        # Normalise structural field mapping parameters securely
         normalised = []
         for row in predicted_rows:
             normalised.append({
@@ -251,7 +257,7 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
         return normalised
 
     except Exception as e:
-        print(f"  ❌ {stock_code} NVIDIA API error: {e}")
+        print(f"  ❌ {stock_code} Dreamfield API execution error: {e}")
         return None
 
 
@@ -287,20 +293,20 @@ def main():
         if ai_rows:
             combined = history + ai_rows
         else:
-            # Fallback: no prediction available
+            # Fallback: maintain runtime execution array rows even if API blocks
             combined = history
 
         final_predictions_db[code] = {
             "name":         name,
             "symbol":       stock["symbol"],
-            "combined_data": combined,   # 5 historical + 5 predicted = 10 rows
+            "combined_data": combined,   # 5 historical + 5 predicted = 10 rows total
             "has_ai":       ai_rows is not None,
         }
 
-        # Respect API rate limits
+        # Respect API rate thresholds cleanly
         time.sleep(1)
 
-    # 5e. Write predictions.json
+    # 5e. Write predictions.json asset targets
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(final_predictions_db, f, ensure_ascii=False, indent=2)
