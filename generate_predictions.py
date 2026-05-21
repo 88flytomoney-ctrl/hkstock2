@@ -243,7 +243,7 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3,
                 max_tokens=2048,
-                timeout=120,
+                timeout=60,
             )
 
             raw = response.choices[0].message.content.strip()
@@ -254,7 +254,7 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
 
             # Strip markdown code fences
             if raw.startswith("```"):
-                parts = raw.split("\n", 1)
+                parts = raw.split("\\n", 1)
                 if len(parts) > 1:
                     raw = parts[1]
                 if raw.rstrip().endswith("```"):
@@ -285,13 +285,13 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
         except Exception as e:
             print(f"  ❌ {stock_code} attempt {attempt} failed: {e}")
             print(f"     Raw response: {raw[:500] if raw else 'No response received'}")
-            if attempt < 3:
-                print(f"     Retrying in 5s... (attempt {attempt + 1}/3)")
-                time.sleep(5)
+            if attempt < 2:
+                print(f"     Retrying in 3s... (attempt {attempt + 1}/2)")
+                time.sleep(3)
+                continue
             else:
-                print(f"     All 3 attempts failed for {stock_code}")
+                print(f"     All 2 attempts failed for {stock_code}")
             continue
-
     return None
 
 
