@@ -257,7 +257,8 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
         return normalised
 
     except Exception as e:
-        print(f"  ❌ {stock_code} Dreamfield API execution error: {e}")
+        print(f"  ❌ {stock_code} Dreamfield API error: {e}")
+        print(f"     Raw response: {raw[:500]}")
         return None
 
 
