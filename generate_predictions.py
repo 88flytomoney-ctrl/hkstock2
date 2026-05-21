@@ -224,6 +224,7 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
             messages=[{"role": "user", "content": prompt}],
             temperature=1.0,
             max_tokens=2048,
+            timeout=30,
         )
         raw = response.choices[0].message.content.strip()
         # Strip markdown code fences if present
