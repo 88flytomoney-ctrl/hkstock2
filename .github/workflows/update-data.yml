@@ -1,0 +1,57 @@
+name: Update Stock Data
+
+on:
+  schedule:
+    # Run at 19:00 Hong Kong time (11:00 UTC) Mon-Fri
+    - cron: '0 11 * * 1-5'
+  workflow_dispatch:  # Manual trigger
+  push:
+    branches: [main]
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pandas tushare openpyxl -q
+
+      - name: Run data fetcher
+        env:
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+        run: python scripts/fetch_stock_data.py
+
+      - name: Verify JSON output
+        run: |
+          python -c "
+          import json
+          with open('public/data/stocks.json') as f:
+              data = json.load(f)
+          print(f'Stocks: {data[\"stockCount\"]}')
+          print(f'Generated: {data[\"generatedAt\"]}')
+          print(f'Summary: {data[\"aiSummary\"][:100]}')
+          for s in data['stocks']:
+              print(f\"  {s['code']} {s['name']}: {s['fiveDayPct']:+.2f}% | signal: {s['analysis']['signal']}\")
+          "
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/data/stocks.json public/data/history/
+          git diff --staged --quiet && echo "No changes to commit" || \
+            git commit -m "🤖 Auto-update stock data $(date +%Y-%m-%d\ %H:%M)" && \
+            git pull --ff-only || echo "Pull failed, force pushing..." && \
+            git push --force-with-lease

@@ -1,0 +1,93 @@
+name: Daily Pipeline — Scrape + AI Predict + Deploy
+
+on:
+  schedule:
+    # Run at 18:00 HKT (10:00 UTC) daily
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── Step 1: Scrape current stock data ───────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        run: |
+          pip install requests pandas tushare openpyxl -q
+
+      - name: Scrape ETNet + Tushare
+        env:
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+        run: python scripts/fetch_stock_data.py
+
+      # ── Step 2: Generate AI predictions via NVIDIA ────────────────────────────
+      - name: Install AI deps
+        run: pip install openai -q
+
+      - name: Generate AI predictions
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          TUSHARE_TOKEN:  ${{ secrets.TUSHARE_TOKEN }}
+        run: python generate_predictions.py
+
+      - name: Verify outputs
+        run: |
+          python -c "
+          import json
+          with open('public/data/stocks.json') as f:
+              s = json.load(f)
+          print(f'Stocks: {s[\"stockCount\"]} | Generated: {s[\"generatedAt\"]}')
+          with open('public/data/predictions.json') as f:
+              p = json.load(f)
+          ai_count = sum(1 for v in p.values() if v.get('has_ai'))
+          print(f'Predictions: {len(p)} stocks | With AI: {ai_count}')
+          "
+
+      # ── Step 3: Commit stock data + predictions ──────────────────────────────
+      - name: Commit data
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/data/stocks.json public/data/predictions.json public/data/history/
+          git diff --staged --quiet && echo "No data changes" || \
+            git commit -m "🤖 Auto-update data + AI predictions $(date +%Y-%m-%d\ %H:%M)" && \
+            git pull --ff-only || echo "Force pushing..." && \
+            git push --force-with-lease
+
+      # ── Step 4: Build frontend ─────────────────────────────────────────────
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install & Build
+        run: |
+          npm ci
+          npm run build
+
+      # ── Step 5: Deploy to GitHub Pages ─────────────────────────────────────
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
