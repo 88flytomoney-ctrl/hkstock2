@@ -234,6 +234,7 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
     )
 
     client = get_dreamfield_client()
+    raw = None
     try:
         response = client.chat.completions.create(
             model=AI_MODEL_ID,
@@ -275,6 +276,7 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
 
     except Exception as e:
         print(f"  ❌ {stock_code} JSON Parsing or API execution error: {e}")
+        print(f"     Raw response: {raw[:500] if raw else 'No response received'}")
         return None
 
 
