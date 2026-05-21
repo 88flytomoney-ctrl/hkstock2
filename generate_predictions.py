@@ -197,7 +197,7 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
         print(f"  ⚠️  No Secret API Key found — skipping AI prediction loop for {stock_code}")
         return None
 
-    # 4a. Dynamically build the current tracking historical variable context string
+    # Build historical context string
     segments = []
     for row in history_rows:
         seg = (
@@ -208,9 +208,8 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
         segments.append(seg)
     historical_context = " | ".join(segments)
 
-    # 4b. Concrete training few-shot baseline templates to avoid format breaks
+    # Few-shot training sample
     sample_input = "05/14: O:75.30 H:76.10 L:71.50 C:71.50 V:98.4M | 05/15: O:73.90 H:76.65 L:70.75 C:71.15 V:156.8M | 05/18: O:70.55 H:72.65 L:67.60 C:68.70 V:119.0M | 05/19: O:67.95 H:69.40 L:65.20 C:68.50 V:119.8M | 05/20: O:68.05 H:77.45 L:67.60 C:75.15 V:258.5M"
-    
     sample_output = (
         '[\n'
         '  {"date": "05/21_PRED", "open": 74.50, "high": 76.00, "low": 72.10, "close": 75.30, "volume": "180.5M"},\n'
@@ -234,54 +233,66 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
     )
 
     client = get_dreamfield_client()
-    raw = None
-    try:
-        response = client.chat.completions.create(
-            model=AI_MODEL_ID,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.3,  # Lowered variance to enforce sample strictness
-            max_tokens=2048,
-            timeout=30,
-        )
-        
-        raw = response.choices[0].message.content.strip()
 
-        # Strip AI thinking/refusal blocks: <think>...</think>
-        import re
-        raw = re.sub(r'<think>.*?</think>', '', raw, flags=re.DOTALL)
+    # Retry loop: up to 3 attempts for timeout, refusal, or parse errors
+    for attempt in range(1, 4):
+        raw = None
+        try:
+            response = client.chat.completions.create(
+                model=AI_MODEL_ID,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.3,
+                max_tokens=2048,
+                timeout=120,
+            )
 
-        # Enhanced structural parsing to clear markdown string wraps dynamically
-        if raw.startswith("```"):
-            raw = raw.split("\n", 1)[1]
-            if raw.endswith("```"):
-                raw = raw.rsplit("\n", 1)[0]
-            if raw.startswith("json"):
-                raw = raw[4:]
-        raw = raw.strip()
-        
-        predicted_rows = json.loads(raw)
+            raw = response.choices[0].message.content.strip()
 
-        # Normalise structural field mapping parameters securely
-        normalised = []
-        for row in predicted_rows:
-            d_str = row.get("date", "")
-            normalised.append({
-                "date":      d_str,
-                "dateShort": d_str.replace("_PRED", "").replace("🔮", "")[:5],
-                "open":      float(row.get("open", 0)),
-                "high":      float(row.get("high", 0)),
-                "low":       float(row.get("low",  0)),
-                "close":     float(row.get("close", 0)),
-                "volume":    int(float(str(row.get("volume", "0M")).rstrip("Mm")) * 1e6),
-                "volumeM":   str(row.get("volume", "0M")),
-            })
-        print(f"  🤖 {stock_code} AI prediction successfully parsed: {len(normalised)} rows")
-        return normalised
+            # Strip AI thinking/refusal blocks
+            import re
+            raw = re.sub(r'<think>.*?</think>', '', raw, flags=re.DOTALL)
 
-    except Exception as e:
-        print(f"  ❌ {stock_code} JSON Parsing or API execution error: {e}")
-        print(f"     Raw response: {raw[:500] if raw else 'No response received'}")
-        return None
+            # Strip markdown code fences
+            if raw.startswith("```"):
+                parts = raw.split("\n", 1)
+                if len(parts) > 1:
+                    raw = parts[1]
+                if raw.rstrip().endswith("```"):
+                    raw = raw.rstrip()[:-3]
+                if raw.startswith("json"):
+                    raw = raw[4:]
+            raw = raw.strip()
+
+            predicted_rows = json.loads(raw)
+
+            # Normalise
+            normalised = []
+            for row in predicted_rows:
+                d_str = row.get("date", "")
+                normalised.append({
+                    "date":      d_str,
+                    "dateShort": d_str.replace("_PRED", "").replace("🔮", "")[:5],
+                    "open":      float(row.get("open", 0)),
+                    "high":      float(row.get("high", 0)),
+                    "low":       float(row.get("low",  0)),
+                    "close":     float(row.get("close", 0)),
+                    "volume":    int(float(str(row.get("volume", "0M")).rstrip("Mm")) * 1e6),
+                    "volumeM":   str(row.get("volume", "0M")),
+                })
+            print(f"  🤖 {stock_code} AI prediction: {len(normalised)} rows (attempt {attempt})")
+            return normalised
+
+        except Exception as e:
+            print(f"  ❌ {stock_code} attempt {attempt} failed: {e}")
+            print(f"     Raw response: {raw[:500] if raw else 'No response received'}")
+            if attempt < 3:
+                print(f"     Retrying in 5s... (attempt {attempt + 1}/3)")
+                time.sleep(5)
+            else:
+                print(f"     All 3 attempts failed for {stock_code}")
+            continue
+
+    return None
 
 
 # ── Step 5: Orchestrator ──────────────────────────────────────────────────────
