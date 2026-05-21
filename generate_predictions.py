@@ -245,7 +245,11 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
         )
         
         raw = response.choices[0].message.content.strip()
-        
+
+        # Strip AI thinking/refusal blocks: <think>...</think>
+        import re
+        raw = re.sub(r'<think>.*?</think>', '', raw, flags=re.DOTALL)
+
         # Enhanced structural parsing to clear markdown string wraps dynamically
         if raw.startswith("```"):
             raw = raw.split("\n", 1)[1]
