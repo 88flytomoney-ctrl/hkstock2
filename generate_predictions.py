@@ -30,7 +30,7 @@ def get_dreamfield_client():
 
 ETNET_URL     = "https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=turnover"
 HKEX_XLSX     = "https://www.hkex.com.hk/chi/services/trading/securities/securitieslists/ListOfSecurities_c.xlsx"
-LIMIT         = 10
+LIMIT         = 3
 OUTPUT_FILE   = Path("public/data/predictions.json")
 DAYS_BACK     = 10
 TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "9bfdcb66a5e11f5161a867270b4499a77966ea65c4bd0033a5da9f3b")
