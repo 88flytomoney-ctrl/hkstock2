@@ -17,7 +17,21 @@ import pandas as pd
 import tushare as ts
 from datetime import datetime, timedelta
 from pathlib import Path
-from stock_analysis import analyze_stock
+
+# ── Stub: simple rule-based signal (replaces stock_analysis.analyze_stock) ──
+def analyze_stock(stock):
+    pct = stock.get('fiveDayPct', 0)
+    if pct > 5:
+        signal = 'strong buy'
+    elif pct > 1:
+        signal = 'buy'
+    elif pct < -5:
+        signal = 'strong sell'
+    elif pct < -1:
+        signal = 'sell'
+    else:
+        signal = 'hold'
+    return {'signal': signal, 'pct': pct}
 
 # ── Config ──────────────────────────────────────────────────────────────────
 ETNET_URL = 'https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=turnover'

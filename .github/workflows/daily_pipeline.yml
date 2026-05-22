@@ -29,7 +29,7 @@ jobs:
 
       - name: Install Python deps
         run: |
-          pip install requests pandas tushare openpyxl openai stock-analysis -q
+          pip install requests pandas tushare openpyxl openai -q
 
       - name: Scrape ETNet + Tushare + Generate AI predictions
         env:
