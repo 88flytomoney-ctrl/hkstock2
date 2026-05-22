@@ -90,7 +90,6 @@ def fetch_tushare_prices(codes, name_mapping):
 
     print('📊 Fetching Tushare prices...')
     ts.set_token(TUSHARE_TOKEN)
-    pro = ts.pro_api()
 
     end_date = datetime.now().date()
     start_date = end_date - timedelta(days=DAYS_BACK)
@@ -102,7 +101,12 @@ def fetch_tushare_prices(codes, name_mapping):
         symbol = f'{code}.HK'
         name = name_mapping.get(code, symbol)
         try:
-            df = pro.hk_daily(ts_code=symbol, start_date=start_str, end_date=end_str)
+            df = ts.pro_bar(
+                ts_code=symbol,
+                start_date=start_str,
+                end_date=end_str,
+                adj='qfq',
+            )
             if df is None or df.empty:
                 print(f'  ⚠️  {symbol} no data')
                 continue
