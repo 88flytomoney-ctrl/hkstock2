@@ -29,11 +29,10 @@ jobs:
 
       - name: Install Python deps
         run: |
-          pip install requests pandas tushare openpyxl openai -q
+          pip install pandas openpyxl requests yfinance openai -q
 
       - name: Scrape ETNet + Tushare + Generate AI predictions
         env:
-          TUSHARE_TOKEN:  ${{ secrets.TUSHARE_TOKEN }}
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         run: |
           python scripts/fetch_stock_data.py

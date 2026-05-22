@@ -14,7 +14,6 @@ import io
 import random
 import requests
 import pandas as pd
-import tushare as ts
 from datetime import datetime, timedelta, date
 from pathlib import Path
 from openai import OpenAI
@@ -33,7 +32,6 @@ HKEX_XLSX     = "https://www.hkex.com.hk/chi/services/trading/securities/securit
 LIMIT         = 10
 OUTPUT_FILE   = Path("public/data/predictions.json")
 DAYS_BACK     = 10
-TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "")
 AI_MODEL_ID   = "MiniMax-M2.7-highspeed"
 
 def build_name_mapping():
@@ -77,72 +75,39 @@ def fetch_etnet_codes():
     print(f"  → Found {len(codes)} stock codes")
     return codes[:LIMIT]
 
-def fetch_tushare_prices(codes, name_mapping):
-    if not TUSHARE_TOKEN:
-        print("📊 Using mock price data...")
-        random.seed(42)
-        base_prices = {"00700": 380, "09988": 82, "00941": 68, "00939": 5.8, "01398": 4.2}
-        results = []
-        today = date.today()
-        for code in codes[:LIMIT]:
-            symbol = f"{code}.HK"
-            name   = name_mapping.get(code, symbol)
-            base   = base_prices.get(code, 50)
-            rows   = []
-            for i in range(5):
-                d     = today - timedelta(days=4 - i)
-                close = round(base * (1 + random.uniform(-0.03, 0.03)), 2)
-                open_ = round(close * (1 + random.uniform(-0.01, 0.01)), 2)
-                high  = round(max(close, open_) * (1 + random.uniform(0, 0.01)), 2)
-                low   = round(min(close, open_) * (1 - random.uniform(0, 0.01)), 2)
-                vol   = int(random.uniform(5e6, 50e6))
-                rows.append({
-                    "date":      d.strftime("%Y-%m-%d"),
-                    "dateShort": d.strftime("%m/%d"),
-                    "close":  close, "open": open_, "high": high, "low": low,
-                    "volume": vol, "volumeM": round(vol / 1e6, 1),
-                })
-                base = close
-            results.append({"code": code, "name": name, "symbol": symbol, "prices": rows})
-        return results
-
-    print("📊 Fetching Tushare prices...")
-    ts.set_token(TUSHARE_TOKEN)
+def fetch_yf_prices(codes, name_mapping):
+    print("📊 Fetching Yahoo Finance prices...")
+    import yfinance as yf
     end_date   = date.today()
     start_date = end_date - timedelta(days=DAYS_BACK)
-    start_str  = start_date.strftime("%Y%m%d")
-    end_str    = end_date.strftime("%Y%m%d")
 
     results = []
     for code in codes[:LIMIT]:
         symbol = f"{code}.HK"
         name   = name_mapping.get(code, symbol)
         try:
-            df = ts.pro_bar(
-                ts_code=symbol,
-                start_date=start_str,
-                end_date=end_str,
-                adj='qfq',
-            )
+            ticker = yf.Ticker(symbol)
+            df = ticker.history(start=start_date, end=end_date, auto_adjust=True)
             if df is None or df.empty:
                 continue
-            df = df.sort_values("trade_date")
-            df["trade_date"] = pd.to_datetime(df["trade_date"], format="%Y%m%d")
+            df = df.sort_index()  # oldest → newest
             last5 = df.tail(5).copy()
             if len(last5) < 2:
                 continue
 
             rows = []
-            for _, row in last5.iterrows():
+            for idx, row in last5.iterrows():
+                d = idx.date()
+                vol = int(row['Volume']) if not pd.isna(row['Volume']) else 0
                 rows.append({
-                    "date":      row["trade_date"].strftime("%Y-%m-%d"),
-                    "dateShort": row["trade_date"].strftime("%m/%d"),
-                    "close":     float(row["close"]),
-                    "open":      float(row.get("open", row["close"])),
-                    "high":      float(row.get("high", row["close"])),
-                    "low":       float(row.get("low",  row["close"])),
-                    "volume":    int(row["vol"]),
-                    "volumeM":   round(int(row["vol"]) / 1e6, 2),
+                    "date":      d.strftime("%Y-%m-%d"),
+                    "dateShort": d.strftime("%m/%d"),
+                    "close":     round(float(row["Close"]), 2),
+                    "open":      round(float(row["Open"]), 2),
+                    "high":      round(float(row["High"]), 2),
+                    "low":       round(float(row["Low"]), 2),
+                    "volume":    vol,
+                    "volumeM":   round(vol / 1e6, 2),
                 })
             results.append({"code": code, "name": name, "symbol": symbol, "prices": rows})
             time.sleep(0.2)

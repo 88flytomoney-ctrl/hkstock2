@@ -14,7 +14,6 @@ import time
 import io
 import requests
 import pandas as pd
-import tushare as ts
 from datetime import datetime, timedelta
 from pathlib import Path
 from stock_analysis import analyze_stock
@@ -27,7 +26,6 @@ LIMIT = 15
 TOP_N = 10
 OUTPUT_FILE = Path('public/data/stocks.json')
 HISTORY_DIR = Path('public/data/history')
-TUSHARE_TOKEN = os.environ.get('TUSHARE_TOKEN', '9bfdcb66a5e11f5161a867270b4499a77966ea65c4bd0033a5da9f3b')
 
 
 # ── Step 0: Build name mapping from HKEX xlsx ────────────────────────────────
@@ -82,37 +80,26 @@ def fetch_etnet_codes():
     return codes
 
 
-# ── Step 2: Fetch Tushare prices ─────────────────────────────────────────────
-def fetch_tushare_prices(codes, name_mapping):
-    if not TUSHARE_TOKEN:
-        print('⚠️  TUSHARE_TOKEN not set, using mock data')
-        return get_mock_data(codes, name_mapping)
+# ── Step 2: Fetch Yahoo Finance prices ──────────────────────────────────────
+import yfinance as yf
 
-    print('📊 Fetching Tushare prices...')
-    ts.set_token(TUSHARE_TOKEN)
-
+def fetch_yf_prices(codes, name_mapping):
+    print('📊 Fetching Yahoo Finance prices...')
     end_date = datetime.now().date()
     start_date = end_date - timedelta(days=DAYS_BACK)
-    start_str = start_date.strftime('%Y%m%d')
-    end_str = end_date.strftime('%Y%m%d')
 
     results = []
     for code in codes[:LIMIT]:
         symbol = f'{code}.HK'
         name = name_mapping.get(code, symbol)
         try:
-            df = ts.pro_bar(
-                ts_code=symbol,
-                start_date=start_str,
-                end_date=end_str,
-                adj='qfq',
-            )
+            ticker = yf.Ticker(symbol)
+            df = ticker.history(start=start_date, end=end_date, auto_adjust=True)
             if df is None or df.empty:
                 print(f'  ⚠️  {symbol} no data')
                 continue
 
-            df = df.sort_values('trade_date')
-            df['trade_date'] = pd.to_datetime(df['trade_date'], format='%Y%m%d')
+            df = df.sort_index()  # oldest → newest
             last5 = df.tail(5).copy()
 
             if len(last5) < 2:
@@ -120,16 +107,18 @@ def fetch_tushare_prices(codes, name_mapping):
                 continue
 
             rows = []
-            for _, row in last5.iterrows():
+            for idx, row in last5.iterrows():
+                d = idx.date()
+                vol = int(row['Volume']) if not pd.isna(row['Volume']) else 0
                 rows.append({
-                    'date': row['trade_date'].strftime('%Y-%m-%d'),
-                    'dateShort': row['trade_date'].strftime('%m/%d'),
-                    'close': float(row['close']),
-                    'open': float(row.get('open', row['close'])),
-                    'high': float(row.get('high', row['close'])),
-                    'low': float(row.get('low', row['close'])),
-                    'volume': int(row['vol']),
-                    'volumeM': round(int(row['vol']) / 1e6, 2),
+                    'date':      d.strftime('%Y-%m-%d'),
+                    'dateShort': d.strftime('%m/%d'),
+                    'close':     round(float(row['Close']), 2),
+                    'open':      round(float(row['Open']), 2),
+                    'high':      round(float(row['High']), 2),
+                    'low':       round(float(row['Low']), 2),
+                    'volume':    vol,
+                    'volumeM':   round(vol / 1e6, 2),
                 })
 
             # Calculate metrics (rows[0]=oldest, rows[-1]=newest)
@@ -221,7 +210,7 @@ def main():
     name_mapping = build_name_mapping()
 
     # 3. Fetch prices
-    stocks = fetch_tushare_prices(codes, name_mapping)
+    stocks = fetch_yf_prices(codes, name_mapping)
     if not stocks:
         print('❌ No stock data fetched, exiting')
         sys.exit(1)
