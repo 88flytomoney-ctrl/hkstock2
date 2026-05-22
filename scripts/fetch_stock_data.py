@@ -88,24 +88,39 @@ def fetch_yf_prices(codes, name_mapping):
     end_date = datetime.now().date()
     start_date = end_date - timedelta(days=DAYS_BACK)
 
+    # Yahoo Finance uses no-leading-zero HK symbols: 00700→700.HK, 09988→9988.HK
+    yf_symbols = [f'{int(c)}.HK' for c in codes[:LIMIT]]
+    try:
+        df_all = yf.download(
+            yf_symbols,
+            start=start_date,
+            end=end_date,
+            auto_adjust=True,
+            group_by='ticker',
+            progress=False,
+        )
+    except Exception as e:
+        print(f'  ❌ yfinance batch download failed: {e}')
+        return []
+
     results = []
     for code in codes[:LIMIT]:
         symbol = f'{code}.HK'
+        yf_sym = f'{int(code)}.HK'
         name = name_mapping.get(code, symbol)
         try:
-            ticker = yf.Ticker(symbol)
-            df = ticker.history(start=start_date, end=end_date, auto_adjust=True)
+            if yf_sym not in df_all.columns.get_level_values(0):
+                print(f'  ⚠️  {symbol} not in yfinance response')
+                continue
+            df = df_all[yf_sym].dropna(how='all')
             if df is None or df.empty:
                 print(f'  ⚠️  {symbol} no data')
                 continue
-
             df = df.sort_index()  # oldest → newest
             last5 = df.tail(5).copy()
-
             if len(last5) < 2:
                 print(f'  ⚠️  {symbol} insufficient data')
                 continue
-
             rows = []
             for idx, row in last5.iterrows():
                 d = idx.date()
