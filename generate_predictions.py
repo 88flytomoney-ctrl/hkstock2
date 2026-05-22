@@ -96,6 +96,7 @@ def fetch_tushare_prices(codes, name_mapping):
         symbol = f"{code}.HK"
         name   = name_mapping.get(code, symbol)
         try:
+            time.sleep(1)   # Tushare hk_daily rate limit: 1 call/min
             df = pro.hk_daily(ts_code=symbol, start_date=start_str, end_date=end_str)
             if df is None or df.empty:
                 print(f"  ⚠️  {symbol} no data")
