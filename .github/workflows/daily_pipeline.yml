@@ -2,7 +2,7 @@ name: Daily Pipeline — Scrape + AI Predict + Deploy
 
 on:
   schedule:
-    # Run at 18:00 HKT (10:00 UTC) daily
+    # Run at 18:00 Hong Kong time (10:00 UTC) daily
     - cron: '0 10 * * *'
   workflow_dispatch:
   push:
@@ -29,22 +29,15 @@ jobs:
 
       - name: Install Python deps
         run: |
-          pip install requests pandas tushare openpyxl -q
+          pip install requests pandas tushare openpyxl openai -q
 
-      - name: Scrape ETNet + Tushare
+      - name: Scrape ETNet + Tushare + Generate AI predictions
         env:
-          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
-        run: python scripts/fetch_stock_data.py
-
-      # ── Step 2: Generate AI predictions via NVIDIA ────────────────────────────
-      - name: Install AI deps
-        run: pip install openai -q
-
-      - name: Generate AI predictions
-        env:
-          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           TUSHARE_TOKEN:  ${{ secrets.TUSHARE_TOKEN }}
-        run: python generate_predictions.py
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: |
+          python scripts/fetch_stock_data.py
+          python generate_predictions.py
 
       - name: Verify outputs
         run: |
@@ -57,9 +50,12 @@ jobs:
               p = json.load(f)
           ai_count = sum(1 for v in p.values() if v.get('has_ai'))
           print(f'Predictions: {len(p)} stocks | With AI: {ai_count}')
+          for code, v in sorted(p.items()):
+              ai = '✅' if v.get('has_ai') else '❌'
+              print(f'  {ai} {code}: {v[\"name\"]}')
           "
 
-      # ── Step 3: Commit stock data + predictions ──────────────────────────────
+      # ── Step 2: Commit stock data + predictions ──────────────────────────────
       - name: Commit data
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -70,7 +66,7 @@ jobs:
             git pull --ff-only || echo "Force pushing..." && \
             git push --force-with-lease
 
-      # ── Step 4: Build frontend ─────────────────────────────────────────────
+      # ── Step 3: Build frontend ─────────────────────────────────────────────
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -82,7 +78,7 @@ jobs:
           npm ci
           npm run build
 
-      # ── Step 5: Deploy to GitHub Pages ─────────────────────────────────────
+      # ── Step 4: Deploy to GitHub Pages ─────────────────────────────────────
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

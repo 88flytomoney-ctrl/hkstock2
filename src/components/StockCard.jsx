@@ -47,7 +47,9 @@ export default function StockCard({ stock, prediction }) {
             </span>
             {hasAi && <span className="badge bg-purple-900/50 text-purple-300 text-xs">🔮 AI</span>}
           </div>
-          <h3 className="font-bold text-white text-base mt-0.5">{name}</h3>
+          <h3 className="font-bold text-white text-base mt-0.5">
+            {prediction?.name || name}
+          </h3>
           <p className="text-xs text-slate-500">{symbol}</p>
         </div>
         <div className={`badge ${sigStyle.bg} ${sigStyle.text} text-xs`}>

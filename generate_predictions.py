@@ -2,19 +2,7 @@
 """
 generate_predictions.py
 HK Stock AI Prediction Script using Dreamfield MiniMax-M2.7-highspeed API.
-
-Workflow:
-  1. Scrape ETNet Top 10 stock codes
-  2. Fetch 5-day historical OHLCV data via Tushare
-  3. For each stock → call Dreamfield API via Few-Shot Samples → get 5-day future predictions
-  4. Merge historical + predicted → save to public/data/predictions.json
-
-Usage:
-    python generate_predictions.py
-
-Environment:
-    NVIDIA_API_KEY   — System API key passed down via GitHub Actions secrets (required)
-    TUSHARE_TOKEN    — Tushare API token (optional, falls back to mock data)
+Optimized Version: Stripped stock names from LLM payload to fix tokenization performance lag.
 """
 
 import os
@@ -29,33 +17,25 @@ import pandas as pd
 import tushare as ts
 from datetime import datetime, timedelta, date
 from pathlib import Path
-
-# ── OpenAI-compatible client ──────────────────────────────────────────────────
 from openai import OpenAI
 
 NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY", "")
-os.environ["OPENAI_API_KEY"] = NVIDIA_API_KEY  # openai library checks this env var
+os.environ["OPENAI_API_KEY"] = NVIDIA_API_KEY
 
 def get_dreamfield_client():
-    """Lazy creation using Dreamfield API endpoints instead of NVIDIA NIM."""
     return OpenAI(
         base_url="https://www.dreamfield.top/v1/",
         api_key=NVIDIA_API_KEY,
     )
 
-# ── Config ────────────────────────────────────────────────────────────────────
 ETNET_URL     = "https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=turnover"
 HKEX_XLSX     = "https://www.hkex.com.hk/chi/services/trading/securities/securitieslists/ListOfSecurities_c.xlsx"
 LIMIT         = 10
-TOP_N         = 10
 OUTPUT_FILE   = Path("public/data/predictions.json")
-HIST_DATA     = Path("public/data/stocks.json")          # written by fetch_stock_data.py
 DAYS_BACK     = 10
 TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "")
-AI_MODEL_ID   = "MiniMax-M2.7-highspeed"                 # Specific Dreamfield Model ID
+AI_MODEL_ID   = "MiniMax-M2.7-highspeed"
 
-
-# ── Step 1: Build name mapping from HKEX xlsx ────────────────────────────────
 def build_name_mapping():
     print("📥 Downloading HKEX securities list...")
     try:
@@ -73,8 +53,6 @@ def build_name_mapping():
         print(f"  ⚠️  HKEX download failed: {e}")
         return {}
 
-
-# ── Step 2: Scrape ETNet Top 10 codes ───────────────────────────────────────
 def fetch_etnet_codes():
     print("📡 Fetching ETNet Top50...")
     headers = {
@@ -91,7 +69,6 @@ def fetch_etnet_codes():
 
     pattern = r'quote\.php\?code=["\']?([0-9]{4,6})["\']?'
     raw_codes = re.findall(pattern, html, re.IGNORECASE)
-
     seen, codes = set(), []
     for code in raw_codes:
         if not code.startswith("8") and code not in seen:
@@ -100,17 +77,38 @@ def fetch_etnet_codes():
     print(f"  → Found {len(codes)} stock codes")
     return codes[:LIMIT]
 
-
-# ── Step 3: Fetch Tushare historical prices ──────────────────────────────────
 def fetch_tushare_prices(codes, name_mapping):
     if not TUSHARE_TOKEN:
-        print("⚠️  TUSHARE_TOKEN not set — using mock data")
-        return get_mock_data(codes, name_mapping)
+        print("📊 Using mock price data...")
+        random.seed(42)
+        base_prices = {"00700": 380, "09988": 82, "00941": 68, "00939": 5.8, "01398": 4.2}
+        results = []
+        today = date.today()
+        for code in codes[:LIMIT]:
+            symbol = f"{code}.HK"
+            name   = name_mapping.get(code, symbol)
+            base   = base_prices.get(code, 50)
+            rows   = []
+            for i in range(5):
+                d     = today - timedelta(days=4 - i)
+                close = round(base * (1 + random.uniform(-0.03, 0.03)), 2)
+                open_ = round(close * (1 + random.uniform(-0.01, 0.01)), 2)
+                high  = round(max(close, open_) * (1 + random.uniform(0, 0.01)), 2)
+                low   = round(min(close, open_) * (1 - random.uniform(0, 0.01)), 2)
+                vol   = int(random.uniform(5e6, 50e6))
+                rows.append({
+                    "date":      d.strftime("%Y-%m-%d"),
+                    "dateShort": d.strftime("%m/%d"),
+                    "close":  close, "open": open_, "high": high, "low": low,
+                    "volume": vol, "volumeM": round(vol / 1e6, 1),
+                })
+                base = close
+            results.append({"code": code, "name": name, "symbol": symbol, "prices": rows})
+        return results
 
     print("📊 Fetching Tushare prices...")
     ts.set_token(TUSHARE_TOKEN)
     pro = ts.pro_api()
-
     end_date   = date.today()
     start_date = end_date - timedelta(days=DAYS_BACK)
     start_str  = start_date.strftime("%Y%m%d")
@@ -123,15 +121,11 @@ def fetch_tushare_prices(codes, name_mapping):
         try:
             df = pro.hk_daily(ts_code=symbol, start_date=start_str, end_date=end_str)
             if df is None or df.empty:
-                print(f"  ⚠️  {symbol} no data")
                 continue
-
             df = df.sort_values("trade_date")
             df["trade_date"] = pd.to_datetime(df["trade_date"], format="%Y%m%d")
             last5 = df.tail(5).copy()
-
             if len(last5) < 2:
-                print(f"  ⚠️  {symbol} insufficient data")
                 continue
 
             rows = []
@@ -146,69 +140,23 @@ def fetch_tushare_prices(codes, name_mapping):
                     "volume":    int(row["vol"]),
                     "volumeM":   round(int(row["vol"]) / 1e6, 2),
                 })
-
             results.append({"code": code, "name": name, "symbol": symbol, "prices": rows})
-            print(f"  ✅ {symbol} {name}: {len(rows)} rows")
-            time.sleep(0.5)
-
+            time.sleep(0.2)
         except Exception as e:
-            print(f"  ❌ {symbol} error: {e}")
-
+            print(f"❌ {symbol} error: {e}")
     return results
 
-
-def get_mock_data(codes, name_mapping):
-    """Fallback mock data when Tushare is unavailable."""
-    print("📊 Using mock price data...")
-    random.seed(42)
-    base_prices = {
-        "00700": 380, "09988": 82, "00941": 68, "00939": 5.8, "01398": 4.2,
-        "01698": 28,  "06098": 48, "02688": 85, "06888": 22, "01810": 18,
-    }
-    results = []
-    today = date.today()
-    for code in codes[:LIMIT]:
-        symbol = f"{code}.HK"
-        name   = name_mapping.get(code, symbol)
-        base   = base_prices.get(code, 50)
-        rows   = []
-        for i in range(5):
-            d     = today - timedelta(days=4 - i)
-            close = round(base * (1 + random.uniform(-0.03, 0.03)), 2)
-            open_ = round(close * (1 + random.uniform(-0.01, 0.01)), 2)
-            high  = round(max(close, open_) * (1 + random.uniform(0, 0.01)), 2)
-            low   = round(min(close, open_) * (1 - random.uniform(0, 0.01)), 2)
-            vol   = int(random.uniform(5e6, 50e6))
-            rows.append({
-                "date":      d.strftime("%Y-%m-%d"),
-                "dateShort": d.strftime("%m/%d"),
-                "close":  close, "open": open_, "high": high, "low": low,
-                "volume": vol, "volumeM": round(vol / 1e6, 1),
-            })
-            base = close
-        results.append({"code": code, "name": name, "symbol": symbol, "prices": rows})
-    return results
-
-
-# ── Step 4: Call Dreamfield MiniMax Engine for each stock ───────────────────
-def call_nvidia_ai(history_rows, stock_code, stock_name):
-    """Send 5-day historical data to Dreamfield gateway using explicit Few-Shot models."""
+def call_nvidia_ai(history_rows, stock_code):
+    """Sends numerical sequence context without Chinese character string headers."""
     if not NVIDIA_API_KEY:
-        print(f"  ⚠️  No Secret API Key found — skipping AI prediction loop for {stock_code}")
         return None
 
-    # Build historical context string
     segments = []
     for row in history_rows:
-        seg = (
-            f"{row['dateShort']}: "
-            f"O:{row['open']:.2f} H:{row['high']:.2f} "
-            f"L:{row['low']:.2f} C:{row['close']:.2f} V:{row['volumeM']:.1f}M"
-        )
+        seg = f"{row['dateShort']}: O:{row['open']:.2f} H:{row['high']:.2f} L:{row['low']:.2f} C:{row['close']:.2f} V:{row['volumeM']:.1f}M"
         segments.append(seg)
     historical_context = " | ".join(segments)
 
-    # Few-shot training sample
     sample_input = "05/14: O:75.30 H:76.10 L:71.50 C:71.50 V:98.4M | 05/15: O:73.90 H:76.65 L:70.75 C:71.15 V:156.8M | 05/18: O:70.55 H:72.65 L:67.60 C:68.70 V:119.0M | 05/19: O:67.95 H:69.40 L:65.20 C:68.50 V:119.8M | 05/20: O:68.05 H:77.45 L:67.60 C:75.15 V:258.5M"
     sample_output = (
         '[\n'
@@ -221,40 +169,33 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
     )
 
     prompt = (
-        f"You are a professional financial quantitative analysis model.\n\n"
-        f"[TRAINING SAMPLE]\n"
-        f"If the historical 5-day data input is:\n{sample_input}\n"
-        f"Your output must be EXACTLY a valid raw JSON array like this (no conversational text, no comments):\n{sample_output}\n\n"
-        f"[REAL-TIME TASK]\n"
-        f"Now, based on the real trend data of {stock_name} ({stock_code}), predict the next 5 upcoming trading days sequentially.\n"
-        f"Maintain logical price continuation (Close of today connects to Open/Close of tomorrow).\n"
+        f"You are a professional financial quantitative analysis model specializing in trend continuation.\n\n"
+        f"[TRAINING SAMPLE]\nInput:\n{sample_input}\nOutput:\n{sample_output}\n\n"
+        f"[REAL-TIME TASK]\nPredict the next 5 upcoming trading days sequentially for stock identifier token: {stock_code}.\n"
+        f"Do not return conversational text. Return ONLY a valid JSON array matching the structure shown above.\n"
         f"Input Data:\n{historical_context}\n\n"
         f"Output JSON:"
     )
 
     client = get_dreamfield_client()
-
-    # Retry loop: up to 3 attempts for timeout, refusal, or parse errors
-    for attempt in range(1, 4):
-        raw = None
+    for attempt in range(1, 3):
         try:
             response = client.chat.completions.create(
                 model=AI_MODEL_ID,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=2048,
-                timeout=60,
+                temperature=0.2,
+                max_tokens=1500,
+                timeout=20,
             )
 
             raw = response.choices[0].message.content.strip()
 
-            # Strip AI thinking/refusal blocks
-            import re
+            # Strip AI thinking blocks
             raw = re.sub(r'<think>.*?</think>', '', raw, flags=re.DOTALL)
 
             # Strip markdown code fences
             if raw.startswith("```"):
-                parts = raw.split("\\n", 1)
+                parts = raw.split("\n", 1)
                 if len(parts) > 1:
                     raw = parts[1]
                 if raw.rstrip().endswith("```"):
@@ -264,8 +205,6 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
             raw = raw.strip()
 
             predicted_rows = json.loads(raw)
-
-            # Normalise
             normalised = []
             for row in predicted_rows:
                 d_str = row.get("date", "")
@@ -279,76 +218,48 @@ def call_nvidia_ai(history_rows, stock_code, stock_name):
                     "volume":    int(float(str(row.get("volume", "0M")).rstrip("Mm")) * 1e6),
                     "volumeM":   str(row.get("volume", "0M")),
                 })
-            print(f"  🤖 {stock_code} AI prediction: {len(normalised)} rows (attempt {attempt})")
+            print(f"  🤖 {stock_code} AI prediction: {len(normalised)} rows")
             return normalised
-
         except Exception as e:
             print(f"  ❌ {stock_code} attempt {attempt} failed: {e}")
-            print(f"     Raw response: {raw[:500] if raw else 'No response received'}")
             if attempt < 2:
-                print(f"     Retrying in 3s... (attempt {attempt + 1}/2)")
+                print(f"     Retrying in 3s...")
                 time.sleep(3)
-                continue
-            else:
-                print(f"     All 2 attempts failed for {stock_code}")
             continue
     return None
 
-
-# ── Step 5: Orchestrator ──────────────────────────────────────────────────────
 def main():
-    print(f"\n🚀 generate_predictions.py started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-
-    # 5a. Scrape codes
     codes = fetch_etnet_codes()
     if not codes:
-        print("❌ No codes fetched")
         sys.exit(1)
-
-    # 5b. Name mapping
     name_mapping = build_name_mapping()
-
-    # 5c. Fetch historical prices
     stocks_data = fetch_tushare_prices(codes, name_mapping)
     if not stocks_data:
-        print("❌ No stock data fetched")
         sys.exit(1)
 
-    # 5d. Generate AI predictions per stock
     final_predictions_db = {}
     for stock in stocks_data:
         code    = stock["code"]
         name    = stock["name"]
-        history = stock["prices"]          # 5 historical rows, oldest→newest
+        history = stock["prices"]
 
-        print(f"\n🤖 Processing {name} ({code})...")
-        ai_rows = call_nvidia_ai(history, code, name)
+        print(f"🤖 Inferencing numerical patterns for token code {code}...")
+        ai_rows = call_nvidia_ai(history, code)
 
-        if ai_rows:
-            combined = history + ai_rows
-        else:
-            # Fallback: maintain runtime execution array rows even if API blocks
-            combined = history
+        combined = history + ai_rows if ai_rows else history
 
         final_predictions_db[code] = {
-            "name":         name,
-            "symbol":       stock["symbol"],
-            "combined_data": combined,   # 5 historical + 5 predicted = 10 rows total
-            "has_ai":       ai_rows is not None,
+            "name":          name,
+            "symbol":        stock["symbol"],
+            "combined_data": combined,
+            "has_ai":        ai_rows is not None,
         }
+        time.sleep(0.2)
 
-        # Respect API rate thresholds cleanly
-        time.sleep(1)
-
-    # 5e. Write predictions.json asset targets
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(final_predictions_db, f, ensure_ascii=False, indent=2)
-
-    has_ai_count = sum(1 for v in final_predictions_db.values() if v["has_ai"])
-    print(f"\n✅ predictions.json written → {OUTPUT_FILE}")
-    print(f"   Stocks: {len(final_predictions_db)} | With AI predictions: {has_ai_count}")
-
+    print(f"\n✅ Optimized data asset compiled successfully → {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()
