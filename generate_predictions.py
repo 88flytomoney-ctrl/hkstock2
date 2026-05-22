@@ -33,7 +33,7 @@ HKEX_XLSX     = "https://www.hkex.com.hk/chi/services/trading/securities/securit
 LIMIT         = 10
 OUTPUT_FILE   = Path("public/data/predictions.json")
 DAYS_BACK     = 10
-TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "")
+TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "9bfdcb66a5e11f5161a867270b4499a77966ea65c4bd0033a5da9f3b")
 AI_MODEL_ID   = "MiniMax-M2.7-highspeed"
 
 def build_name_mapping():

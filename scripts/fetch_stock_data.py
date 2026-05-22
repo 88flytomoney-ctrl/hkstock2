@@ -41,7 +41,7 @@ LIMIT = 15
 TOP_N = 10
 OUTPUT_FILE = Path('public/data/stocks.json')
 HISTORY_DIR = Path('public/data/history')
-TUSHARE_TOKEN = os.environ.get('TUSHARE_TOKEN', '')
+TUSHARE_TOKEN = os.environ.get('TUSHARE_TOKEN', '9bfdcb66a5e11f5161a867270b4499a77966ea65c4bd0033a5da9f3b')
 
 
 # ── Step 0: Build name mapping from HKEX xlsx ────────────────────────────────
