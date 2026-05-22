@@ -14,6 +14,7 @@ import io
 import random
 import requests
 import pandas as pd
+import tushare as ts
 from datetime import datetime, timedelta, date
 from pathlib import Path
 from openai import OpenAI
@@ -32,6 +33,7 @@ HKEX_XLSX     = "https://www.hkex.com.hk/chi/services/trading/securities/securit
 LIMIT         = 10
 OUTPUT_FILE   = Path("public/data/predictions.json")
 DAYS_BACK     = 10
+TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "")
 AI_MODEL_ID   = "MiniMax-M2.7-highspeed"
 
 def build_name_mapping():
@@ -75,57 +77,46 @@ def fetch_etnet_codes():
     print(f"  → Found {len(codes)} stock codes")
     return codes[:LIMIT]
 
-def fetch_yf_prices(codes, name_mapping):
-    print("📊 Fetching Yahoo Finance prices...")
-    import yfinance as yf
+def fetch_tushare_prices(codes, name_mapping):
+    if not TUSHARE_TOKEN:
+        print("⚠️  TUSHARE_TOKEN not set, using mock data")
+        return []
+
+    print("📊 Fetching Tushare prices...")
+    ts.set_token(TUSHARE_TOKEN)
+    pro = ts.pro_api()
+
     end_date   = date.today()
     start_date = end_date - timedelta(days=DAYS_BACK)
-
-    # Yahoo Finance uses no-leading-zero HK symbols: 00700→700.HK, 09988→9988.HK
-    yf_symbols = [f'{int(c)}.HK' for c in codes[:LIMIT]]
-    try:
-        df_all = yf.download(
-            yf_symbols,
-            start=start_date,
-            end=end_date,
-            auto_adjust=True,
-            group_by='ticker',
-            progress=False,
-        )
-    except Exception as e:
-        print(f"❌ yfinance batch download failed: {e}")
-        return []
+    start_str  = start_date.strftime("%Y%m%d")
+    end_str    = end_date.strftime("%Y%m%d")
 
     results = []
     for code in codes[:LIMIT]:
         symbol = f"{code}.HK"
-        yf_sym = f"{int(code)}.HK"
         name   = name_mapping.get(code, symbol)
         try:
-            if yf_sym not in df_all.columns.get_level_values(0):
-                print(f"  ⚠️  {symbol} not in yfinance response")
-                continue
-            df = df_all[yf_sym].dropna(how='all')
+            df = pro.hk_daily(ts_code=symbol, start_date=start_str, end_date=end_str)
             if df is None or df.empty:
+                print(f"  ⚠️  {symbol} no data")
                 continue
-            df = df.sort_index()  # oldest → newest
+            df = df.sort_values("trade_date")
+            df["trade_date"] = pd.to_datetime(df["trade_date"], format="%Y%m%d")
             last5 = df.tail(5).copy()
             if len(last5) < 2:
                 continue
 
             rows = []
-            for idx, row in last5.iterrows():
-                d = idx.date()
-                vol = int(row['Volume']) if not pd.isna(row['Volume']) else 0
+            for _, row in last5.iterrows():
                 rows.append({
-                    "date":      d.strftime("%Y-%m-%d"),
-                    "dateShort": d.strftime("%m/%d"),
-                    "close":     round(float(row["Close"]), 2),
-                    "open":      round(float(row["Open"]), 2),
-                    "high":      round(float(row["High"]), 2),
-                    "low":       round(float(row["Low"]), 2),
-                    "volume":    vol,
-                    "volumeM":   round(vol / 1e6, 2),
+                    "date":      row["trade_date"].strftime("%Y-%m-%d"),
+                    "dateShort": row["trade_date"].strftime("%m/%d"),
+                    "close":     float(row["close"]),
+                    "open":      float(row.get("open", row["close"])),
+                    "high":      float(row.get("high", row["close"])),
+                    "low":       float(row.get("low",  row["close"])),
+                    "volume":    int(row["vol"]),
+                    "volumeM":   round(int(row["vol"]) / 1e6, 2),
                 })
             results.append({"code": code, "name": name, "symbol": symbol, "prices": rows})
             time.sleep(0.2)
