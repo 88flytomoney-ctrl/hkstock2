@@ -6,17 +6,11 @@ const DATA_URL      = '/hkstock2/data/stocks.json';
 const PREDICT_URL   = '/hkstock2/data/predictions.json';
 const MANIFEST_URL  = '/hkstock2/data/history/manifest.json';
 
-// Convert UTC datetime string to Hong Kong time (UTC+8)
+// Append HKT suffix — stored generatedAt values are already in HK local time
 function toHKTime(utcStr) {
   if (!utcStr) return '';
   try {
-    const [datePart, timePart] = utcStr.split(' ');
-    const [y, m, d] = datePart.split('-').map(Number);
-    const [h, min, s] = timePart.split(':').map(Number);
-    const utc = Date.UTC(y, m - 1, d, h, min, s);
-    const hk = new Date(utc + 8 * 60 * 60 * 1000);
-    const pad = n => String(n).padStart(2, '0');
-    return `${hk.getUTCFullYear()}-${pad(hk.getUTCMonth()+1)}-${pad(hk.getUTCDate())} ${pad(hk.getUTCHours())}:${pad(hk.getUTCMinutes())}:${pad(hk.getUTCSeconds())} HKT`;
+    return utcStr.trim() + ' HKT';
   } catch {
     return utcStr;
   }
