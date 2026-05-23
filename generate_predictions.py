@@ -30,7 +30,7 @@ def get_dreamfield_client():
 
 ETNET_URL     = "https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=turnover"
 HKEX_XLSX     = "https://www.hkex.com.hk/chi/services/trading/securities/securitieslists/ListOfSecurities_c.xlsx"
-LIMIT         = 1
+LIMIT         = 15
 OUTPUT_FILE   = Path("public/data/predictions.json")
 DAYS_BACK     = 10
 TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "9bfdcb66a5e11f5161a867270b4499a77966ea65c4bd0033a5da9f3b")
@@ -77,9 +77,61 @@ def fetch_etnet_codes():
     print(f"  → Found {len(codes)} stock codes")
     return codes[:LIMIT]
 
+def fetch_sina_prices(codes, name_mapping):
+    """Fetch HK stock prices from Sina Finance API (free, no rate limit)."""
+    print("📊 Fetching Sina Finance prices...")
+    SINA_URL = "https://hq.sinajs.cn/list=" + ",".join(f"hk{c.zfill(5)}" for c in codes[:LIMIT])
+    try:
+        resp = requests.get(SINA_URL, headers={"Referer": "https://finance.sina.com.cn", "User-Agent": "Mozilla/5.0"}, timeout=15)
+        resp.encoding = "gbk"
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"  ⚠️  Sina request failed: {e}")
+        return []
+
+    results = []
+    # Sina returns: hq_str_hk00700="00700,open,high,low,close,prev_close,...,time,date"
+    # Fields (0-based): 0=code, 1=open, 2=prev_close, 3=close, 4=high, 5=low, ... 6=volume
+    for code in codes[:LIMIT]:
+        symbol = f"{code}.HK"
+        name = name_mapping.get(code, symbol)
+        try:
+            match = re.search(rf'hq_str_hk{code.zfill(5)}="([^"]+)"', resp.text)
+            if not match:
+                print(f"  ⚠️  {symbol} not found in Sina response")
+                continue
+            fields = match.group(1).split(",")
+            if len(fields) < 10:
+                print(f"  ⚠️  {symbol} insufficient fields")
+                continue
+            close = float(fields[3])
+            open_ = float(fields[1])
+            high = float(fields[4])
+            low = float(fields[5])
+            prev_close = float(fields[2])
+            vol = int(fields[6]) if fields[6].isdigit() else 0
+            today_pct = round((close / prev_close - 1) * 100, 2) if prev_close else 0
+            today_date = datetime.now().strftime("%Y-%m-%d")
+            rows = [{
+                "date": today_date,
+                "dateShort": datetime.now().strftime("%m/%d"),
+                "close": close,
+                "open": open_,
+                "high": high,
+                "low": low,
+                "volume": vol,
+                "volumeM": round(vol / 1e6, 2),
+            }]
+            results.append({"code": code, "name": name, "symbol": symbol, "prices": rows, "todayPct": today_pct})
+            print(f"  ✅ {symbol} {name}: {today_pct:+.2f}%")
+        except Exception as e:
+            print(f"  ❌ {symbol} error: {e}")
+    return results
+
+
 def fetch_tushare_prices(codes, name_mapping):
     if not TUSHARE_TOKEN:
-        print("⚠️  TUSHARE_TOKEN not set, using mock data")
+        print("⚠️  TUSHARE_TOKEN not set, skipping Tushare")
         return []
 
     print("📊 Fetching Tushare prices...")
@@ -212,7 +264,7 @@ def main():
     if not codes:
         sys.exit(1)
     name_mapping = build_name_mapping()
-    stocks_data = fetch_tushare_prices(codes, name_mapping)
+    stocks_data = fetch_sina_prices(codes, name_mapping)
     if not stocks_data:
         sys.exit(1)
 
