@@ -113,7 +113,7 @@ function App() {
             </svg>
             <div>
               <h1 className="text-xl font-bold text-white">HK Stock 2 <span className="text-xs text-purple-400 ml-1">🤖 AI</span></h1>
-              <p className="text-xs text-slate-400">ETNet Top {data?.stockCount || 10} + NVIDIA M2.7 預測</p>
+              <p className="text-xs text-slate-400">ETNet Top {data?.stockCount || 10} · Yahoo 10日 · OpenRouter 5日預測</p>
             </div>
           </div>
           <div className="text-right">
@@ -157,7 +157,7 @@ function App() {
         </section>
 
         <footer className="text-center text-xs text-slate-500 py-8">
-          數據來源：ETNet + Tushare · AI 預測：NVIDIA MiniMax M2.7 · 僅供參考，不構成投資建議
+          數據來源：ETNet + Yahoo Finance · AI 預測：OpenRouter owl-alpha · 僅供參考，不構成投資建議
         </footer>
       </main>
     </div>

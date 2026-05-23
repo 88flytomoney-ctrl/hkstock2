@@ -28,11 +28,11 @@ export default function StockCard({ stock, prediction }) {
   const trendIcon = analysis?.trend === 'uptrend' ? '↗' : analysis?.trend === 'downtrend' ? '↘' : '→';
   const volIcon   = analysis?.volumeSignal === 'volume surge' ? '🔥' : analysis?.volumeSignal === 'volume decline' ? '📉' : '➡';
 
-  // Prediction data
+  // combined_data: [0-9] = 10 historical days, [10-14] = 5 AI future days
   const hasAi   = prediction?.has_ai && Array.isArray(prediction.combined_data);
-  const histRows  = hasAi ? prediction.combined_data.slice(0, 5)  : prices || [];
-  const predRows  = hasAi ? prediction.combined_data.slice(5, 10) : [];
-  const chartRows = hasAi ? prediction.combined_data         : prices || [];
+  const histRows  = hasAi ? prediction.combined_data.slice(0, 10) : (prices || []);
+  const predRows  = hasAi ? prediction.combined_data.slice(10, 15) : [];
+  const chartRows = hasAi ? prediction.combined_data : (prices || []);
 
   return (
     <div className="card space-y-3">
@@ -57,9 +57,9 @@ export default function StockCard({ stock, prediction }) {
         </div>
       </div>
 
-      {/* ── Candlestick Chart (10 bars if AI, else 5) ── */}
+      {/* ── Candlestick Chart (15 bars: 10 hist + 5 AI) ── */}
       {chartRows.length > 0 && (
-        <MiniChart prices={chartRows} hasAi={hasAi} histCount={5} />
+        <MiniChart prices={chartRows} hasAi={hasAi} histCount={10} />
       )}
 
       {/* ── Last Price + Stats ── */}
@@ -132,7 +132,7 @@ export default function StockCard({ stock, prediction }) {
         <div className="ai-prediction-matrix border border-purple-700/60 rounded-lg overflow-hidden">
           <div className="bg-purple-900/30 px-3 py-1.5 flex items-center gap-2 border-b border-purple-700/40">
             <span className="text-purple-300 text-xs font-semibold">🔮 AI 預測（未來5日）</span>
-            <span className="text-xs text-slate-500">NVIDIA MiniMax M2.7</span>
+            <span className="text-xs text-slate-500">OpenRouter owl-alpha</span>
           </div>
           <table className="w-full text-xs">
             <thead>
@@ -170,7 +170,7 @@ export default function StockCard({ stock, prediction }) {
 
       {!hasAi && (
         <div className="text-center text-xs text-slate-600 py-2">
-          🔮 AI 預測暫不可用
+          🔮 AI 預測（請設定 OPENROUTER_API_KEY）
         </div>
       )}
 

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
 generate_predictions.py
-HK Stock AI Prediction Script using Dreamfield MiniMax-M2.7-highspeed API.
-Optimized Version: Stripped stock names from LLM payload to fix tokenization performance lag.
+HK Stock AI Prediction Script using OpenRouter (openrouter/owl-alpha).
+Anonymized vector-based prompts: [open, high, low, close, volumeM] per timestep.
+Appends 5 future coordinate steps to 10-day Yahoo Finance historical data.
 """
 
 import os
@@ -11,49 +12,29 @@ import re
 import json
 import time
 import io
-import random
 import requests
 import pandas as pd
-import tushare as ts
 from datetime import datetime, timedelta, date, timezone
 from pathlib import Path
 from openai import OpenAI
 
-NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY", "")
-os.environ["OPENAI_API_KEY"] = NVIDIA_API_KEY
+# ── OpenRouter Client ──────────────────────────────────────────────────────────
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 
-def get_dreamfield_client():
+def get_openrouter_client():
     return OpenAI(
-        base_url="https://www.dreamfield.top/v1/",
-        api_key=NVIDIA_API_KEY,
+        base_url="https://openrouter.ai/api/v1",
+        api_key=OPENROUTER_API_KEY,
     )
 
-ETNET_URL     = "https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=turnover"
-HKEX_XLSX     = "https://www.hkex.com.hk/chi/services/trading/securities/securitieslists/ListOfSecurities_c.xlsx"
-LIMIT         = 15
-OUTPUT_FILE   = Path("public/data/predictions.json")
-STOCKS_FILE  = Path("public/data/stocks.json")
-DAYS_BACK     = 10
-TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "9bfdcb66a5e11f5161a867270b4499a77966ea65c4bd0033a5da9f3b")
-AI_MODEL_ID   = "MiniMax-M2.7-highspeed"
+ETNET_URL    = "https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=turnover"
+HKEX_XLSX    = "https://www.hkex.com.hk/chi/services/trading/securities/securitieslists/ListOfSecurities_c.xlsx"
+LIMIT        = 15
+OUTPUT_FILE  = Path("public/data/predictions.json")
+STOCKS_FILE = Path("public/data/stocks.json")
+AI_MODEL_ID = "openrouter/owl-alpha"
 
-def build_name_mapping():
-    print("📥 Downloading HKEX securities list...")
-    try:
-        resp = requests.get(HKEX_XLSX, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
-        resp.raise_for_status()
-        df = pd.read_excel(io.BytesIO(resp.content), engine="openpyxl", header=2)
-        df.columns = df.columns.str.strip()
-        df = df[["股份代號", "股份名稱"]].dropna()
-        df["股份代號"] = df["股份代號"].astype(int).astype(str).str.zfill(5)
-        df["股份名稱"] = df["股份名稱"].astype(str).str.strip()
-        mapping = dict(zip(df["股份代號"], df["股份名稱"]))
-        print(f"  → Loaded {len(mapping)} Chinese stock names")
-        return mapping
-    except Exception as e:
-        print(f"  ⚠️  HKEX download failed: {e}")
-        return {}
-
+# ── ETNet: fetch Top50 stock codes ────────────────────────────────────────────
 def fetch_etnet_codes():
     print("📡 Fetching ETNet Top50...")
     headers = {
@@ -78,8 +59,27 @@ def fetch_etnet_codes():
     print(f"  → Found {len(codes)} stock codes")
     return codes[:LIMIT]
 
+# ── HKEX: build code→Chinese-name mapping ─────────────────────────────────────
+def build_name_mapping():
+    print("📥 Downloading HKEX securities list...")
+    try:
+        resp = requests.get(HKEX_XLSX, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
+        resp.raise_for_status()
+        df = pd.read_excel(io.BytesIO(resp.content), engine="openpyxl", header=2)
+        df.columns = df.columns.str.strip()
+        df = df[["股份代號", "股份名稱"]].dropna()
+        df["股份代號"] = df["股份代號"].astype(int).astype(str).str.zfill(5)
+        df["股份名稱"] = df["股份名稱"].astype(str).str.strip()
+        mapping = dict(zip(df["股份代號"], df["股份名稱"]))
+        print(f"  → Loaded {len(mapping)} Chinese stock names")
+        return mapping
+    except Exception as e:
+        print(f"  ⚠️  HKEX download failed: {e}")
+        return {}
+
+# ── Yahoo Finance: 10-day historical OHLCV ────────────────────────────────────
 def fetch_sina_prices(codes, name_mapping):
-    """Fetch HK stock prices from Yahoo Finance (free, 10-day historical + today's quote)."""
+    """Fetch HK stock prices from Yahoo Finance (10-day historical OHLCV)."""
     print("📊 Fetching Yahoo Finance historical data...")
     YAHOO_BASE = "https://query1.finance.yahoo.com/v8/finance/chart"
     results = []
@@ -97,10 +97,10 @@ def fetch_sina_prices(codes, name_mapping):
             timestamps = result["timestamp"]
             quotes = result["indicators"]["quote"][0]
             closes = quotes.get("close", [])
-            opens = quotes.get("open", [])
-            highs = quotes.get("high", [])
-            lows = quotes.get("low", [])
-            vols = quotes.get("volume", [])
+            opens  = quotes.get("open",  [])
+            highs  = quotes.get("high",  [])
+            lows   = quotes.get("low",   [])
+            vols   = quotes.get("volume",[])
 
             rows = []
             for i, ts in enumerate(timestamps):
@@ -114,7 +114,7 @@ def fetch_sina_prices(codes, name_mapping):
                     "close":     round(close, 2),
                     "open":      round(opens[i], 2) if i < len(opens) and opens[i] is not None else close,
                     "high":      round(highs[i], 2) if i < len(highs) and highs[i] is not None else close,
-                    "low":       round(lows[i], 2)  if i < len(lows) and lows[i] is not None else close,
+                    "low":       round(lows[i],  2) if i < len(lows)  and lows[i]  is not None else close,
                     "volume":    int(vols[i]) if i < len(vols) and vols[i] is not None else 0,
                     "volumeM":   round(vols[i] / 1e6, 2) if i < len(vols) and vols[i] is not None else 0,
                 })
@@ -124,7 +124,7 @@ def fetch_sina_prices(codes, name_mapping):
                 continue
 
             latest = rows[-1]
-            prev = rows[-2] if len(rows) >= 2 else None
+            prev   = rows[-2] if len(rows) >= 2 else None
             today_pct = round((latest["close"] / prev["close"] - 1) * 100, 2) if prev else 0
             results.append({"code": code, "name": name, "symbol": symbol, "prices": rows, "todayPct": today_pct})
             print(f"  ✅ {symbol} {name}: {latest['date']} {today_pct:+.2f}% ({len(rows)} days)")
@@ -132,103 +132,54 @@ def fetch_sina_prices(codes, name_mapping):
             print(f"  ❌ {symbol} error: {e}")
     return results
 
-
-def fetch_tushare_prices(codes, name_mapping):
-    if not TUSHARE_TOKEN:
-        print("⚠️  TUSHARE_TOKEN not set, skipping Tushare")
-        return []
-
-    print("📊 Fetching Tushare prices...")
-    ts.set_token(TUSHARE_TOKEN)
-    pro = ts.pro_api()
-
-    end_date   = date.today()
-    start_date = end_date - timedelta(days=DAYS_BACK)
-    start_str  = start_date.strftime("%Y%m%d")
-    end_str    = end_date.strftime("%Y%m%d")
-
-    results = []
-    for code in codes[:LIMIT]:
-        symbol = f"{code}.HK"
-        name   = name_mapping.get(code, symbol)
-        try:
-            time.sleep(65)  # Tushare hk_daily rate limit: 1 call/min (enforced on wall-clock minutes)
-            df = pro.hk_daily(ts_code=symbol, start_date=start_str, end_date=end_str)
-            if df is None or df.empty:
-                print(f"  ⚠️  {symbol} no data")
-                continue
-            df = df.sort_values("trade_date")
-            df["trade_date"] = pd.to_datetime(df["trade_date"], format="%Y%m%d")
-            last5 = df.tail(5).copy()
-            if len(last5) < 2:
-                continue
-
-            rows = []
-            for _, row in last5.iterrows():
-                rows.append({
-                    "date":      row["trade_date"].strftime("%Y-%m-%d"),
-                    "dateShort": row["trade_date"].strftime("%m/%d"),
-                    "close":     float(row["close"]),
-                    "open":      float(row.get("open", row["close"])),
-                    "high":      float(row.get("high", row["close"])),
-                    "low":       float(row.get("low",  row["close"])),
-                    "volume":    int(row["vol"]),
-                    "volumeM":   round(int(row["vol"]) / 1e6, 2),
-                })
-            results.append({"code": code, "name": name, "symbol": symbol, "prices": rows})
-            time.sleep(0.2)
-        except Exception as e:
-            print(f"❌ {symbol} error: {e}")
-    return results
-
-def call_nvidia_ai(history_rows, stock_code):
-    """Sends numerical sequence context without Chinese character string headers."""
-    if not NVIDIA_API_KEY:
+# ── OpenRouter: 5-step vector extrapolation ───────────────────────────────────
+def call_openrouter_ai(history_rows, stock_code):
+    """Sends 10-day anonymized coordinate vectors [O,H,L,C,V_M] to OpenRouter.
+    Returns 5 future coordinate steps as a list of row dicts, or None on failure.
+    """
+    if not OPENROUTER_API_KEY:
+        print("  ⚠️  OPENROUTER_API_KEY not set — skipping AI")
         return None
 
+    # Anonymize: send raw [O, H, L, C, V_M] vectors, no stock name, no price value context
     segments = []
-    for row in history_rows:
-        seg = f"{row['dateShort']}: O:{row['open']:.2f} H:{row['high']:.2f} L:{row['low']:.2f} C:{row['close']:.2f} V:{row['volumeM']:.1f}M"
-        segments.append(seg)
+    for i, row in enumerate(history_rows[-10:]):
+        segments.append(f"t{i+1}: [{row['open']:.2f}, {row['high']:.2f}, {row['low']:.2f}, {row['close']:.2f}, {row['volumeM']:.1f}]")
     historical_context = " | ".join(segments)
 
-    sample_input = "05/14: O:75.30 H:76.10 L:71.50 C:71.50 V:98.4M | 05/15: O:73.90 H:76.65 L:70.75 C:71.15 V:156.8M | 05/18: O:70.55 H:72.65 L:67.60 C:68.70 V:119.0M | 05/19: O:67.95 H:69.40 L:65.20 C:68.50 V:119.8M | 05/20: O:68.05 H:77.45 L:67.60 C:75.15 V:258.5M"
+    # Few-shot: 3 input steps → 2 output steps (demonstrates the format)
+    sample_input  = "t1: [75.30, 76.10, 71.50, 71.50, 98.4] | t2: [73.90, 76.65, 70.75, 71.15, 156.8] | t3: [70.55, 72.65, 67.60, 68.70, 118.0]"
     sample_output = (
-        '[\n'
-        '  {"date": "05/21_PRED", "open": 74.50, "high": 76.00, "low": 72.10, "close": 75.30, "volume": "180.5M"},\n'
-        '  {"date": "05/22_PRED", "open": 75.30, "high": 77.20, "low": 74.80, "close": 76.80, "volume": "195.2M"},\n'
-        '  {"date": "05/25_PRED", "open": 76.80, "high": 76.90, "low": 73.50, "close": 74.10, "volume": "150.0M"},\n'
-        '  {"date": "05/26_PRED", "open": 74.10, "high": 75.50, "low": 73.80, "close": 75.00, "volume": "115.6M"},\n'
-        '  {"date": "05/27_PRED", "open": 75.00, "high": 78.40, "low": 74.90, "close": 77.90, "volume": "210.3M"}\n'
-        ']'
+        "[\n"
+        '  {"step": "t4_ext", "values": [74.50, 76.00, 72.10, 75.30, 180.5]},\n'
+        '  {"step": "t5_ext", "values": [75.30, 77.20, 74.80, 76.80, 195.2]}\n'
+        "]"
     )
+
+    # Neutral node token — no stock name leaked
+    node_token = f"node_alpha_{stock_code.lstrip('0')}"
 
     prompt = (
-        f"You are a professional financial quantitative analysis model specializing in trend continuation.\n\n"
-        f"[TRAINING SAMPLE]\nInput:\n{sample_input}\nOutput:\n{sample_output}\n\n"
-        f"[REAL-TIME TASK]\nPredict the next 5 upcoming trading days sequentially for stock identifier token: {stock_code}.\n"
-        f"Do not return conversational text. Return ONLY a valid JSON array matching the structure shown above.\n"
-        f"Input Data:\n{historical_context}\n\n"
-        f"Output JSON:"
+        f"You are a mathematical sequence extrapolation compiler specializing in multi-dimensional coordinate vector progression.\n"
+        f"Generate exactly 5 continuous vector steps (t11_ext to t15_ext) following the mathematical progression pattern for the sequence node: {node_token}.\n"
+        f"Do not return conversational explanations, comments, or markdown blocks. Return ONLY a valid JSON array matching the structure shown above.\n\n"
+        f"[SAMPLE]\nInput Matrix:\n{sample_input}\nOutput Matrix:\n{sample_output}\n\n"
+        f"[REAL-TIME TASK]\nInput Matrix:\n{historical_context}\nOutput JSON:"
     )
 
-    client = get_dreamfield_client()
-    for attempt in range(1, 3):
+    for attempt in range(2):
         try:
+            client = get_openrouter_client()
             response = client.chat.completions.create(
                 model=AI_MODEL_ID,
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.2,
                 max_tokens=1500,
-                timeout=20,
+                timeout=25,
             )
-
             raw = response.choices[0].message.content.strip()
 
-            # Strip AI thinking blocks
-            raw = re.sub(r'<think>.*?</think>', '', raw, flags=re.DOTALL)
-
-            # Strip markdown code fences
+            # Strip markdown fences
             if raw.startswith("```"):
                 parts = raw.split("\n", 1)
                 if len(parts) > 1:
@@ -241,28 +192,30 @@ def call_nvidia_ai(history_rows, stock_code):
 
             predicted_rows = json.loads(raw)
             normalised = []
-            for row in predicted_rows:
-                d_str = row.get("date", "")
+            for idx, item in enumerate(predicted_rows):
+                vals = item.get("values", [])
+                if len(vals) < 5:
+                    continue
+                pred_label = f"PRED_{idx+1}"
                 normalised.append({
-                    "date":      d_str,
-                    "dateShort": d_str.replace("_PRED", "").replace("🔮", "")[:5],
-                    "open":      float(row.get("open", 0)),
-                    "high":      float(row.get("high", 0)),
-                    "low":       float(row.get("low",  0)),
-                    "close":     float(row.get("close", 0)),
-                    "volume":    int(float(str(row.get("volume", "0M")).rstrip("Mm")) * 1e6),
-                    "volumeM":   str(row.get("volume", "0M")),
+                    "date":      f"🔮 {pred_label}",
+                    "dateShort": f"🔮 {pred_label}",
+                    "open":      float(vals[0]),
+                    "high":      float(vals[1]),
+                    "low":       float(vals[2]),
+                    "close":     float(vals[3]),
+                    "volume":    int(float(vals[4]) * 1e6),
+                    "volumeM":   f"{vals[4]:.1f}M",
                 })
-            print(f"  🤖 {stock_code} AI prediction: {len(normalised)} rows")
+            print(f"  🤖 {stock_code} OpenRouter: {len(normalised)} future steps")
             return normalised
         except Exception as e:
-            print(f"  ❌ {stock_code} attempt {attempt} failed: {e}")
-            if attempt < 2:
-                print(f"     Retrying in 3s...")
+            print(f"  ❌ {stock_code} OpenRouter attempt {attempt+1} failed: {e}")
+            if attempt < 1:
                 time.sleep(3)
-            continue
     return None
 
+# ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     codes = fetch_etnet_codes()
     if not codes:
@@ -272,7 +225,8 @@ def main():
     if not stocks_data:
         sys.exit(1)
 
-    SKIP_AI = os.environ.get("SKIP_AI", "true").lower() == "true"
+    # Enable AI predictions by default; set SKIP_AI=true in env to disable
+    SKIP_AI = os.environ.get("SKIP_AI", "false").lower() == "true"
 
     final_predictions_db = {}
     for stock in stocks_data:
@@ -284,9 +238,9 @@ def main():
             ai_rows = None
             print(f"  ⏭️  {code} AI skipped")
         else:
-            print(f"🤖 Inferencing numerical patterns for token code {code}...")
-            ai_rows = call_nvidia_ai(history, code)
+            ai_rows = call_openrouter_ai(history, code)
 
+        # combined_data = 10 historical rows + 5 AI future rows (when available)
         combined = history + ai_rows if ai_rows else history
 
         final_predictions_db[code] = {
@@ -295,40 +249,41 @@ def main():
             "combined_data": combined,
             "has_ai":        ai_rows is not None,
         }
-        time.sleep(0.2)
+        time.sleep(0.3)
 
+    # ── Write predictions.json ─────────────────────────────────────────────────
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(final_predictions_db, f, ensure_ascii=False, indent=2)
-    print(f"\n✅ Optimized data asset compiled successfully → {OUTPUT_FILE}")
+    print(f"\n✅ Predictions saved → {OUTPUT_FILE}")
 
-    # Also write stocks.json (required by frontend for lastUpdated display)
+    # ── Write stocks.json (frontend needs this for lastUpdated display) ────────
     now_hkt = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M:%S")
     stocks_list = []
     for s in stocks_data:
         item = {
-            "code":        s["code"],
-            "symbol":      s["symbol"],
-            "name":        s["name"],
-            "prices":      s["prices"],
-            "fiveDayPct":  s.get("todayPct", 0),
-            "high5":       None,
-            "low5":        None,
-            "avgVolume":   None,
-            "volTrend":    None,
-            "analysis":    None,
+            "code":       s["code"],
+            "symbol":     s["symbol"],
+            "name":       s["name"],
+            "prices":     s["prices"],
+            "fiveDayPct": s.get("todayPct", 0),
+            "high5":      None,
+            "low5":       None,
+            "avgVolume":  None,
+            "volTrend":   None,
+            "analysis":   None,
         }
         stocks_list.append(item)
     stocks_db = {
         "generatedAt":   now_hkt,
-        "generatedDate":  now_hkt[:10],
+        "generatedDate": now_hkt[:10],
         "stockCount":    len(stocks_list),
         "stocks":        stocks_list,
         "aiSummary":     "",
     }
     with open(STOCKS_FILE, "w", encoding="utf-8") as f:
         json.dump(stocks_db, f, ensure_ascii=False, indent=2)
-    print(f"✅ Stock list updated → {STOCKS_FILE} ({stocks_db['stockCount']} stocks, {now_hkt})")
+    print(f"✅ stocks.json saved → {STOCKS_FILE} ({stocks_db['stockCount']} stocks, {now_hkt})")
 
 if __name__ == "__main__":
     main()

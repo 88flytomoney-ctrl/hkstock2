@@ -33,7 +33,7 @@ jobs:
 
       - name: Scrape ETNet + Fetch prices
         env:
-          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           python generate_predictions.py
 
