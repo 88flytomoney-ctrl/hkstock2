@@ -39,7 +39,7 @@ HK_TZ        = timezone(timedelta(hours=8))  # Hong Kong Standard Time
 # ── Yahoo: Fetch HK Market Indices for Upper Dashboard ────────────────────────
 def fetch_market_indices():
     """Fetches real-time HK major indices directly from Yahoo Finance API."""
-    indices = {"^HSI": "恒生指數", "^HSTECH": "恒生科技指數", "^HSCEI": "國企指數"}
+    indices = {"^HSI": "恒生指數", "^HSCE": "國企指數"}
     YAHOO_BASE = "https://query1.finance.yahoo.com/v8/finance/chart"
     results = {}
     print("📥 Fetching live HK major indices from Yahoo Finance...")
