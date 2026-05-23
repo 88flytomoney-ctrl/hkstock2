@@ -79,58 +79,55 @@ def fetch_etnet_codes():
     return codes[:LIMIT]
 
 def fetch_sina_prices(codes, name_mapping):
-    """Fetch HK stock prices from Sina Finance API (free, no rate limit)."""
-    print("📊 Fetching Sina Finance prices...")
-    SINA_URL = "https://hq.sinajs.cn/list=" + ",".join(f"hk{c.zfill(5)}" for c in codes[:LIMIT])
-    try:
-        resp = requests.get(SINA_URL, headers={"Referer": "https://finance.sina.com.cn", "User-Agent": "Mozilla/5.0"}, timeout=15)
-        resp.encoding = "gbk"
-        resp.raise_for_status()
-    except Exception as e:
-        print(f"  ⚠️  Sina request failed: {e}")
-        return []
-
-    # Sina HK fields: 0=name_en, 1=name_cn, 2=open, 3=prev_close, 4=high, 5=low, 6=close,
-    #                  7=change, 8=pct, 12=vol, 17=date, 18=time
-    SINA_DATE_IDX = 17
-    SINA_TIME_IDX = 18
-    SINA_VOL_IDX  = 12
+    """Fetch HK stock prices from Yahoo Finance (free, 10-day historical + today's quote)."""
+    print("📊 Fetching Yahoo Finance historical data...")
+    YAHOO_BASE = "https://query1.finance.yahoo.com/v8/finance/chart"
     results = []
     for code in codes[:LIMIT]:
+        # Yahoo Finance: HK stock codes are 4-digit (0700 not 00700)
+        yahoo_sym = f"{int(code):04d}.HK"
         symbol = f"{code}.HK"
         name = name_mapping.get(code, symbol)
         try:
-            match = re.search(rf'hq_str_hk{code.zfill(5)}="([^"]+)"', resp.text)
-            if not match:
-                print(f"  ⚠️  {symbol} not found in Sina response")
+            url = f"{YAHOO_BASE}/{yahoo_sym}?interval=1d&range=10d"
+            resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+            resp.raise_for_status()
+            data = resp.json()
+            result = data["chart"]["result"][0]
+            timestamps = result["timestamp"]
+            quotes = result["indicators"]["quote"][0]
+            closes = quotes.get("close", [])
+            opens = quotes.get("open", [])
+            highs = quotes.get("high", [])
+            lows = quotes.get("low", [])
+            vols = quotes.get("volume", [])
+
+            rows = []
+            for i, ts in enumerate(timestamps):
+                close = closes[i] if i < len(closes) and closes[i] is not None else None
+                if close is None:
+                    continue
+                dt = datetime.fromtimestamp(ts).strftime("%Y-%m-%d")
+                rows.append({
+                    "date":      dt,
+                    "dateShort": dt[5:],          # "2026-05-22" → "05/22"
+                    "close":     round(close, 2),
+                    "open":      round(opens[i], 2) if i < len(opens) and opens[i] is not None else close,
+                    "high":      round(highs[i], 2) if i < len(highs) and highs[i] is not None else close,
+                    "low":       round(lows[i], 2)  if i < len(lows) and lows[i] is not None else close,
+                    "volume":    int(vols[i]) if i < len(vols) and vols[i] is not None else 0,
+                    "volumeM":   round(vols[i] / 1e6, 2) if i < len(vols) and vols[i] is not None else 0,
+                })
+
+            if not rows:
+                print(f"  ⚠️  {symbol} no data")
                 continue
-            fields = match.group(1).split(",")
-            if len(fields) < 10:
-                print(f"  ⚠️  {symbol} insufficient fields")
-                continue
-            close = float(fields[6])     # current close
-            open_ = float(fields[2])      # open price
-            high = float(fields[4])       # high price
-            low = float(fields[5])         # low price
-            prev_close = float(fields[3])  # previous close
-            vol = int(fields[SINA_VOL_IDX])         # volume
-            today_pct = round((close / prev_close - 1) * 100, 2) if prev_close else 0
-            # Sina field 17 = date (e.g. "2026/05/22"), field 18 = time (e.g. "16:08")
-            sina_date = fields[SINA_DATE_IDX] if len(fields) > SINA_DATE_IDX else ""
-            today_date = sina_date.replace("/", "-") if sina_date else datetime.now().strftime("%Y-%m-%d")
-            today_short = datetime.strptime(today_date, "%Y-%m-%d").strftime("%m/%d") if sina_date else datetime.now().strftime("%m/%d")
-            rows = [{
-                "date": today_date,
-                "dateShort": today_short,
-                "close": close,
-                "open": open_,
-                "high": high,
-                "low": low,
-                "volume": vol,
-                "volumeM": round(vol / 1e6, 2),
-            }]
+
+            latest = rows[-1]
+            prev = rows[-2] if len(rows) >= 2 else None
+            today_pct = round((latest["close"] / prev["close"] - 1) * 100, 2) if prev else 0
             results.append({"code": code, "name": name, "symbol": symbol, "prices": rows, "todayPct": today_pct})
-            print(f"  ✅ {symbol} {name}: {today_date} {today_pct:+.2f}%")
+            print(f"  ✅ {symbol} {name}: {latest['date']} {today_pct:+.2f}% ({len(rows)} days)")
         except Exception as e:
             print(f"  ❌ {symbol} error: {e}")
     return results
