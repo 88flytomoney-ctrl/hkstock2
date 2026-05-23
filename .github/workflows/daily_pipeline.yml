@@ -46,11 +46,15 @@ jobs:
           print(f'Stocks: {s[\"stockCount\"]} | Generated: {s[\"generatedAt\"]}')
           with open('public/data/predictions.json') as f:
               p = json.load(f)
-          ai_count = sum(1 for v in p.values() if v.get('has_ai'))
-          print(f'Predictions: {len(p)} stocks | With AI: {ai_count}')
-          for code, v in sorted(p.items()):
+          stocks_db = p.get('stocks', p)   # new structure has stocks{} wrapper, fallback to old
+          indices_db = p.get('indices', {})
+          ai_count = sum(1 for v in stocks_db.values() if v.get('has_ai'))
+          print(f'Predictions: {len(stocks_db)} stocks | With AI: {ai_count}')
+          print(f'Indices: {list(indices_db.keys())}')
+          for code, v in sorted(stocks_db.items()):
               ai = '✅' if v.get('has_ai') else '❌'
-              print(f'  {ai} {code}: {v[\"name\"]}')
+              rec = v.get('recommendation', '')
+              print(f'  {ai} {code}: {v[\"name\"]} [{rec}]')
           "
 
       # ── Step 2: Commit stock data + predictions ──────────────────────────────
