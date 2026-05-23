@@ -267,14 +267,20 @@ def main():
     if not stocks_data:
         sys.exit(1)
 
+    SKIP_AI = os.environ.get("SKIP_AI", "true").lower() == "true"
+
     final_predictions_db = {}
     for stock in stocks_data:
         code    = stock["code"]
         name    = stock["name"]
         history = stock["prices"]
 
-        print(f"🤖 Inferencing numerical patterns for token code {code}...")
-        ai_rows = call_nvidia_ai(history, code)
+        if SKIP_AI:
+            ai_rows = None
+            print(f"  ⏭️  {code} AI skipped")
+        else:
+            print(f"🤖 Inferencing numerical patterns for token code {code}...")
+            ai_rows = call_nvidia_ai(history, code)
 
         combined = history + ai_rows if ai_rows else history
 

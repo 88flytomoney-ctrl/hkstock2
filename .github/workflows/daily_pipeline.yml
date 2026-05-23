@@ -1,4 +1,4 @@
-name: Daily Pipeline — Scrape + AI Predict + Deploy
+name: Daily Pipeline — Scrape + Prices + Deploy
 
 on:
   schedule:
@@ -31,12 +31,10 @@ jobs:
         run: |
           pip install requests pandas tushare openpyxl openai -q
 
-      - name: Scrape ETNet + Tushare + Generate AI predictions
+      - name: Scrape ETNet + Fetch prices
         env:
           TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
-          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         run: |
-          # python scripts/fetch_stock_data.py  # disabled - hk_daily rate limit exhausted
           python generate_predictions.py
 
       - name: Verify outputs
