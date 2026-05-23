@@ -89,8 +89,11 @@ def fetch_sina_prices(codes, name_mapping):
         print(f"  ⚠️  Sina request failed: {e}")
         return []
 
-    results = []
-    # Sina HK fields: 0=name_en, 1=name_cn, 2=open, 3=prev_close, 4=high, 5=low, 6=close, 11=vol, 18=date, 19=time
+    # Sina HK fields: 0=name_en, 1=name_cn, 2=open, 3=prev_close, 4=high, 5=low, 6=close,
+    #                  7=change, 8=pct, 12=vol, 17=date, 18=time
+    SINA_DATE_IDX = 17
+    SINA_TIME_IDX = 18
+    SINA_VOL_IDX  = 12
     for code in codes[:LIMIT]:
         symbol = f"{code}.HK"
         name = name_mapping.get(code, symbol)
@@ -108,10 +111,10 @@ def fetch_sina_prices(codes, name_mapping):
             high = float(fields[4])       # high price
             low = float(fields[5])         # low price
             prev_close = float(fields[3])  # previous close
-            vol = int(fields[11])         # volume
+            vol = int(fields[SINA_VOL_IDX])         # volume
             today_pct = round((close / prev_close - 1) * 100, 2) if prev_close else 0
-            # Sina field 18 = date (e.g. "2026/05/22"), field 19 = time (e.g. "16:08:23")
-            sina_date = fields[18] if len(fields) > 18 else ""
+            # Sina field 17 = date (e.g. "2026/05/22"), field 18 = time (e.g. "16:08")
+            sina_date = fields[SINA_DATE_IDX] if len(fields) > SINA_DATE_IDX else ""
             today_date = sina_date.replace("/", "-") if sina_date else datetime.now().strftime("%Y-%m-%d")
             today_short = datetime.strptime(today_date, "%Y-%m-%d").strftime("%m/%d") if sina_date else datetime.now().strftime("%m/%d")
             rows = [{
