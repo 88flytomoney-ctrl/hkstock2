@@ -15,7 +15,7 @@ import random
 import requests
 import pandas as pd
 import tushare as ts
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date, timezone
 from pathlib import Path
 from openai import OpenAI
 
@@ -32,6 +32,7 @@ ETNET_URL     = "https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=tur
 HKEX_XLSX     = "https://www.hkex.com.hk/chi/services/trading/securities/securitieslists/ListOfSecurities_c.xlsx"
 LIMIT         = 15
 OUTPUT_FILE   = Path("public/data/predictions.json")
+STOCKS_FILE  = Path("public/data/stocks.json")
 DAYS_BACK     = 10
 TUSHARE_TOKEN = os.environ.get("TUSHARE_TOKEN", "9bfdcb66a5e11f5161a867270b4499a77966ea65c4bd0033a5da9f3b")
 AI_MODEL_ID   = "MiniMax-M2.7-highspeed"
@@ -303,6 +304,19 @@ def main():
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(final_predictions_db, f, ensure_ascii=False, indent=2)
     print(f"\n✅ Optimized data asset compiled successfully → {OUTPUT_FILE}")
+
+    # Also write stocks.json (required by frontend for lastUpdated display)
+    now_hkt = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M:%S")
+    stocks_db = {
+        "generatedAt": now_hkt,
+        "generatedDate": now_hkt[:10],
+        "stockCount": len(stocks_data),
+        "stocks": {s["code"]: {"code": s["code"], "name": s["name"], "symbol": s["symbol"], "prices": s["prices"]} for s in stocks_data},
+        "aiSummary": "",
+    }
+    with open(STOCKS_FILE, "w", encoding="utf-8") as f:
+        json.dump(stocks_db, f, ensure_ascii=False, indent=2)
+    print(f"✅ Stock list updated → {STOCKS_FILE} ({stocks_db['stockCount']} stocks, {now_hkt})")
 
 if __name__ == "__main__":
     main()
