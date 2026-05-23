@@ -6,6 +6,22 @@ const DATA_URL      = '/hkstock2/data/stocks.json';
 const PREDICT_URL   = '/hkstock2/data/predictions.json';
 const MANIFEST_URL  = '/hkstock2/data/history/manifest.json';
 
+// Convert UTC datetime string to Hong Kong time (UTC+8)
+function toHKTime(utcStr) {
+  if (!utcStr) return '';
+  try {
+    const [datePart, timePart] = utcStr.split(' ');
+    const [y, m, d] = datePart.split('-').map(Number);
+    const [h, min, s] = timePart.split(':').map(Number);
+    const utc = Date.UTC(y, m - 1, d, h, min, s);
+    const hk = new Date(utc + 8 * 60 * 60 * 1000);
+    const pad = n => String(n).padStart(2, '0');
+    return `${hk.getUTCFullYear()}-${pad(hk.getUTCMonth()+1)}-${pad(hk.getUTCDate())} ${pad(hk.getUTCHours())}:${pad(hk.getUTCMinutes())}:${pad(hk.getUTCSeconds())} HKT`;
+  } catch {
+    return utcStr;
+  }
+}
+
 function App() {
   const [data, setData] = useState(null);
   const [predictions, setPredictions] = useState(null);
@@ -25,7 +41,7 @@ function App() {
       })
       .then(d => {
         setData(d);
-        setLastUpdated(d.generatedAt || d.generatedDate || '');
+        setLastUpdated(toHKTime(d.generatedAt || d.generatedDate) || '');
         setLoading(false);
       })
       .catch(e => {
@@ -55,14 +71,14 @@ function App() {
     if (!selectedDate) {
       fetch(DATA_URL)
         .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-        .then(d => { setData(d); setLastUpdated(d.generatedAt || d.generatedDate || ''); setError(null); setLoadingHistory(false); })
+        .then(d => { setData(d); setLastUpdated(toHKTime(d.generatedAt || d.generatedDate) || ''); setError(null); setLoadingHistory(false); })
         .catch(e => { setError(e.message); setLoadingHistory(false); });
       return;
     }
     setLoadingHistory(true);
     fetch(`/hkstock2/data/history/${selectedDate}.json`)
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-      .then(d => { setData(d); setLastUpdated(d.generatedAt || d.generatedDate || ''); setError(null); setLoadingHistory(false); })
+      .then(d => { setData(d); setLastUpdated(toHKTime(d.generatedAt || d.generatedDate) || ''); setError(null); setLoadingHistory(false); })
       .catch(e => { setError(e.message); setLoadingHistory(false); });
   }, [selectedDate]);
 
@@ -107,7 +123,7 @@ function App() {
             </div>
           </div>
           <div className="text-right">
-            <p className="text-xs text-slate-400">最後更新</p>
+            <p className="text-xs text-slate-400">最後更新 (HKT)</p>
             <p className="text-sm font-medium text-slate-200">{lastUpdated}</p>
             {aiCount > 0 && <p className="text-xs text-purple-400 mt-1">🔮 AI: {aiCount} 檔</p>}
             {loadingHistory && <p className="text-xs text-blue-400 mt-1">載入歷史...</p>}
