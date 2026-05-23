@@ -318,7 +318,17 @@ def main():
             recommendation = "持有"
             print(f"  ⏭️  {code} AI skipped")
         else:
-            ai_rows, recommendation = call_openrouter_ai(history, code)
+            # Retry up to 2 more times on failure
+            ai_rows, recommendation = None, "持有"
+            for attempt in range(3):
+                ai_rows, recommendation = call_openrouter_ai(history, code)
+                if ai_rows is not None:
+                    break
+                wait = 2 * (attempt + 1)
+                print(f"  🔄 {code} AI attempt {attempt+1} failed, retrying in {wait}s...")
+                time.sleep(wait)
+            if ai_rows is None:
+                print(f"  ❌ {code} AI permanently failed after 3 attempts")
 
         combined = history + ai_rows if ai_rows else history
 
@@ -329,7 +339,7 @@ def main():
             "has_ai":         ai_rows is not None,
             "recommendation": recommendation,
         }
-        time.sleep(0.3)
+        time.sleep(1.5)   # longer gap to avoid rate-limit spikes on consecutive calls
 
     # ── Write predictions.json ─────────────────────────────────────────────────
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
