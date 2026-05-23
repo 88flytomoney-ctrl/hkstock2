@@ -1,25 +1,32 @@
 import MiniChart from './MiniChart.jsx';
 
 const SIGNAL_COLORS = {
-  'strong buy': { bg: 'bg-blue-900/40', text: 'text-blue-400', label: '💎 強烈買入' },
-  'buy':        { bg: 'bg-blue-900/30', text: 'text-blue-300', label: '✅ 買入' },
-  'hold':       { bg: 'bg-slate-800',  text: 'text-slate-300', label: '⏸ 持有' },
-  'watch':      { bg: 'bg-yellow-900/30', text: 'text-yellow-400', label: '👁 觀望' },
-  'sell':       { bg: 'bg-orange-900/30', text: 'text-orange-400', label: '⚠️ 賣出' },
-  'strong sell':{ bg: 'bg-red-900/40', text: 'text-red-400', label: '🔴 強烈賣出' },
-  'neutral':    { bg: 'bg-slate-800',  text: 'text-slate-400', label: '➖ 中性' },
+  'strong buy':  { bg: 'bg-blue-900/40',  text: 'text-blue-400',  label: '💎 強烈買入' },
+  'buy':         { bg: 'bg-blue-900/30',  text: 'text-blue-300',  label: '✅ 買入' },
+  'hold':        { bg: 'bg-slate-800',    text: 'text-slate-300', label: '⏸ 持有' },
+  'watch':       { bg: 'bg-yellow-900/30',text: 'text-yellow-400',label: '👁 觀望' },
+  'sell':        { bg: 'bg-orange-900/30',text: 'text-orange-400',label: '⚠️ 賣出' },
+  'strong sell': { bg: 'bg-red-900/40',   text: 'text-red-400',   label: '🔴 強烈賣出' },
+  'neutral':     { bg: 'bg-slate-800',    text: 'text-slate-400', label: '➖ 中性' },
 };
-const SIGNAL_ORDER = ['strong buy','buy','hold','watch','sell','strong sell','neutral'];
 
 function getSignalStyle(signal) {
   return SIGNAL_COLORS[signal] || SIGNAL_COLORS['neutral'];
 }
 
+// AI rows: new format has dateShort starting with "🔮 " (e.g. "🔮 05/26")
 function isAiRow(dateStr) {
-  return String(dateStr).includes('_PRED') || String(dateStr).includes('PRED');
+  return String(dateStr).includes('🔮') || String(dateStr).includes('_PRED') || String(dateStr).includes('PRED');
 }
 
-export default function StockCard({ stock, prediction }) {
+// ── Recommendation badge styles ─────────────────────────────────────────────────
+function getIndicatorStyles(rec) {
+  if (rec === "買入") return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+  if (rec === "賣出") return "bg-rose-500/10 text-rose-400 border-rose-500/20";
+  return "bg-slate-500/10 text-slate-400 border-slate-500/20";
+}
+
+export default function StockCard({ stock, prediction, recommendation }) {
   const { code, name, symbol, prices, fiveDayPct, analysis } = stock;
   const isUp     = fiveDayPct >= 0;
   const pctColor = isUp ? 'text-red-400' : 'text-green-400';
@@ -27,9 +34,10 @@ export default function StockCard({ stock, prediction }) {
   const sigStyle = getSignalStyle(analysis?.signal || 'neutral');
   const trendIcon = analysis?.trend === 'uptrend' ? '↗' : analysis?.trend === 'downtrend' ? '↘' : '→';
   const volIcon   = analysis?.volumeSignal === 'volume surge' ? '🔥' : analysis?.volumeSignal === 'volume decline' ? '📉' : '➡';
+  const rec       = recommendation || prediction?.recommendation || "持有";
 
   // combined_data: [0-9] = 10 historical days, [10-14] = 5 AI future days
-  const hasAi   = prediction?.has_ai && Array.isArray(prediction.combined_data);
+  const hasAi    = prediction?.has_ai && Array.isArray(prediction.combined_data);
   const histRows  = hasAi ? prediction.combined_data.slice(0, 10) : (prices || []);
   const predRows  = hasAi ? prediction.combined_data.slice(10, 15) : [];
   const chartRows = hasAi ? prediction.combined_data : (prices || []);
@@ -40,18 +48,32 @@ export default function StockCard({ stock, prediction }) {
       {/* ── Card Header ── */}
       <div className="flex items-start justify-between">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-sm text-slate-400">{code}</span>
-            <span className={`badge ${isUp ? 'badge-up' : 'badge-down'}`}>
+          {/* Row 1: badges */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Ticker + % badge */}
+            <span className={`px-2 py-0.5 rounded text-xs font-semibold ${isUp ? 'bg-red-900/50 text-red-300' : 'bg-green-900/50 text-green-300'}`}>
               {arrow} {Math.abs(fiveDayPct).toFixed(2)}%
             </span>
-            {hasAi && <span className="badge bg-purple-900/50 text-purple-300 text-xs">🔮 AI</span>}
+            <span className="font-mono text-sm text-slate-300 font-semibold">{code}</span>
+            {hasAi && (
+              <span className="px-2 py-0.5 bg-purple-950/40 text-purple-400 font-bold rounded text-xs border border-purple-500/20">
+                🔮 AI
+              </span>
+            )}
+            {/* Trend Recommendation Badge */}
+            <span className={`px-2 py-0.5 font-bold rounded text-xs border transition-colors ${getIndicatorStyles(rec)}`}>
+              AI建議: {rec}
+            </span>
           </div>
+          {/* Row 2: Name */}
           <h3 className="font-bold text-white text-base mt-0.5">
             {prediction?.name || name}
           </h3>
+          {/* Row 3: symbol */}
           <p className="text-xs text-slate-500">{symbol}</p>
         </div>
+
+        {/* Signal badge (top-right) */}
         <div className={`badge ${sigStyle.bg} ${sigStyle.text} text-xs`}>
           {sigStyle.label}
         </div>
@@ -72,8 +94,8 @@ export default function StockCard({ stock, prediction }) {
             <span className="text-sm text-slate-400 ml-1">HKD</span>
           </div>
           <div className="text-right text-xs text-slate-400 space-y-0.5">
-            <p>5日高 {Math.max(...prices.map(p => p.high)).toFixed(2)}</p>
-            <p>5日低 {Math.min(...prices.map(p => p.low)).toFixed(2)}</p>
+            <p>10日高 {Math.max(...prices.map(p => p.high)).toFixed(2)}</p>
+            <p>10日低 {Math.min(...prices.map(p => p.low)).toFixed(2)}</p>
           </div>
         </div>
       )}
@@ -84,7 +106,7 @@ export default function StockCard({ stock, prediction }) {
           <span>趨勢 {trendIcon}</span>
           <span>量 {volIcon}</span>
         </div>
-        {analysis?.support > 0 && <span className="text-green-400">撐 {analysis.support.toFixed(2)}</span>}
+        {analysis?.support > 0    && <span className="text-green-400">撐 {analysis.support.toFixed(2)}</span>}
         {analysis?.resistance > 0 && <span className="text-red-400">壓 {analysis.resistance.toFixed(2)}</span>}
       </div>
 
@@ -111,7 +133,8 @@ export default function StockCard({ stock, prediction }) {
             </thead>
             <tbody>
               {histRows.map((p, i) => (
-                <tr key={p.date} className={`border-b border-slate-800 ${i === histRows.length - 1 ? 'bg-slate-700/30' : ''}`}>
+                <tr key={p.date}
+                  className={`border-b border-slate-800 ${i === histRows.length - 1 ? 'bg-slate-700/30' : ''}`}>
                   <td className="py-1 text-slate-400">{p.dateShort || p.date}</td>
                   <td className="text-right text-slate-300">{parseFloat(p.open).toFixed(2)}</td>
                   <td className="text-right text-red-400">{parseFloat(p.high).toFixed(2)}</td>
@@ -149,9 +172,10 @@ export default function StockCard({ stock, prediction }) {
               {predRows.map((p, i) => {
                 const isUpPred = parseFloat(p.close) >= parseFloat(p.open);
                 return (
-                  <tr key={`pred-${i}`} className="opacity-80 hover:opacity-100 transition-opacity border-b border-purple-700/20 last:border-0">
+                  <tr key={`pred-${i}`}
+                    className="opacity-80 hover:opacity-100 transition-opacity border-b border-purple-700/20 last:border-0">
                     <td className="py-1 px-2 text-purple-300">
-                      {isAiRow(p.date) ? p.date : `${p.date}_PRED`}
+                      {p.dateShort || `${p.date}_PRED`}
                     </td>
                     <td className="text-right py-1 px-1 text-slate-300">{parseFloat(p.open).toFixed(2)}</td>
                     <td className="text-right py-1 px-1 text-red-400">{parseFloat(p.high).toFixed(2)}</td>

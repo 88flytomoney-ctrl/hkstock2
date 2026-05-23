@@ -4,6 +4,7 @@ generate_predictions.py
 HK Stock AI Prediction Script using OpenRouter (openrouter/owl-alpha).
 Anonymized vector-based prompts: [open, high, low, close, volumeM] per timestep.
 Appends 5 future coordinate steps to 10-day Yahoo Finance historical data.
+Includes upper indices fetching & trend direction index extrapolation.
 """
 
 import os
@@ -14,7 +15,7 @@ import time
 import io
 import requests
 import pandas as pd
-from datetime import datetime, timedelta, date, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from openai import OpenAI
 
@@ -31,8 +32,45 @@ ETNET_URL    = "https://www.etnet.com.hk/mobile/tc/stocks/top50.php?subtype=turn
 HKEX_XLSX    = "https://www.hkex.com.hk/chi/services/trading/securities/securitieslists/ListOfSecurities_c.xlsx"
 LIMIT        = 15
 OUTPUT_FILE  = Path("public/data/predictions.json")
-STOCKS_FILE = Path("public/data/stocks.json")
-AI_MODEL_ID = "openrouter/owl-alpha"
+STOCKS_FILE  = Path("public/data/stocks.json")
+AI_MODEL_ID  = "openrouter/owl-alpha"
+HK_TZ        = timezone(timedelta(hours=8))  # Hong Kong Standard Time
+
+# ── Yahoo: Fetch HK Market Indices for Upper Dashboard ────────────────────────
+def fetch_market_indices():
+    """Fetches real-time HK major indices directly from Yahoo Finance API."""
+    indices = {"^HSI": "恒生指數", "^HSTECH": "恒生科技指數", "^HSCEI": "國企指數"}
+    YAHOO_BASE = "https://query1.finance.yahoo.com/v8/finance/chart"
+    results = {}
+    print("📥 Fetching live HK major indices from Yahoo Finance...")
+    for ticker, name in indices.items():
+        try:
+            url = f"{YAHOO_BASE}/{ticker}?interval=1d&range=2d"
+            resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+            resp.raise_for_status()
+            data = resp.json()
+            result = data["chart"]["result"][0]
+            timestamps = result["timestamp"]
+            closes = result["indicators"]["quote"][0].get("close", [])
+
+            # Extract last 2 points for change calculation
+            valid_closes = [c for c in closes if c is not None]
+            if len(valid_closes) >= 2:
+                close_today    = round(valid_closes[-1], 2)
+                close_yesterday = round(valid_closes[-2], 2)
+                change = round(close_today - close_yesterday, 2)
+                pct    = round((change / close_yesterday) * 100, 2)
+                results[ticker] = {
+                    "name":      name,
+                    "value":     close_today,
+                    "change":    change,
+                    "pct":       pct,
+                    "isPositive": change >= 0
+                }
+                print(f"  📊 {name} ({ticker}): {close_today} ({change:+.2f}%)")
+        except Exception as e:
+            print(f"  ⚠️  Failed to fetch index {ticker}: {e}")
+    return results
 
 # ── ETNet: fetch Top50 stock codes ────────────────────────────────────────────
 def fetch_etnet_codes():
@@ -78,16 +116,15 @@ def build_name_mapping():
         return {}
 
 # ── Yahoo Finance: 10-day historical OHLCV ────────────────────────────────────
-def fetch_sina_prices(codes, name_mapping):
+def fetch_yahoo_prices(codes, name_mapping):
     """Fetch HK stock prices from Yahoo Finance (10-day historical OHLCV)."""
     print("📊 Fetching Yahoo Finance historical data...")
     YAHOO_BASE = "https://query1.finance.yahoo.com/v8/finance/chart"
     results = []
     for code in codes[:LIMIT]:
-        # Yahoo Finance: HK stock codes are 4-digit (0700 not 00700)
         yahoo_sym = f"{int(code):04d}.HK"
-        symbol = f"{code}.HK"
-        name = name_mapping.get(code, symbol)
+        symbol    = f"{code}.HK"
+        name      = name_mapping.get(code, symbol)
         try:
             url = f"{YAHOO_BASE}/{yahoo_sym}?interval=1d&range=10d"
             resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
@@ -103,20 +140,20 @@ def fetch_sina_prices(codes, name_mapping):
             vols   = quotes.get("volume",[])
 
             rows = []
-            for i, ts in enumerate(timestamps):
+            for i, ts_val in enumerate(timestamps):
                 close = closes[i] if i < len(closes) and closes[i] is not None else None
                 if close is None:
                     continue
-                dt = datetime.fromtimestamp(ts).strftime("%Y-%m-%d")
+                dt = datetime.fromtimestamp(ts_val, tz=HK_TZ).strftime("%Y-%m-%d")
                 rows.append({
                     "date":      dt,
-                    "dateShort": dt[5:],          # "2026-05-22" → "05/22"
+                    "dateShort": dt[5:].replace("-", "/"),  # "2026-05-22" → "05/22"
                     "close":     round(close, 2),
                     "open":      round(opens[i], 2) if i < len(opens) and opens[i] is not None else close,
                     "high":      round(highs[i], 2) if i < len(highs) and highs[i] is not None else close,
                     "low":       round(lows[i],  2) if i < len(lows)  and lows[i]  is not None else close,
-                    "volume":    int(vols[i]) if i < len(vols) and vols[i] is not None else 0,
-                    "volumeM":   round(vols[i] / 1e6, 2) if i < len(vols) and vols[i] is not None else 0,
+                    "volume":    int(vols[i])   if i < len(vols) and vols[i] is not None else 0,
+                    "volumeM":   f"{round(vols[i] / 1e6, 2)}M" if i < len(vols) and vols[i] is not None else "0.0M",
                 })
 
             if not rows:
@@ -125,46 +162,65 @@ def fetch_sina_prices(codes, name_mapping):
 
             latest = rows[-1]
             prev   = rows[-2] if len(rows) >= 2 else None
-            today_pct = round((latest["close"] / prev["close"] - 1) * 100, 2) if prev else 0
-            results.append({"code": code, "name": name, "symbol": symbol, "prices": rows, "todayPct": today_pct})
+            today_pct = round((latest["close"] / prev["close"] - 1) * 100, 2) if prev and prev["close"] else 0
+            results.append({
+                "code":     code,
+                "name":     name,
+                "symbol":   symbol,
+                "prices":   rows,
+                "todayPct": today_pct
+            })
             print(f"  ✅ {symbol} {name}: {latest['date']} {today_pct:+.2f}% ({len(rows)} days)")
         except Exception as e:
             print(f"  ❌ {symbol} error: {e}")
     return results
 
-# ── OpenRouter: 5-step vector extrapolation ───────────────────────────────────
+# ── OpenRouter: 5-step vector extrapolation with trend indicator ──────────────
 def call_openrouter_ai(history_rows, stock_code):
     """Sends 10-day anonymized coordinate vectors [O,H,L,C,V_M] to OpenRouter.
-    Returns 5 future coordinate steps as a list of row dicts, or None on failure.
+    Returns 5 future coordinate steps and trend direction classification.
     """
     if not OPENROUTER_API_KEY:
         print("  ⚠️  OPENROUTER_API_KEY not set — skipping AI")
-        return None
+        return None, "持有"
 
     # Anonymize: send raw [O, H, L, C, V_M] vectors, no stock name, no price value context
     segments = []
     for i, row in enumerate(history_rows[-10:]):
-        segments.append(f"t{i+1}: [{row['open']:.2f}, {row['high']:.2f}, {row['low']:.2f}, {row['close']:.2f}, {row['volumeM']:.1f}]")
+        vol_clean = str(row['volumeM']).replace('M', '')
+        segments.append(
+            f"t{i+1}: [{row['open']:.2f}, {row['high']:.2f}, {row['low']:.2f}, "
+            f"{row['close']:.2f}, {vol_clean}]"
+        )
     historical_context = " | ".join(segments)
 
-    # Few-shot: 3 input steps → 2 output steps (demonstrates the format)
-    sample_input  = "t1: [75.30, 76.10, 71.50, 71.50, 98.4] | t2: [73.90, 76.65, 70.75, 71.15, 156.8] | t3: [70.55, 72.65, 67.60, 68.70, 118.0]"
+    sample_input  = "t1: [75.30, 76.10, 71.50, 71.50, 98.4] | t2: [73.90, 76.65, 70.75, 71.15, 156.8]"
     sample_output = (
-        "[\n"
-        '  {"step": "t4_ext", "values": [74.50, 76.00, 72.10, 75.30, 180.5]},\n'
-        '  {"step": "t5_ext", "values": [75.30, 77.20, 74.80, 76.80, 195.2]}\n'
-        "]"
+        '{\n'
+        '  "extrapolated_steps": [\n'
+        '    {"step": "t3_ext", "values": [74.50, 76.00, 72.10, 75.30, 180.5]},\n'
+        '    {"step": "t4_ext", "values": [75.30, 77.20, 74.80, 76.80, 195.2]}\n'
+        '  ],\n'
+        '  "trend_direction_index": 1\n'
+        '}'
     )
 
-    # Neutral node token — no stock name leaked
-    node_token = f"node_alpha_{stock_code.lstrip('0')}"
+    node_token = f"node_hk_alpha_{stock_code.lstrip('0')}"
 
     prompt = (
         f"You are a mathematical sequence extrapolation compiler specializing in multi-dimensional coordinate vector progression.\n"
-        f"Generate exactly 5 continuous vector steps (t11_ext to t15_ext) following the mathematical progression pattern for the sequence node: {node_token}.\n"
-        f"Do not return conversational explanations, comments, or markdown blocks. Return ONLY a valid JSON array matching the structure shown above.\n\n"
-        f"[SAMPLE]\nInput Matrix:\n{sample_input}\nOutput Matrix:\n{sample_output}\n\n"
-        f"[REAL-TIME TASK]\nInput Matrix:\n{historical_context}\nOutput JSON:"
+        f"Generate exactly 5 continuous vector steps (t11_ext to t15_ext) following the mathematical progression pattern "
+        f"for the sequence node: {node_token}.\n"
+        f"Also determine the overall extrapolated trend vector index 'trend_direction_index' as an integer: "
+        f"1 for upward continuation, 0 for range-bound, or -1 for downward continuation.\n"
+        f"Do not return conversational explanations, comments, or markdown blocks. "
+        f"Return ONLY a valid JSON object matching the structure shown above.\n\n"
+        f"[SAMPLE]\n"
+        f"Input Matrix:\n{sample_input}\n\n"
+        f"Output JSON:\n{sample_output}\n\n"
+        f"[REAL-TIME TASK]\n"
+        f"Input Matrix:\n{historical_context}\n\n"
+        f"Output JSON:"
     )
 
     for attempt in range(2):
@@ -190,42 +246,65 @@ def call_openrouter_ai(history_rows, stock_code):
                     raw = raw[4:]
             raw = raw.strip()
 
-            predicted_rows = json.loads(raw)
+            parsed_response = json.loads(raw)
+            predicted_rows  = parsed_response.get("extrapolated_steps", [])
+
+            trend_idx     = int(parsed_response.get("trend_direction_index", 0))
+            indicator_map = {1: "買入", 0: "持有", -1: "賣出"}
+            recommendation = indicator_map.get(trend_idx, "持有")
+
+            # Calculate consecutive future trading days programmatically (excluding weekends)
+            last_history_date_str = history_rows[-1]["date"]
+            last_date = datetime.strptime(last_history_date_str, "%Y-%m-%d").date()
+
+            next_trading_days_list = []
+            curr_date = last_date
+            while len(next_trading_days_list) < 5:
+                curr_date += timedelta(days=1)
+                if curr_date.weekday() < 5:   # Mon–Fri
+                    next_trading_days_list.append(curr_date)
+
             normalised = []
-            for idx, item in enumerate(predicted_rows):
+            for idx, item in enumerate(predicted_rows[:5]):
                 vals = item.get("values", [])
                 if len(vals) < 5:
                     continue
-                pred_label = f"PRED_{idx+1}"
+                target_date = next_trading_days_list[idx]
+                raw_vol_m  = float(vals[4])
                 normalised.append({
-                    "date":      f"🔮 {pred_label}",
-                    "dateShort": f"🔮 {pred_label}",
+                    "date":      target_date.strftime("%Y-%m-%d"),
+                    "dateShort": f"🔮 {target_date.strftime('%m/%d')}",
                     "open":      float(vals[0]),
                     "high":      float(vals[1]),
                     "low":       float(vals[2]),
                     "close":     float(vals[3]),
-                    "volume":    int(float(vals[4]) * 1e6),
-                    "volumeM":   f"{vals[4]:.1f}M",
+                    "volume":     int(raw_vol_m * 1e6),
+                    "volumeM":   f"{raw_vol_m:.1f}M",
                 })
-            print(f"  🤖 {stock_code} OpenRouter: {len(normalised)} future steps")
-            return normalised
+
+            print(f"  🤖 {stock_code} OpenRouter: {len(normalised)} future steps [{recommendation}]")
+            return normalised, recommendation
+
         except Exception as e:
             print(f"  ❌ {stock_code} OpenRouter attempt {attempt+1} failed: {e}")
             if attempt < 1:
                 time.sleep(3)
-    return None
+
+    return None, "持有"
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     codes = fetch_etnet_codes()
     if not codes:
         sys.exit(1)
+
     name_mapping = build_name_mapping()
-    stocks_data = fetch_sina_prices(codes, name_mapping)
+    stocks_data  = fetch_yahoo_prices(codes, name_mapping)
     if not stocks_data:
         sys.exit(1)
 
-    # Enable AI predictions by default; set SKIP_AI=true in env to disable
+    indices_data = fetch_market_indices()
+
     SKIP_AI = os.environ.get("SKIP_AI", "false").lower() == "true"
 
     final_predictions_db = {}
@@ -235,30 +314,34 @@ def main():
         history = stock["prices"]
 
         if SKIP_AI:
-            ai_rows = None
+            ai_rows        = None
+            recommendation = "持有"
             print(f"  ⏭️  {code} AI skipped")
         else:
-            ai_rows = call_openrouter_ai(history, code)
+            ai_rows, recommendation = call_openrouter_ai(history, code)
 
-        # combined_data = 10 historical rows + 5 AI future rows (when available)
         combined = history + ai_rows if ai_rows else history
 
         final_predictions_db[code] = {
-            "name":          name,
-            "symbol":        stock["symbol"],
-            "combined_data": combined,
-            "has_ai":        ai_rows is not None,
+            "name":           name,
+            "symbol":         stock["symbol"],
+            "combined_data":  combined,
+            "has_ai":         ai_rows is not None,
+            "recommendation": recommendation,
         }
         time.sleep(0.3)
 
     # ── Write predictions.json ─────────────────────────────────────────────────
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(final_predictions_db, f, ensure_ascii=False, indent=2)
-    print(f"\n✅ Predictions saved → {OUTPUT_FILE}")
+        json.dump({
+            "stocks":  final_predictions_db,
+            "indices": indices_data,
+        }, f, ensure_ascii=False, indent=2)
+    print(f"\n✅ Predictions & Indices saved → {OUTPUT_FILE}")
 
     # ── Write stocks.json (frontend needs this for lastUpdated display) ────────
-    now_hkt = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M:%S")
+    now_hkt = datetime.now(HK_TZ).strftime("%Y-%m-%d %H:%M:%S")
     stocks_list = []
     for s in stocks_data:
         item = {
@@ -274,6 +357,7 @@ def main():
             "analysis":   None,
         }
         stocks_list.append(item)
+
     stocks_db = {
         "generatedAt":   now_hkt,
         "generatedDate": now_hkt[:10],
