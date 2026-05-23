@@ -90,8 +90,7 @@ def fetch_sina_prices(codes, name_mapping):
         return []
 
     results = []
-    # Sina returns: hq_str_hk00700="00700,open,high,low,close,prev_close,...,time,date"
-    # Fields (0-based): 0=code, 1=open, 2=prev_close, 3=close, 4=high, 5=low, ... 6=volume
+    # Sina HK fields: 0=name_en, 1=name_cn, 2=open, 3=prev_close, 4=high, 5=low, 6=close, 11=vol, 18=date, 19=time
     for code in codes[:LIMIT]:
         symbol = f"{code}.HK"
         name = name_mapping.get(code, symbol)
@@ -104,12 +103,12 @@ def fetch_sina_prices(codes, name_mapping):
             if len(fields) < 10:
                 print(f"  ⚠️  {symbol} insufficient fields")
                 continue
-            close = float(fields[3])
-            open_ = float(fields[1])
-            high = float(fields[4])
-            low = float(fields[5])
-            prev_close = float(fields[2])
-            vol = int(fields[6]) if fields[6].isdigit() else 0
+            close = float(fields[6])     # current close
+            open_ = float(fields[2])      # open price
+            high = float(fields[4])       # high price
+            low = float(fields[5])         # low price
+            prev_close = float(fields[3])  # previous close
+            vol = int(fields[11])         # volume
             today_pct = round((close / prev_close - 1) * 100, 2) if prev_close else 0
             today_date = datetime.now().strftime("%Y-%m-%d")
             rows = [{
