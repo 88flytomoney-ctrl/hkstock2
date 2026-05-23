@@ -110,10 +110,13 @@ def fetch_sina_prices(codes, name_mapping):
             prev_close = float(fields[3])  # previous close
             vol = int(fields[11])         # volume
             today_pct = round((close / prev_close - 1) * 100, 2) if prev_close else 0
-            today_date = datetime.now().strftime("%Y-%m-%d")
+            # Sina field 18 = date (e.g. "2026/05/22"), field 19 = time (e.g. "16:08:23")
+            sina_date = fields[18] if len(fields) > 18 else ""
+            today_date = sina_date.replace("/", "-") if sina_date else datetime.now().strftime("%Y-%m-%d")
+            today_short = datetime.strptime(today_date, "%Y-%m-%d").strftime("%m/%d") if sina_date else datetime.now().strftime("%m/%d")
             rows = [{
                 "date": today_date,
-                "dateShort": datetime.now().strftime("%m/%d"),
+                "dateShort": today_short,
                 "close": close,
                 "open": open_,
                 "high": high,
@@ -122,7 +125,7 @@ def fetch_sina_prices(codes, name_mapping):
                 "volumeM": round(vol / 1e6, 2),
             }]
             results.append({"code": code, "name": name, "symbol": symbol, "prices": rows, "todayPct": today_pct})
-            print(f"  ✅ {symbol} {name}: {today_pct:+.2f}%")
+            print(f"  ✅ {symbol} {name}: {today_date} {today_pct:+.2f}%")
         except Exception as e:
             print(f"  ❌ {symbol} error: {e}")
     return results
