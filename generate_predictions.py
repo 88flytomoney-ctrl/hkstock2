@@ -307,12 +307,27 @@ def main():
 
     # Also write stocks.json (required by frontend for lastUpdated display)
     now_hkt = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M:%S")
+    stocks_list = []
+    for s in stocks_data:
+        item = {
+            "code":        s["code"],
+            "symbol":      s["symbol"],
+            "name":        s["name"],
+            "prices":      s["prices"],
+            "fiveDayPct":  s.get("todayPct", 0),
+            "high5":       None,
+            "low5":        None,
+            "avgVolume":   None,
+            "volTrend":    None,
+            "analysis":    None,
+        }
+        stocks_list.append(item)
     stocks_db = {
-        "generatedAt": now_hkt,
-        "generatedDate": now_hkt[:10],
-        "stockCount": len(stocks_data),
-        "stocks": {s["code"]: {"code": s["code"], "name": s["name"], "symbol": s["symbol"], "prices": s["prices"]} for s in stocks_data},
-        "aiSummary": "",
+        "generatedAt":   now_hkt,
+        "generatedDate":  now_hkt[:10],
+        "stockCount":    len(stocks_list),
+        "stocks":        stocks_list,
+        "aiSummary":     "",
     }
     with open(STOCKS_FILE, "w", encoding="utf-8") as f:
         json.dump(stocks_db, f, ensure_ascii=False, indent=2)

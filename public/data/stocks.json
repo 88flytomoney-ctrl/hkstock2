@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-23 10:07:53",
+  "generatedAt": "2026-05-23 10:11:53",
   "generatedDate": "2026-05-23",
   "stockCount": 15,
-  "stocks": {
-    "02800": {
+  "stocks": [
+    {
       "code": "02800",
-      "name": "盈富基金",
       "symbol": "02800.HK",
+      "name": "盈富基金",
       "prices": [
         {
           "date": "2026-05-22",
@@ -18,12 +18,18 @@
           "volume": 854712777,
           "volumeM": 854.71
         }
-      ]
+      ],
+      "fiveDayPct": 0.7,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "00981": {
+    {
       "code": "00981",
-      "name": "中芯國際",
       "symbol": "00981.HK",
+      "name": "中芯國際",
       "prices": [
         {
           "date": "2026-05-22",
@@ -35,12 +41,18 @@
           "volume": 212610930,
           "volumeM": 212.61
         }
-      ]
+      ],
+      "fiveDayPct": 7.61,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "02828": {
+    {
       "code": "02828",
-      "name": "恒生中國企業",
       "symbol": "02828.HK",
+      "name": "恒生中國企業",
       "prices": [
         {
           "date": "2026-05-22",
@@ -52,12 +64,18 @@
           "volume": 123702674,
           "volumeM": 123.7
         }
-      ]
+      ],
+      "fiveDayPct": 0.71,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "00700": {
+    {
       "code": "00700",
-      "name": "騰訊控股",
       "symbol": "00700.HK",
+      "name": "騰訊控股",
       "prices": [
         {
           "date": "2026-05-22",
@@ -69,12 +87,18 @@
           "volume": 23998219,
           "volumeM": 24.0
         }
-      ]
+      ],
+      "fiveDayPct": 0.55,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "03033": {
+    {
       "code": "03033",
-      "name": "南方恒生科技",
       "symbol": "03033.HK",
+      "name": "南方恒生科技",
       "prices": [
         {
           "date": "2026-05-22",
@@ -86,12 +110,18 @@
           "volume": 2117612858,
           "volumeM": 2117.61
         }
-      ]
+      ],
+      "fiveDayPct": 1.89,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "09988": {
+    {
       "code": "09988",
-      "name": "阿里巴巴－Ｗ",
       "symbol": "09988.HK",
+      "name": "阿里巴巴－Ｗ",
       "prices": [
         {
           "date": "2026-05-22",
@@ -103,12 +133,18 @@
           "volume": 67105437,
           "volumeM": 67.11
         }
-      ]
+      ],
+      "fiveDayPct": 0.79,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "00992": {
+    {
       "code": "00992",
-      "name": "聯想集團",
       "symbol": "00992.HK",
+      "name": "聯想集團",
       "prices": [
         {
           "date": "2026-05-22",
@@ -120,12 +156,18 @@
           "volume": 549616546,
           "volumeM": 549.62
         }
-      ]
+      ],
+      "fiveDayPct": 19.77,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "01347": {
+    {
       "code": "01347",
-      "name": "華虹半導體",
       "symbol": "01347.HK",
+      "name": "華虹半導體",
       "prices": [
         {
           "date": "2026-05-22",
@@ -137,12 +179,18 @@
           "volume": 51583594,
           "volumeM": 51.58
         }
-      ]
+      ],
+      "fiveDayPct": 1.64,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "07709": {
+    {
       "code": "07709",
-      "name": "ＸＬ二南方海力士",
       "symbol": "07709.HK",
+      "name": "ＸＬ二南方海力士",
       "prices": [
         {
           "date": "2026-05-22",
@@ -154,12 +202,18 @@
           "volume": 43923315,
           "volumeM": 43.92
         }
-      ]
+      ],
+      "fiveDayPct": 4.26,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "02513": {
+    {
       "code": "02513",
-      "name": "智譜",
       "symbol": "02513.HK",
+      "name": "智譜",
       "prices": [
         {
           "date": "2026-05-22",
@@ -171,12 +225,18 @@
           "volume": 2950882,
           "volumeM": 2.95
         }
-      ]
+      ],
+      "fiveDayPct": 26.93,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "02476": {
+    {
       "code": "02476",
-      "name": "勝宏科技",
       "symbol": "02476.HK",
+      "name": "勝宏科技",
       "prices": [
         {
           "date": "2026-05-22",
@@ -188,12 +248,18 @@
           "volume": 9062011,
           "volumeM": 9.06
         }
-      ]
+      ],
+      "fiveDayPct": 16.58,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "06869": {
+    {
       "code": "06869",
-      "name": "長飛光纖光纜",
       "symbol": "06869.HK",
+      "name": "長飛光纖光纜",
       "prices": [
         {
           "date": "2026-05-22",
@@ -205,12 +271,18 @@
           "volume": 15319263,
           "volumeM": 15.32
         }
-      ]
+      ],
+      "fiveDayPct": 5.76,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "03690": {
+    {
       "code": "03690",
-      "name": "美團－Ｗ",
       "symbol": "03690.HK",
+      "name": "美團－Ｗ",
       "prices": [
         {
           "date": "2026-05-22",
@@ -222,12 +294,18 @@
           "volume": 39784370,
           "volumeM": 39.78
         }
-      ]
+      ],
+      "fiveDayPct": -0.91,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "02382": {
+    {
       "code": "02382",
-      "name": "舜宇光學科技",
       "symbol": "02382.HK",
+      "name": "舜宇光學科技",
       "prices": [
         {
           "date": "2026-05-22",
@@ -239,12 +317,18 @@
           "volume": 44483965,
           "volumeM": 44.48
         }
-      ]
+      ],
+      "fiveDayPct": 6.78,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     },
-    "01810": {
+    {
       "code": "01810",
-      "name": "小米集團－Ｗ",
       "symbol": "01810.HK",
+      "name": "小米集團－Ｗ",
       "prices": [
         {
           "date": "2026-05-22",
@@ -256,8 +340,14 @@
           "volume": 100960958,
           "volumeM": 100.96
         }
-      ]
+      ],
+      "fiveDayPct": 1.15,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
     }
-  },
+  ],
   "aiSummary": ""
 }
