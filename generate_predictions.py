@@ -94,6 +94,7 @@ def fetch_sina_prices(codes, name_mapping):
     SINA_DATE_IDX = 17
     SINA_TIME_IDX = 18
     SINA_VOL_IDX  = 12
+    results = []
     for code in codes[:LIMIT]:
         symbol = f"{code}.HK"
         name = name_mapping.get(code, symbol)
