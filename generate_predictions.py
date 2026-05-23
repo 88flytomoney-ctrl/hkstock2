@@ -17,7 +17,7 @@ import requests
 import pandas as pd
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from openai import OpenAI
+from openai import OpenAI, APIError, RateLimitError
 
 # ── OpenRouter Client ──────────────────────────────────────────────────────────
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
@@ -223,7 +223,7 @@ def call_openrouter_ai(history_rows, stock_code):
         f"Output JSON:"
     )
 
-    for attempt in range(2):
+    for attempt in range(3):
         try:
             client = get_openrouter_client()
             response = client.chat.completions.create(
@@ -231,7 +231,7 @@ def call_openrouter_ai(history_rows, stock_code):
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.2,
                 max_tokens=1500,
-                timeout=25,
+                timeout=30,
             )
             raw = response.choices[0].message.content.strip()
 
@@ -285,10 +285,23 @@ def call_openrouter_ai(history_rows, stock_code):
             print(f"  🤖 {stock_code} OpenRouter: {len(normalised)} future steps [{recommendation}]")
             return normalised, recommendation
 
-        except Exception as e:
-            print(f"  ❌ {stock_code} OpenRouter attempt {attempt+1} failed: {e}")
-            if attempt < 1:
+        except (RateLimitError, APIError) as e:
+            print(f"  ⚠️  {stock_code} OpenRouter rate/API error (attempt {attempt+1}): {e}")
+            if attempt < 2:
+                wait = 5 * (attempt + 1)
+                print(f"  🔄  Waiting {wait}s before retry...")
+                time.sleep(wait)
+            continue
+        except json.JSONDecodeError as e:
+            print(f"  ⚠️  {stock_code} OpenRouter malformed JSON (attempt {attempt+1}): {e}")
+            if attempt < 2:
                 time.sleep(3)
+            continue
+        except Exception as e:
+            print(f"  ❌ {stock_code} OpenRouter unexpected error (attempt {attempt+1}): {e}")
+            if attempt < 2:
+                time.sleep(3)
+            continue
 
     return None, "持有"
 
