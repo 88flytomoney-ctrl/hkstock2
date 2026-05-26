@@ -4,8 +4,8 @@ on:
   schedule:
     # Midday run: 12:40 HKT (04:40 UTC) Mon-Fri
     - cron: '40 4 * * 1-5'
-    # Evening run: 18:10 HKT (10:10 UTC) Mon-Fri
-    - cron: '10 10 * * 1-5'
+    # Evening run: 17:10 HKT (09:10 UTC) Mon-Fri
+    - cron: '10 9 * * 1-5'
   workflow_dispatch:  # Manual trigger
   push:
     branches: [main]
