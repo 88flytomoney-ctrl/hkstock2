@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27 16:40:24",
+  "generatedAt": "2026-05-27 20:18:30",
   "generatedDate": "2026-05-27",
   "stockCount": 15,
   "stocks": [
@@ -456,119 +456,6 @@
       "analysis": null
     },
     {
-      "code": "02828",
-      "symbol": "02828.HK",
-      "name": "恒生中國企業",
-      "prices": [
-        {
-          "date": "2026-05-13",
-          "dateShort": "05/13",
-          "close": 90.96,
-          "open": 91.18,
-          "high": 91.38,
-          "low": 90.38,
-          "volume": 73890687,
-          "volumeM": "73.89M"
-        },
-        {
-          "date": "2026-05-14",
-          "dateShort": "05/14",
-          "close": 90.8,
-          "open": 92.9,
-          "high": 93.0,
-          "low": 90.8,
-          "volume": 127876673,
-          "volumeM": "127.88M"
-        },
-        {
-          "date": "2026-05-15",
-          "dateShort": "05/15",
-          "close": 89.1,
-          "open": 90.58,
-          "high": 90.66,
-          "low": 88.82,
-          "volume": 127412083,
-          "volumeM": "127.41M"
-        },
-        {
-          "date": "2026-05-18",
-          "dateShort": "05/18",
-          "close": 88.22,
-          "open": 88.7,
-          "high": 88.76,
-          "low": 87.7,
-          "volume": 100089935,
-          "volumeM": "100.09M"
-        },
-        {
-          "date": "2026-05-19",
-          "dateShort": "05/19",
-          "close": 88.72,
-          "open": 88.16,
-          "high": 88.9,
-          "low": 88.06,
-          "volume": 95083975,
-          "volumeM": "95.08M"
-        },
-        {
-          "date": "2026-05-20",
-          "dateShort": "05/20",
-          "close": 88.32,
-          "open": 88.44,
-          "high": 88.6,
-          "low": 87.94,
-          "volume": 102700200,
-          "volumeM": "102.7M"
-        },
-        {
-          "date": "2026-05-21",
-          "dateShort": "05/21",
-          "close": 87.06,
-          "open": 88.7,
-          "high": 88.88,
-          "low": 86.96,
-          "volume": 105581759,
-          "volumeM": "105.58M"
-        },
-        {
-          "date": "2026-05-22",
-          "dateShort": "05/22",
-          "close": 87.68,
-          "open": 87.86,
-          "high": 88.32,
-          "low": 87.34,
-          "volume": 123702674,
-          "volumeM": "123.7M"
-        },
-        {
-          "date": "2026-05-26",
-          "dateShort": "05/26",
-          "close": 88.16,
-          "open": 88.02,
-          "high": 88.74,
-          "low": 87.3,
-          "volume": 157924876,
-          "volumeM": "157.92M"
-        },
-        {
-          "date": "2026-05-27",
-          "dateShort": "05/27",
-          "close": 86.94,
-          "open": 88.22,
-          "high": 88.28,
-          "low": 86.72,
-          "volume": 118105074,
-          "volumeM": "118.11M"
-        }
-      ],
-      "fiveDayPct": -1.38,
-      "high5": null,
-      "low5": null,
-      "avgVolume": null,
-      "volTrend": null,
-      "analysis": null
-    },
-    {
       "code": "00700",
       "symbol": "00700.HK",
       "name": "騰訊控股",
@@ -675,6 +562,119 @@
         }
       ],
       "fiveDayPct": -1.05,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
+    },
+    {
+      "code": "02828",
+      "symbol": "02828.HK",
+      "name": "恒生中國企業",
+      "prices": [
+        {
+          "date": "2026-05-13",
+          "dateShort": "05/13",
+          "close": 90.96,
+          "open": 91.18,
+          "high": 91.38,
+          "low": 90.38,
+          "volume": 73890687,
+          "volumeM": "73.89M"
+        },
+        {
+          "date": "2026-05-14",
+          "dateShort": "05/14",
+          "close": 90.8,
+          "open": 92.9,
+          "high": 93.0,
+          "low": 90.8,
+          "volume": 127876673,
+          "volumeM": "127.88M"
+        },
+        {
+          "date": "2026-05-15",
+          "dateShort": "05/15",
+          "close": 89.1,
+          "open": 90.58,
+          "high": 90.66,
+          "low": 88.82,
+          "volume": 127412083,
+          "volumeM": "127.41M"
+        },
+        {
+          "date": "2026-05-18",
+          "dateShort": "05/18",
+          "close": 88.22,
+          "open": 88.7,
+          "high": 88.76,
+          "low": 87.7,
+          "volume": 100089935,
+          "volumeM": "100.09M"
+        },
+        {
+          "date": "2026-05-19",
+          "dateShort": "05/19",
+          "close": 88.72,
+          "open": 88.16,
+          "high": 88.9,
+          "low": 88.06,
+          "volume": 95083975,
+          "volumeM": "95.08M"
+        },
+        {
+          "date": "2026-05-20",
+          "dateShort": "05/20",
+          "close": 88.32,
+          "open": 88.44,
+          "high": 88.6,
+          "low": 87.94,
+          "volume": 102700200,
+          "volumeM": "102.7M"
+        },
+        {
+          "date": "2026-05-21",
+          "dateShort": "05/21",
+          "close": 87.06,
+          "open": 88.7,
+          "high": 88.88,
+          "low": 86.96,
+          "volume": 105581759,
+          "volumeM": "105.58M"
+        },
+        {
+          "date": "2026-05-22",
+          "dateShort": "05/22",
+          "close": 87.68,
+          "open": 87.86,
+          "high": 88.32,
+          "low": 87.34,
+          "volume": 123702674,
+          "volumeM": "123.7M"
+        },
+        {
+          "date": "2026-05-26",
+          "dateShort": "05/26",
+          "close": 88.16,
+          "open": 88.02,
+          "high": 88.74,
+          "low": 87.3,
+          "volume": 157924876,
+          "volumeM": "157.92M"
+        },
+        {
+          "date": "2026-05-27",
+          "dateShort": "05/27",
+          "close": 86.94,
+          "open": 88.22,
+          "high": 88.28,
+          "low": 86.72,
+          "volume": 118105074,
+          "volumeM": "118.11M"
+        }
+      ],
+      "fiveDayPct": -1.38,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -1586,112 +1586,112 @@
       "analysis": null
     },
     {
-      "code": "09992",
-      "symbol": "09992.HK",
-      "name": "泡泡瑪特",
+      "code": "01211",
+      "symbol": "01211.HK",
+      "name": "比亞迪股份",
       "prices": [
         {
           "date": "2026-05-13",
           "dateShort": "05/13",
-          "close": 160.9,
-          "open": 169.2,
-          "high": 171.0,
-          "low": 156.8,
-          "volume": 32550591,
-          "volumeM": "32.55M"
+          "close": 98.15,
+          "open": 99.6,
+          "high": 99.8,
+          "low": 96.25,
+          "volume": 26642728,
+          "volumeM": "26.64M"
         },
         {
           "date": "2026-05-14",
           "dateShort": "05/14",
-          "close": 156.5,
-          "open": 160.9,
-          "high": 160.9,
-          "low": 154.0,
-          "volume": 29270669,
-          "volumeM": "29.27M"
+          "close": 98.15,
+          "open": 100.2,
+          "high": 100.9,
+          "low": 97.75,
+          "volume": 20727459,
+          "volumeM": "20.73M"
         },
         {
           "date": "2026-05-15",
           "dateShort": "05/15",
-          "close": 152.4,
-          "open": 155.2,
-          "high": 156.2,
-          "low": 150.8,
-          "volume": 15287277,
-          "volumeM": "15.29M"
+          "close": 96.45,
+          "open": 98.0,
+          "high": 98.4,
+          "low": 95.8,
+          "volume": 21951647,
+          "volumeM": "21.95M"
         },
         {
           "date": "2026-05-18",
           "dateShort": "05/18",
-          "close": 150.7,
-          "open": 152.5,
-          "high": 153.9,
-          "low": 148.4,
-          "volume": 15301079,
-          "volumeM": "15.3M"
+          "close": 93.8,
+          "open": 95.55,
+          "high": 95.75,
+          "low": 92.7,
+          "volume": 29649808,
+          "volumeM": "29.65M"
         },
         {
           "date": "2026-05-19",
           "dateShort": "05/19",
-          "close": 152.5,
-          "open": 150.9,
-          "high": 154.7,
-          "low": 149.8,
-          "volume": 12108501,
-          "volumeM": "12.11M"
+          "close": 93.9,
+          "open": 94.3,
+          "high": 94.6,
+          "low": 92.45,
+          "volume": 18431312,
+          "volumeM": "18.43M"
         },
         {
           "date": "2026-05-20",
           "dateShort": "05/20",
-          "close": 151.9,
-          "open": 152.6,
-          "high": 153.9,
-          "low": 150.2,
-          "volume": 9489435,
-          "volumeM": "9.49M"
+          "close": 90.2,
+          "open": 93.0,
+          "high": 93.0,
+          "low": 90.1,
+          "volume": 34280540,
+          "volumeM": "34.28M"
         },
         {
           "date": "2026-05-21",
           "dateShort": "05/21",
-          "close": 149.9,
-          "open": 151.9,
-          "high": 153.2,
-          "low": 149.1,
-          "volume": 11176365,
-          "volumeM": "11.18M"
+          "close": 90.55,
+          "open": 90.8,
+          "high": 93.2,
+          "low": 90.3,
+          "volume": 21982214,
+          "volumeM": "21.98M"
         },
         {
           "date": "2026-05-22",
           "dateShort": "05/22",
-          "close": 150.5,
-          "open": 149.8,
-          "high": 152.6,
-          "low": 147.6,
-          "volume": 8959901,
-          "volumeM": "8.96M"
+          "close": 91.6,
+          "open": 90.7,
+          "high": 92.3,
+          "low": 90.6,
+          "volume": 18267233,
+          "volumeM": "18.27M"
         },
         {
           "date": "2026-05-26",
           "dateShort": "05/26",
-          "close": 153.6,
-          "open": 150.0,
-          "high": 155.0,
-          "low": 144.0,
-          "volume": 20174092,
-          "volumeM": "20.17M"
+          "close": 93.65,
+          "open": 92.5,
+          "high": 94.8,
+          "low": 91.5,
+          "volume": 32533024,
+          "volumeM": "32.53M"
         },
         {
           "date": "2026-05-27",
           "dateShort": "05/27",
-          "close": 154.2,
-          "open": 153.6,
-          "high": 156.6,
-          "low": 151.3,
-          "volume": 18711360,
-          "volumeM": "18.71M"
+          "close": 90.7,
+          "open": 93.15,
+          "high": 93.5,
+          "low": 90.15,
+          "volume": 32965856,
+          "volumeM": "32.97M"
         }
       ],
-      "fiveDayPct": 0.39,
+      "fiveDayPct": -3.15,
       "high5": null,
       "low5": null,
       "avgVolume": null,
