@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28 16:16:43",
+  "generatedAt": "2026-05-28 16:40:48",
   "generatedDate": "2026-05-28",
   "stockCount": 15,
   "stocks": [
@@ -101,15 +101,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 88.45,
+          "close": 88.25,
           "open": 84.95,
           "high": 92.5,
           "low": 84.3,
-          "volume": 260743963,
-          "volumeM": "260.74M"
+          "volume": 264369889,
+          "volumeM": "264.37M"
         }
       ],
-      "fiveDayPct": 3.81,
+      "fiveDayPct": 3.58,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -218,8 +218,8 @@
           "open": 25.46,
           "high": 25.48,
           "low": 24.98,
-          "volume": 750715962,
-          "volumeM": "750.72M"
+          "volume": 755065462,
+          "volumeM": "755.07M"
         }
       ],
       "fiveDayPct": -1.17,
@@ -327,15 +327,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 423.8,
+          "close": 425.0,
           "open": 431.0,
           "high": 432.8,
           "low": 420.4,
-          "volume": 39770035,
-          "volumeM": "39.77M"
+          "volume": 42196203,
+          "volumeM": "42.2M"
         }
       ],
-      "fiveDayPct": -2.44,
+      "fiveDayPct": -2.16,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -440,15 +440,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 121.9,
+          "close": 121.8,
           "open": 123.7,
           "high": 123.9,
           "low": 120.0,
-          "volume": 106403815,
-          "volumeM": "106.4M"
+          "volume": 113735567,
+          "volumeM": "113.74M"
         }
       ],
-      "fiveDayPct": -1.93,
+      "fiveDayPct": -2.01,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -553,15 +553,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 85.84,
+          "close": 85.8,
           "open": 87.0,
           "high": 87.0,
           "low": 84.9,
-          "volume": 130802954,
-          "volumeM": "130.8M"
+          "volume": 131610754,
+          "volumeM": "131.61M"
         }
       ],
-      "fiveDayPct": -1.27,
+      "fiveDayPct": -1.31,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -666,15 +666,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 169.6,
+          "close": 170.0,
           "open": 150.0,
           "high": 177.0,
           "low": 149.9,
-          "volume": 56770773,
-          "volumeM": "56.77M"
+          "volume": 57921773,
+          "volumeM": "57.92M"
         }
       ],
-      "fiveDayPct": 11.29,
+      "fiveDayPct": 11.55,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -783,8 +783,8 @@
           "open": 4.79,
           "high": 4.81,
           "low": 4.71,
-          "volume": 2002450041,
-          "volumeM": "2002.45M"
+          "volume": 2016217841,
+          "volumeM": "2016.22M"
         }
       ],
       "fiveDayPct": -0.42,
@@ -892,15 +892,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 134.0,
+          "close": 133.55,
           "open": 134.45,
           "high": 137.4,
           "low": 121.3,
-          "volume": 69595365,
-          "volumeM": "69.6M"
+          "volume": 70008122,
+          "volumeM": "70.01M"
         }
       ],
-      "fiveDayPct": 1.13,
+      "fiveDayPct": 0.79,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -1005,15 +1005,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 73.25,
+          "close": 73.3,
           "open": 77.2,
           "high": 77.3,
           "low": 72.25,
-          "volume": 87772812,
-          "volumeM": "87.77M"
+          "volume": 94721012,
+          "volumeM": "94.72M"
         }
       ],
-      "fiveDayPct": -5.73,
+      "fiveDayPct": -5.66,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -1118,15 +1118,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 28.6,
+          "close": 28.56,
           "open": 28.34,
           "high": 28.76,
           "low": 27.5,
-          "volume": 227284059,
-          "volumeM": "227.28M"
+          "volume": 238004859,
+          "volumeM": "238.0M"
         }
       ],
-      "fiveDayPct": 0.7,
+      "fiveDayPct": 0.56,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -1231,15 +1231,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 161.2,
+          "close": 161.5,
           "open": 160.0,
           "high": 164.6,
           "low": 157.6,
-          "volume": 37833748,
-          "volumeM": "37.83M"
+          "volume": 38707548,
+          "volumeM": "38.71M"
         }
       ],
-      "fiveDayPct": 4.54,
+      "fiveDayPct": 4.73,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -1348,8 +1348,8 @@
           "open": 83.0,
           "high": 83.0,
           "low": 80.35,
-          "volume": 55814946,
-          "volumeM": "55.81M"
+          "volume": 61294239,
+          "volumeM": "61.29M"
         }
       ],
       "fiveDayPct": -2.84,
@@ -1457,128 +1457,15 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 19.62,
+          "close": 19.68,
           "open": 19.0,
           "high": 19.78,
           "low": 18.75,
-          "volume": 203389208,
-          "volumeM": "203.39M"
+          "volume": 214919217,
+          "volumeM": "214.92M"
         }
       ],
-      "fiveDayPct": 3.26,
-      "high5": null,
-      "low5": null,
-      "avgVolume": null,
-      "volTrend": null,
-      "analysis": null
-    },
-    {
-      "code": "06869",
-      "symbol": "06869.HK",
-      "name": "長飛光纖光纜",
-      "prices": [
-        {
-          "date": "2026-05-14",
-          "dateShort": "05/14",
-          "close": 253.8,
-          "open": 268.6,
-          "high": 269.8,
-          "low": 251.0,
-          "volume": 12676376,
-          "volumeM": "12.68M"
-        },
-        {
-          "date": "2026-05-15",
-          "dateShort": "05/15",
-          "close": 223.0,
-          "open": 255.0,
-          "high": 255.6,
-          "low": 220.0,
-          "volume": 21912943,
-          "volumeM": "21.91M"
-        },
-        {
-          "date": "2026-05-18",
-          "dateShort": "05/18",
-          "close": 240.6,
-          "open": 224.0,
-          "high": 240.8,
-          "low": 222.0,
-          "volume": 15174090,
-          "volumeM": "15.17M"
-        },
-        {
-          "date": "2026-05-19",
-          "dateShort": "05/19",
-          "close": 234.8,
-          "open": 234.0,
-          "high": 239.0,
-          "low": 225.0,
-          "volume": 15359385,
-          "volumeM": "15.36M"
-        },
-        {
-          "date": "2026-05-20",
-          "dateShort": "05/20",
-          "close": 231.0,
-          "open": 235.0,
-          "high": 237.0,
-          "low": 225.4,
-          "volume": 11979644,
-          "volumeM": "11.98M"
-        },
-        {
-          "date": "2026-05-21",
-          "dateShort": "05/21",
-          "close": 215.2,
-          "open": 235.0,
-          "high": 237.0,
-          "low": 213.4,
-          "volume": 15436187,
-          "volumeM": "15.44M"
-        },
-        {
-          "date": "2026-05-22",
-          "dateShort": "05/22",
-          "close": 227.6,
-          "open": 221.4,
-          "high": 230.8,
-          "low": 220.4,
-          "volume": 15319263,
-          "volumeM": "15.32M"
-        },
-        {
-          "date": "2026-05-26",
-          "dateShort": "05/26",
-          "close": 213.6,
-          "open": 224.0,
-          "high": 225.0,
-          "low": 207.2,
-          "volume": 17113856,
-          "volumeM": "17.11M"
-        },
-        {
-          "date": "2026-05-27",
-          "dateShort": "05/27",
-          "close": 206.2,
-          "open": 216.0,
-          "high": 218.8,
-          "low": 204.8,
-          "volume": 16121813,
-          "volumeM": "16.12M"
-        },
-        {
-          "date": "2026-05-28",
-          "dateShort": "05/28",
-          "close": 209.4,
-          "open": 206.2,
-          "high": 211.0,
-          "low": 200.2,
-          "volume": 16338472,
-          "volumeM": "16.34M"
-        }
-      ],
-      "fiveDayPct": 1.55,
+      "fiveDayPct": 3.58,
       "high5": null,
       "low5": null,
       "avgVolume": null,
@@ -1683,15 +1570,128 @@
         {
           "date": "2026-05-28",
           "dateShort": "05/28",
-          "close": 719.0,
+          "close": 717.0,
           "open": 709.0,
           "high": 720.0,
           "low": 686.0,
-          "volume": 4550040,
-          "volumeM": "4.55M"
+          "volume": 4975163,
+          "volumeM": "4.98M"
         }
       ],
-      "fiveDayPct": 2.71,
+      "fiveDayPct": 2.43,
+      "high5": null,
+      "low5": null,
+      "avgVolume": null,
+      "volTrend": null,
+      "analysis": null
+    },
+    {
+      "code": "06869",
+      "symbol": "06869.HK",
+      "name": "長飛光纖光纜",
+      "prices": [
+        {
+          "date": "2026-05-14",
+          "dateShort": "05/14",
+          "close": 253.8,
+          "open": 268.6,
+          "high": 269.8,
+          "low": 251.0,
+          "volume": 12676376,
+          "volumeM": "12.68M"
+        },
+        {
+          "date": "2026-05-15",
+          "dateShort": "05/15",
+          "close": 223.0,
+          "open": 255.0,
+          "high": 255.6,
+          "low": 220.0,
+          "volume": 21912943,
+          "volumeM": "21.91M"
+        },
+        {
+          "date": "2026-05-18",
+          "dateShort": "05/18",
+          "close": 240.6,
+          "open": 224.0,
+          "high": 240.8,
+          "low": 222.0,
+          "volume": 15174090,
+          "volumeM": "15.17M"
+        },
+        {
+          "date": "2026-05-19",
+          "dateShort": "05/19",
+          "close": 234.8,
+          "open": 234.0,
+          "high": 239.0,
+          "low": 225.0,
+          "volume": 15359385,
+          "volumeM": "15.36M"
+        },
+        {
+          "date": "2026-05-20",
+          "dateShort": "05/20",
+          "close": 231.0,
+          "open": 235.0,
+          "high": 237.0,
+          "low": 225.4,
+          "volume": 11979644,
+          "volumeM": "11.98M"
+        },
+        {
+          "date": "2026-05-21",
+          "dateShort": "05/21",
+          "close": 215.2,
+          "open": 235.0,
+          "high": 237.0,
+          "low": 213.4,
+          "volume": 15436187,
+          "volumeM": "15.44M"
+        },
+        {
+          "date": "2026-05-22",
+          "dateShort": "05/22",
+          "close": 227.6,
+          "open": 221.4,
+          "high": 230.8,
+          "low": 220.4,
+          "volume": 15319263,
+          "volumeM": "15.32M"
+        },
+        {
+          "date": "2026-05-26",
+          "dateShort": "05/26",
+          "close": 213.6,
+          "open": 224.0,
+          "high": 225.0,
+          "low": 207.2,
+          "volume": 17113856,
+          "volumeM": "17.11M"
+        },
+        {
+          "date": "2026-05-27",
+          "dateShort": "05/27",
+          "close": 206.2,
+          "open": 216.0,
+          "high": 218.8,
+          "low": 204.8,
+          "volume": 16121813,
+          "volumeM": "16.12M"
+        },
+        {
+          "date": "2026-05-28",
+          "dateShort": "05/28",
+          "close": 209.8,
+          "open": 206.2,
+          "high": 211.0,
+          "low": 200.2,
+          "volume": 16596472,
+          "volumeM": "16.6M"
+        }
+      ],
+      "fiveDayPct": 1.75,
       "high5": null,
       "low5": null,
       "avgVolume": null,
