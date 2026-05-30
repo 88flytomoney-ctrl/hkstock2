@@ -175,6 +175,366 @@
       "has_ai": true,
       "recommendation": "賣出"
     },
+    "00700": {
+      "name": "騰訊控股",
+      "symbol": "0700.HK",
+      "combined_data": [
+        {
+          "date": "2026-05-15",
+          "dateShort": "05/15",
+          "close": 456.4,
+          "open": 459.0,
+          "high": 462.6,
+          "low": 454.2,
+          "volume": 26449868,
+          "volumeM": "26.45M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-18",
+          "dateShort": "05/18",
+          "close": 449.2,
+          "open": 455.0,
+          "high": 457.8,
+          "low": 445.8,
+          "volume": 29497076,
+          "volumeM": "29.5M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-19",
+          "dateShort": "05/19",
+          "close": 460.0,
+          "open": 449.2,
+          "high": 468.8,
+          "low": 448.6,
+          "volume": 33736701,
+          "volumeM": "33.74M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-20",
+          "dateShort": "05/20",
+          "close": 455.2,
+          "open": 460.0,
+          "high": 463.4,
+          "low": 453.6,
+          "volume": 18927606,
+          "volumeM": "18.93M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-21",
+          "dateShort": "05/21",
+          "close": 439.0,
+          "open": 460.0,
+          "high": 460.0,
+          "low": 438.4,
+          "volume": 39653795,
+          "volumeM": "39.65M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-22",
+          "dateShort": "05/22",
+          "close": 441.4,
+          "open": 442.2,
+          "high": 445.0,
+          "low": 438.8,
+          "volume": 23998219,
+          "volumeM": "24.0M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-26",
+          "dateShort": "05/26",
+          "close": 439.0,
+          "open": 438.0,
+          "high": 441.0,
+          "low": 432.0,
+          "volume": 32795639,
+          "volumeM": "32.8M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-27",
+          "dateShort": "05/27",
+          "close": 434.4,
+          "open": 435.8,
+          "high": 442.6,
+          "low": 433.6,
+          "volume": 24863984,
+          "volumeM": "24.86M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-28",
+          "dateShort": "05/28",
+          "close": 425.0,
+          "open": 431.0,
+          "high": 432.8,
+          "low": 420.4,
+          "volume": 42196103,
+          "volumeM": "42.2M",
+          "is_predicted": false
+        },
+        {
+          "code": "00700",
+          "name": "騰訊控股",
+          "date": "2026-05-29",
+          "dateShort": "05/29",
+          "open": 428.2,
+          "close": 438.4,
+          "high": 423.6,
+          "low": 429.8,
+          "volume": 32008475,
+          "volumeM": "32.01M",
+          "is_predicted": false
+        }
+      ],
+      "has_ai": false,
+      "recommendation": "持有"
+    },
+    "00981": {
+      "name": "中芯國際",
+      "symbol": "0981.HK",
+      "combined_data": [
+        {
+          "date": "2026-05-15",
+          "dateShort": "05/15",
+          "close": 71.15,
+          "open": 73.9,
+          "high": 76.65,
+          "low": 70.75,
+          "volume": 156841011,
+          "volumeM": "156.84M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-18",
+          "dateShort": "05/18",
+          "close": 68.7,
+          "open": 70.55,
+          "high": 72.65,
+          "low": 67.6,
+          "volume": 118961756,
+          "volumeM": "118.96M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-19",
+          "dateShort": "05/19",
+          "close": 68.5,
+          "open": 67.95,
+          "high": 69.4,
+          "low": 65.2,
+          "volume": 119791532,
+          "volumeM": "119.79M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-20",
+          "dateShort": "05/20",
+          "close": 75.15,
+          "open": 68.05,
+          "high": 77.45,
+          "low": 67.6,
+          "volume": 258516139,
+          "volumeM": "258.52M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-21",
+          "dateShort": "05/21",
+          "close": 74.2,
+          "open": 78.0,
+          "high": 79.4,
+          "low": 73.5,
+          "volume": 179007685,
+          "volumeM": "179.01M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-22",
+          "dateShort": "05/22",
+          "close": 79.85,
+          "open": 76.85,
+          "high": 80.1,
+          "low": 73.6,
+          "volume": 212610930,
+          "volumeM": "212.61M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-26",
+          "dateShort": "05/26",
+          "close": 84.4,
+          "open": 91.8,
+          "high": 93.0,
+          "low": 84.1,
+          "volume": 371835947,
+          "volumeM": "371.84M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-27",
+          "dateShort": "05/27",
+          "close": 85.2,
+          "open": 86.0,
+          "high": 89.45,
+          "low": 83.15,
+          "volume": 192709679,
+          "volumeM": "192.71M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-28",
+          "dateShort": "05/28",
+          "close": 88.25,
+          "open": 84.95,
+          "high": 92.5,
+          "low": 84.3,
+          "volume": 264369889,
+          "volumeM": "264.37M",
+          "is_predicted": false
+        },
+        {
+          "code": "00981",
+          "name": "中芯國際",
+          "date": "2026-05-29",
+          "dateShort": "05/29",
+          "open": 88.5,
+          "close": 89.65,
+          "high": 80.8,
+          "low": 81.35,
+          "volume": 212913089,
+          "volumeM": "212.91M",
+          "is_predicted": false
+        }
+      ],
+      "has_ai": false,
+      "recommendation": "持有"
+    },
+    "00992": {
+      "name": "聯想集團",
+      "symbol": "0992.HK",
+      "combined_data": [
+        {
+          "date": "2026-05-15",
+          "dateShort": "05/15",
+          "close": 12.42,
+          "open": 13.38,
+          "high": 13.51,
+          "low": 12.33,
+          "volume": 143730968,
+          "volumeM": "143.73M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-18",
+          "dateShort": "05/18",
+          "close": 12.63,
+          "open": 12.31,
+          "high": 12.67,
+          "low": 12.2,
+          "volume": 88579923,
+          "volumeM": "88.58M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-19",
+          "dateShort": "05/19",
+          "close": 12.71,
+          "open": 12.76,
+          "high": 13.05,
+          "low": 12.51,
+          "volume": 89800397,
+          "volumeM": "89.8M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-20",
+          "dateShort": "05/20",
+          "close": 13.2,
+          "open": 12.78,
+          "high": 13.21,
+          "low": 12.67,
+          "volume": 122856668,
+          "volumeM": "122.86M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-21",
+          "dateShort": "05/21",
+          "close": 13.15,
+          "open": 13.3,
+          "high": 13.78,
+          "low": 13.09,
+          "volume": 171995590,
+          "volumeM": "172.0M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-22",
+          "dateShort": "05/22",
+          "close": 15.75,
+          "open": 13.79,
+          "high": 15.82,
+          "low": 13.79,
+          "volume": 549616546,
+          "volumeM": "549.62M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-26",
+          "dateShort": "05/26",
+          "close": 18.19,
+          "open": 15.92,
+          "high": 18.76,
+          "low": 15.9,
+          "volume": 547530151,
+          "volumeM": "547.53M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-27",
+          "dateShort": "05/27",
+          "close": 19.0,
+          "open": 19.11,
+          "high": 19.73,
+          "low": 18.56,
+          "volume": 358850276,
+          "volumeM": "358.85M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-28",
+          "dateShort": "05/28",
+          "close": 19.68,
+          "open": 19.0,
+          "high": 19.78,
+          "low": 18.75,
+          "volume": 214889217,
+          "volumeM": "214.89M",
+          "is_predicted": false
+        },
+        {
+          "code": "00992",
+          "name": "聯想集團",
+          "date": "2026-05-29",
+          "dateShort": "05/29",
+          "open": 22.62,
+          "close": 25.7,
+          "high": 22.62,
+          "low": 23.98,
+          "volume": 644765899,
+          "volumeM": "644.77M",
+          "is_predicted": false
+        }
+      ],
+      "has_ai": false,
+      "recommendation": "持有"
+    },
     "09988": {
       "name": "阿里巴巴－Ｗ",
       "symbol": "9988.HK",
@@ -874,6 +1234,126 @@
       ],
       "has_ai": true,
       "recommendation": "買入"
+    },
+    "00939": {
+      "name": "建設銀行",
+      "symbol": "0939.HK",
+      "combined_data": [
+        {
+          "date": "2026-05-15",
+          "dateShort": "05/15",
+          "close": 8.78,
+          "open": 8.85,
+          "high": 8.86,
+          "low": 8.73,
+          "volume": 185720056,
+          "volumeM": "185.72M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-18",
+          "dateShort": "05/18",
+          "close": 8.76,
+          "open": 8.74,
+          "high": 8.8,
+          "low": 8.72,
+          "volume": 107296258,
+          "volumeM": "107.3M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-19",
+          "dateShort": "05/19",
+          "close": 8.85,
+          "open": 8.76,
+          "high": 8.88,
+          "low": 8.74,
+          "volume": 192339775,
+          "volumeM": "192.34M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-20",
+          "dateShort": "05/20",
+          "close": 8.73,
+          "open": 8.83,
+          "high": 8.84,
+          "low": 8.72,
+          "volume": 176292806,
+          "volumeM": "176.29M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-21",
+          "dateShort": "05/21",
+          "close": 8.69,
+          "open": 8.73,
+          "high": 8.77,
+          "low": 8.69,
+          "volume": 187929592,
+          "volumeM": "187.93M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-22",
+          "dateShort": "05/22",
+          "close": 8.77,
+          "open": 8.69,
+          "high": 8.83,
+          "low": 8.66,
+          "volume": 196195555,
+          "volumeM": "196.2M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-26",
+          "dateShort": "05/26",
+          "close": 8.73,
+          "open": 8.77,
+          "high": 8.84,
+          "low": 8.67,
+          "volume": 253253893,
+          "volumeM": "253.25M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-27",
+          "dateShort": "05/27",
+          "close": 8.58,
+          "open": 8.73,
+          "high": 8.77,
+          "low": 8.55,
+          "volume": 246730455,
+          "volumeM": "246.73M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-05-28",
+          "dateShort": "05/28",
+          "close": 8.48,
+          "open": 8.55,
+          "high": 8.58,
+          "low": 8.4,
+          "volume": 319921929,
+          "volumeM": "319.92M",
+          "is_predicted": false
+        },
+        {
+          "code": "00939",
+          "name": "建設銀行",
+          "date": "2026-05-29",
+          "dateShort": "05/29",
+          "open": 8.45,
+          "close": 8.53,
+          "high": 8.42,
+          "low": 8.52,
+          "volume": 356283186,
+          "volumeM": "356.28M",
+          "is_predicted": false
+        }
+      ],
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "01347": {
       "name": "華虹半導體",
@@ -2623,6 +3103,27 @@
         }
       ],
       "has_ai": true,
+      "recommendation": "持有"
+    },
+    "00100": {
+      "name": "MINIMAX-W",
+      "symbol": "0100.HK",
+      "combined_data": [
+        {
+          "code": "00100",
+          "name": "MINIMAX-W",
+          "date": "2026-05-29",
+          "dateShort": "05/29",
+          "open": 859.5,
+          "close": 918.0,
+          "high": 805.0,
+          "low": 831.0,
+          "volume": 5328516,
+          "volumeM": "5.33M",
+          "is_predicted": false
+        }
+      ],
+      "has_ai": false,
       "recommendation": "持有"
     }
   },

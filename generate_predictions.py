@@ -85,8 +85,8 @@ def fetch_yahoo_prices(codes, name_mapping):
     # Yahoo Finance historical data — 10 days of historical OHLCV
     results = []
     for code in codes:
-        # Strip leading zeros for Yahoo Finance symbol (e.g. 02800.HK → 2800.HK)
-        yahoo_code = code.lstrip('0') or '0'
+        # Yahoo Finance HK symbol: keep last 4 digits (e.g. 00700 → 0700.HK, 02800 → 2800.HK)
+        yahoo_code = code[-4:]  # Take last 4 chars
         symbol = f"{yahoo_code}.HK"
         name = name_mapping.get(code, symbol)
         try:
