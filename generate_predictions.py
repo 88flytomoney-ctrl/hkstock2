@@ -93,7 +93,10 @@ def fetch_yahoo_prices(codes, name_mapping):
             print(f"📊 Fetching Yahoo Finance history for {symbol}...")
             ticker = yf.Ticker(symbol)
             hist = ticker.history(period="15d") # Fetch slightly more to ensure 10 clean days
-            if hist.empty: continue
+            if hist.empty:
+                # No Yahoo history, but still record the stock (Sina may have data)
+                results.append({"code": code, "name": name, "symbol": symbol, "prices": []})
+                continue
 
             # Format rows matching the frontend properties
             rows = []
@@ -156,9 +159,15 @@ def fetch_sina_realtime(codes, name_mapping):
             continue
         try:
             today_open = float(fields[2])
-            today_close = float(fields[4])   # latest / current price
-            today_high = float(fields[5])
-            today_low = float(fields[6])
+            today_current = float(fields[4])   # latest / current price (may = high during trading)
+            sina_low = float(fields[5])         # Sina HK: field 5 = low (field 6 = high, swapped!)
+            sina_high = float(fields[6])
+            # Fix swapped high/low for HK stocks
+            today_low = min(sina_low, sina_high)
+            today_high = max(sina_low, sina_high)
+            # Sina's "current" is the latest traded price, capped at high
+            # If current > high (shouldn't happen after swap), clamp it
+            today_close = min(today_current, today_high)
             volume = int(fields[12]) if fields[12].isdigit() else 0
             date_str = fields[17].replace("/", "-")  # 2026/05/29 → 2026-05-29
             name = name_mapping.get(code, fields[1] or code)
@@ -333,20 +342,15 @@ def main():
         history = stock["prices"]  # 10 elements of actual daily data
 
         # Step 3: Overlay Sina real-time row on top of yahoo history
-        # (replaces the last day's close with Sina's real-time quote if available)
+        # Only use Sina for the name (more readable Chinese name)
+        # Sina's "current price" is the latest trade, NOT the official close
+        # so we do NOT overwrite Yahoo's closing price with it
         if code in sina_today:
-            sina_row = sina_today[code]
-            # Check if sina date differs from last yahoo row date -> append
-            if history and history[-1]["date"] == sina_row["date"]:
-                # Same date: replace last historical row with sina real-time data
-                history[-1] = {**sina_row}  # copy all sina fields
-                print(f"  ✅ {code}: replaced yahoo close with Sina real-time ({sina_row['close']})")
-            else:
-                # Different date (e.g. yahoo ends yesterday, sina has today): append
-                history.append({**sina_row})
-                print(f"  ✅ {code}: appended Sina real-time row ({sina_row['date']} close={sina_row['close']})")
             # Use Sina's Chinese name if available (more readable)
-            name = sina_row["name"]
+            sina_name = sina_today[code].get("name", "")
+            if sina_name and sina_name != stock["symbol"]:
+                name = sina_name
+            print(f"  ℹ️  {code}: using Yahoo close={history[-1]['close'] if history else 'N/A'} (Sina name={name})")
 
         # Explicitly tag the newly fetched history as ACTUAL data
         for row in history:
