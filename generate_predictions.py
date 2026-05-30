@@ -100,13 +100,20 @@ def fetch_tushare_prices(codes, name_mapping):
             hist = hist.tail(10) # Grab the final 10 days of real history
             for timestamp, row in hist.iterrows():
                 vol = int(row["Volume"])
+                close_val = round(float(row["Close"]), 2)
+                open_val  = round(float(row["Open"]), 2)
+                high_val  = round(float(row["High"]), 2)
+                low_val   = round(float(row["Low"]), 2)
+                # ⚠️ Skip rows with NaN — market holiday / weekend returns invalid data
+                if any(pd.isna(v) for v in [close_val, open_val, high_val, low_val]):
+                    continue
                 rows.append({
                     "date":      timestamp.strftime("%Y-%m-%d"),
                     "dateShort": timestamp.strftime("%m/%d"),
-                    "close":     round(float(row["Close"]), 2),
-                    "open":      round(float(row["Open"]), 2),
-                    "high":      round(float(row["High"]), 2),
-                    "low":       round(float(row["Low"]), 2),
+                    "close":     close_val,
+                    "open":      open_val,
+                    "high":      high_val,
+                    "low":       low_val,
                     "volume":    vol,
                     "volumeM":   f"{round(vol / 1e6, 2)}M",
                     "is_predicted": False # Real transactions are tagged False
