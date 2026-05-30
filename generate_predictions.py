@@ -23,7 +23,7 @@ from openai import OpenAI
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 OUTPUT_FILE = Path("public/data/predictions.json")
 AI_MODEL_ID = "openrouter/owl-alpha"
-LIMIT = 10
+LIMIT = 20
 
 def get_openrouter_client():
     return OpenAI(
@@ -81,8 +81,8 @@ def fetch_etnet_codes():
             codes.append(code.zfill(5))
     return codes[:LIMIT]
 
-def fetch_tushare_prices(codes, name_mapping):
-    # Using Yahoo Finance fallback if no Tushare token is provided
+def fetch_yahoo_prices(codes, name_mapping):
+    # Yahoo Finance historical data — 10 days of historical OHLCV
     results = []
     for code in codes:
         # Strip leading zeros for Yahoo Finance symbol (e.g. 02800.HK → 2800.HK)
@@ -90,11 +90,11 @@ def fetch_tushare_prices(codes, name_mapping):
         symbol = f"{yahoo_code}.HK"
         name = name_mapping.get(code, symbol)
         try:
-            print(f"📊 Fetching Yahoo Finance data for {symbol}...")
+            print(f"📊 Fetching Yahoo Finance history for {symbol}...")
             ticker = yf.Ticker(symbol)
             hist = ticker.history(period="15d") # Fetch slightly more to ensure 10 clean days
             if hist.empty: continue
-            
+
             # Format rows matching the frontend properties
             rows = []
             hist = hist.tail(10) # Grab the final 10 days of real history
@@ -116,12 +116,74 @@ def fetch_tushare_prices(codes, name_mapping):
                     "low":       low_val,
                     "volume":    vol,
                     "volumeM":   f"{round(vol / 1e6, 2)}M",
-                    "is_predicted": False # Real transactions are tagged False
+                    "is_predicted": False
                 })
             results.append({"code": code, "name": name, "symbol": symbol, "prices": rows})
         except Exception as e:
             print(f"❌ Yahoo Finance fetch failed for {symbol}: {e}")
     return results
+
+
+def fetch_sina_realtime(codes, name_mapping):
+    """Real-time HK stock prices from Sina Finance API (free, no rate limit).
+    Returns only today's quote row to overlay on the yahoo history."""
+    if not codes:
+        return {}
+    # Build batch query: hk<5-digit-code>
+    codes_5 = [c.zfill(5) for c in codes]
+    sina_codes = ",".join(f"hk{c}" for c in codes_5)
+    url = f"https://hq.sinajs.cn/list={sina_codes}"
+    print("📡 Fetching Sina Finance real-time quotes...")
+    try:
+        resp = requests.get(url, headers={
+            "Referer": "https://finance.sina.com.cn",
+            "User-Agent": "Mozilla/5.0"
+        }, timeout=15)
+        resp.encoding = "gbk"
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"⚠️ Sina request failed: {e}")
+        return {}
+
+    result_map = {}
+    for code in codes:
+        code_5 = code.zfill(5)
+        match = re.search(rf'hq_str_hk{code_5}="([^"]+)"', resp.text)
+        if not match:
+            continue
+        fields = match.group(1).split(",")
+        if len(fields) < 19:
+            continue
+        try:
+            today_open = float(fields[2])
+            today_close = float(fields[4])   # latest / current price
+            today_high = float(fields[5])
+            today_low = float(fields[6])
+            volume = int(fields[12]) if fields[12].isdigit() else 0
+            date_str = fields[17].replace("/", "-")  # 2026/05/29 → 2026-05-29
+            name = name_mapping.get(code, fields[1] or code)
+            # Skip rows with zero prices (market closed / no trade today)
+            if today_close == 0:
+                continue
+            result_map[code] = {
+                "code": code,
+                "name": name,
+                "date": date_str,
+                "dateShort": datetime.strptime(date_str, "%Y-%m-%d").strftime("%m/%d"),
+                "open": today_open,
+                "close": today_close,
+                "high": today_high,
+                "low": today_low,
+                "volume": volume,
+                "volumeM": f"{round(volume / 1e6, 2)}M",
+                "is_predicted": False,
+            }
+        except (ValueError, IndexError) as e:
+            print(f"  ⚠️ Sina parse failed for {code}: {e}")
+            continue
+
+    print(f"  → Got {len(result_map)} real-time quotes from Sina")
+    return result_map
 
 def fetch_global_indices():
     """Fetches real-time HK index data using yfinance"""
@@ -252,7 +314,12 @@ def main():
         sys.exit(1)
         
     name_mapping = build_name_mapping()
-    stocks_data = fetch_tushare_prices(codes, name_mapping)
+    
+    # Step 1: Get Sina real-time today's data
+    sina_today = fetch_sina_realtime(codes, name_mapping)
+    
+    # Step 2: Get Yahoo Finance historical data (10 days)
+    stocks_data = fetch_yahoo_prices(codes, name_mapping)
     if not stocks_data:
         print("❌ Scraper failed to fetch pricing rows.")
         sys.exit(1)
@@ -264,6 +331,22 @@ def main():
         code    = stock["code"]
         name    = stock["name"]
         history = stock["prices"]  # 10 elements of actual daily data
+
+        # Step 3: Overlay Sina real-time row on top of yahoo history
+        # (replaces the last day's close with Sina's real-time quote if available)
+        if code in sina_today:
+            sina_row = sina_today[code]
+            # Check if sina date differs from last yahoo row date -> append
+            if history and history[-1]["date"] == sina_row["date"]:
+                # Same date: replace last historical row with sina real-time data
+                history[-1] = {**sina_row}  # copy all sina fields
+                print(f"  ✅ {code}: replaced yahoo close with Sina real-time ({sina_row['close']})")
+            else:
+                # Different date (e.g. yahoo ends yesterday, sina has today): append
+                history.append({**sina_row})
+                print(f"  ✅ {code}: appended Sina real-time row ({sina_row['date']} close={sina_row['close']})")
+            # Use Sina's Chinese name if available (more readable)
+            name = sina_row["name"]
 
         # Explicitly tag the newly fetched history as ACTUAL data
         for row in history:
