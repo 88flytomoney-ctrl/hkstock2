@@ -102,10 +102,65 @@
           "volume": 755064962,
           "volumeM": "755.06M",
           "is_predicted": false
+        },
+        {
+          "date": "2026-05-29",
+          "dateShort": "🔮 05/29",
+          "open": 25.38,
+          "high": 25.42,
+          "low": 24.9,
+          "close": 25.18,
+          "volume": 720450000,
+          "volumeM": "720.5M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-01",
+          "dateShort": "🔮 06/01",
+          "open": 25.3,
+          "high": 25.36,
+          "low": 24.82,
+          "close": 25.1,
+          "volume": 695200000,
+          "volumeM": "695.2M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-02",
+          "dateShort": "🔮 06/02",
+          "open": 25.24,
+          "high": 25.3,
+          "low": 24.76,
+          "close": 25.04,
+          "volume": 672800000,
+          "volumeM": "672.8M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-03",
+          "dateShort": "🔮 06/03",
+          "open": 25.18,
+          "high": 25.24,
+          "low": 24.7,
+          "close": 24.98,
+          "volume": 653100000,
+          "volumeM": "653.1M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-04",
+          "dateShort": "🔮 06/04",
+          "open": 25.12,
+          "high": 25.18,
+          "low": 24.64,
+          "close": 24.92,
+          "volume": 636500000,
+          "volumeM": "636.5M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "09988": {
       "name": "阿里巴巴－Ｗ",
@@ -220,10 +275,65 @@
           "volume": 106781469,
           "volumeM": "106.78M",
           "is_predicted": false
+        },
+        {
+          "date": "2026-06-01",
+          "dateShort": "🔮 06/01",
+          "open": 122.8,
+          "high": 123.5,
+          "low": 119.8,
+          "close": 120.2,
+          "volume": 102500000,
+          "volumeM": "102.5M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-02",
+          "dateShort": "🔮 06/02",
+          "open": 122.1,
+          "high": 122.8,
+          "low": 119.2,
+          "close": 119.6,
+          "volume": 98700000,
+          "volumeM": "98.7M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-03",
+          "dateShort": "🔮 06/03",
+          "open": 121.5,
+          "high": 122.2,
+          "low": 118.5,
+          "close": 119.0,
+          "volume": 95200000,
+          "volumeM": "95.2M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-04",
+          "dateShort": "🔮 06/04",
+          "open": 120.9,
+          "high": 121.6,
+          "low": 117.9,
+          "close": 118.4,
+          "volume": 91800000,
+          "volumeM": "91.8M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-05",
+          "dateShort": "🔮 06/05",
+          "open": 120.3,
+          "high": 121.0,
+          "low": 117.3,
+          "close": 117.8,
+          "volume": 88500000,
+          "volumeM": "88.5M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "03033": {
       "name": "南方恒生科技",
@@ -327,10 +437,65 @@
           "volume": 2016214041,
           "volumeM": "2016.21M",
           "is_predicted": false
+        },
+        {
+          "date": "2026-05-29",
+          "dateShort": "🔮 05/29",
+          "open": 4.84,
+          "high": 4.89,
+          "low": 4.76,
+          "close": 4.82,
+          "volume": 2410350000,
+          "volumeM": "2410.3M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-01",
+          "dateShort": "🔮 06/01",
+          "open": 4.87,
+          "high": 4.92,
+          "low": 4.79,
+          "close": 4.85,
+          "volume": 2680420000,
+          "volumeM": "2680.4M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-02",
+          "dateShort": "🔮 06/02",
+          "open": 4.81,
+          "high": 4.86,
+          "low": 4.74,
+          "close": 4.8,
+          "volume": 2250180000,
+          "volumeM": "2250.2M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-03",
+          "dateShort": "🔮 06/03",
+          "open": 4.85,
+          "high": 4.9,
+          "low": 4.77,
+          "close": 4.83,
+          "volume": 2590730000,
+          "volumeM": "2590.7M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-04",
+          "dateShort": "🔮 06/04",
+          "open": 4.89,
+          "high": 4.94,
+          "low": 4.81,
+          "close": 4.87,
+          "volume": 2850560000,
+          "volumeM": "2850.6M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "02828": {
       "name": "恒生中國企業",
@@ -434,10 +599,65 @@
           "volume": 131608354,
           "volumeM": "131.61M",
           "is_predicted": false
+        },
+        {
+          "date": "2026-05-29",
+          "dateShort": "🔮 05/29",
+          "open": 87.1,
+          "high": 87.2,
+          "low": 85.1,
+          "close": 86.0,
+          "volume": 138500000,
+          "volumeM": "138.5M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-01",
+          "dateShort": "🔮 06/01",
+          "open": 87.3,
+          "high": 87.5,
+          "low": 85.4,
+          "close": 86.3,
+          "volume": 142200000,
+          "volumeM": "142.2M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-02",
+          "dateShort": "🔮 06/02",
+          "open": 87.5,
+          "high": 87.8,
+          "low": 85.7,
+          "close": 86.6,
+          "volume": 145900000,
+          "volumeM": "145.9M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-03",
+          "dateShort": "🔮 06/03",
+          "open": 87.7,
+          "high": 88.1,
+          "low": 86.0,
+          "close": 86.9,
+          "volume": 149600000,
+          "volumeM": "149.6M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-04",
+          "dateShort": "🔮 06/04",
+          "open": 87.9,
+          "high": 88.4,
+          "low": 86.3,
+          "close": 87.2,
+          "volume": 153300000,
+          "volumeM": "153.3M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "09992": {
       "name": "泡泡瑪特",
@@ -552,10 +772,65 @@
           "volume": 60530111,
           "volumeM": "60.53M",
           "is_predicted": false
+        },
+        {
+          "date": "2026-06-01",
+          "dateShort": "🔮 06/01",
+          "open": 163.5,
+          "high": 183.2,
+          "low": 162.8,
+          "close": 175.1,
+          "volume": 62800000,
+          "volumeM": "62.8M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-02",
+          "dateShort": "🔮 06/02",
+          "open": 165.2,
+          "high": 185.5,
+          "low": 164.1,
+          "close": 176.9,
+          "volume": 65099999,
+          "volumeM": "65.1M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-03",
+          "dateShort": "🔮 06/03",
+          "open": 167.0,
+          "high": 187.8,
+          "low": 165.5,
+          "close": 178.6,
+          "volume": 67400000,
+          "volumeM": "67.4M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-04",
+          "dateShort": "🔮 06/04",
+          "open": 168.8,
+          "high": 190.1,
+          "low": 166.9,
+          "close": 180.3,
+          "volume": 69700000,
+          "volumeM": "69.7M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-05",
+          "dateShort": "🔮 06/05",
+          "open": 170.6,
+          "high": 192.4,
+          "low": 168.3,
+          "close": 182.0,
+          "volume": 72000000,
+          "volumeM": "72.0M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "01347": {
       "name": "華虹半導體",
@@ -670,10 +945,65 @@
           "volume": 53836256,
           "volumeM": "53.84M",
           "is_predicted": false
+        },
+        {
+          "date": "2026-06-01",
+          "dateShort": "🔮 06/01",
+          "open": 172.5,
+          "high": 180.3,
+          "low": 162.4,
+          "close": 165.8,
+          "volume": 58200000,
+          "volumeM": "58.2M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-02",
+          "dateShort": "🔮 06/02",
+          "open": 175.8,
+          "high": 184.6,
+          "low": 166.1,
+          "close": 169.5,
+          "volume": 62450000,
+          "volumeM": "62.5M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-03",
+          "dateShort": "🔮 06/03",
+          "open": 178.2,
+          "high": 188.9,
+          "low": 169.7,
+          "close": 173.2,
+          "volume": 66800000,
+          "volumeM": "66.8M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-04",
+          "dateShort": "🔮 06/04",
+          "open": 181.5,
+          "high": 193.1,
+          "low": 173.4,
+          "close": 176.9,
+          "volume": 71150000,
+          "volumeM": "71.2M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-06-05",
+          "dateShort": "🔮 06/05",
+          "open": 184.9,
+          "high": 197.4,
+          "low": 177.0,
+          "close": 180.6,
+          "volume": 75500000,
+          "volumeM": "75.5M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     }
   },
   "indices": {
