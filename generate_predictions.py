@@ -85,7 +85,9 @@ def fetch_tushare_prices(codes, name_mapping):
     # Using Yahoo Finance fallback if no Tushare token is provided
     results = []
     for code in codes:
-        symbol = f"{code}.HK"
+        # Strip leading zeros for Yahoo Finance symbol (e.g. 02800.HK → 2800.HK)
+        yahoo_code = code.lstrip('0') or '0'
+        symbol = f"{yahoo_code}.HK"
         name = name_mapping.get(code, symbol)
         try:
             print(f"📊 Fetching Yahoo Finance data for {symbol}...")
