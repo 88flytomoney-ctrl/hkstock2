@@ -8,7 +8,7 @@ on:
     - cron: '0 9 * * 1-5'
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   pipeline:
