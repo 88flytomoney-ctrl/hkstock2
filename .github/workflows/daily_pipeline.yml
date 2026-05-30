@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Python deps
         run: |
-          pip install requests pandas tushare openpyxl openai -q
+          pip install requests pandas tushare openpyxl openai yfinance -q
 
       - name: Scrape ETNet + Fetch prices
         env:
@@ -43,12 +43,9 @@ jobs:
         run: |
           python -c "
           import json
-          with open('public/data/stocks.json') as f:
-              s = json.load(f)
-          print(f'Stocks: {s[\"stockCount\"]} | Generated: {s[\"generatedAt\"]}')
           with open('public/data/predictions.json') as f:
               p = json.load(f)
-          stocks_db = p.get('stocks', p)   # new structure has stocks{} wrapper, fallback to old
+          stocks_db = p.get('stocks', {})
           indices_db = p.get('indices', {})
           ai_count = sum(1 for v in stocks_db.values() if v.get('has_ai'))
           print(f'Predictions: {len(stocks_db)} stocks | With AI: {ai_count}')
@@ -64,7 +61,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add public/data/stocks.json public/data/predictions.json public/data/history/
+          git add public/data/predictions.json public/data/history/
           git diff --staged --quiet && echo "No data changes" || \
             git commit -m "🤖 Auto-update data + AI predictions $(date +%Y-%m-%d\ %H:%M)" && \
             git pull --ff-only || echo "Force pushing..." && \

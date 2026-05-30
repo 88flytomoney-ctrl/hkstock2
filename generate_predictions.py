@@ -114,6 +114,34 @@ def fetch_tushare_prices(codes, name_mapping):
             print(f"❌ Yahoo Finance fetch failed for {symbol}: {e}")
     return results
 
+def fetch_global_indices():
+    """Fetches real-time HK index data using yfinance"""
+    indices = {
+        "^HSI": {"name": "恒生指數", "key": "hsi"},
+        "^HSCE": {"name": "國企指數", "key": "hsce"},
+        "^HSTECH": {"name": "恒生科技指數", "key": "hstech"}
+    }
+    results = {}
+    for ticker, info in indices.items():
+        try:
+            obj = yf.Ticker(ticker)
+            hist = obj.history(period="2d")
+            if not hist.empty and len(hist) >= 2:
+                close_today = round(float(hist["Close"].iloc[-1]), 2)
+                close_yesterday = round(float(hist["Close"].iloc[-2]), 2)
+                change = round(close_today - close_yesterday, 2)
+                pct = round((change / close_yesterday) * 100, 2)
+                results[info["key"]] = {
+                    "name": info["name"],
+                    "value": close_today,
+                    "change": change,
+                    "pct": pct,
+                    "isPositive": change >= 0
+                }
+        except Exception as e:
+            print(f"⚠️ Failed to fetch index {ticker}: {e}")
+    return results
+
 def call_openrouter_vector_engine(history_rows, stock_code):
     if not OPENROUTER_API_KEY:
         print("⚠️ OPENROUTER_API_KEY is not defined.")
@@ -220,6 +248,8 @@ def main():
         print("❌ Scraper failed to fetch pricing rows.")
         sys.exit(1)
 
+    indices = fetch_global_indices()
+
     final_predictions_db = {}
     for stock in stocks_data:
         code    = stock["code"]
@@ -270,7 +300,7 @@ def main():
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         # Wrap database cleanly for the frontend loader
-        json.dump({"stocks": final_predictions_db}, f, ensure_ascii=False, indent=2)
+        json.dump({"stocks": final_predictions_db, "indices": indices}, f, ensure_ascii=False, indent=2)
     print(f"✅ Telemetry database merged cleanly with past projections → {OUTPUT_FILE}")
 
 if __name__ == "__main__":

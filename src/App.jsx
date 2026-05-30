@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import StockCard from './components/StockCard.jsx';
 
-const DATA_URL     = '/hkstock2/data/stocks.json';
 const PREDICT_URL  = '/hkstock2/data/predictions.json';
 const MANIFEST_URL = '/hkstock2/data/history/manifest.json';
 
@@ -13,6 +12,35 @@ function toHKTime(utcStr) {
   } catch {
     return utcStr;
   }
+}
+
+// ── Transform predictions.json structure into {stocks[], stockCount} ──────────
+function transformPredictions(predData) {
+  const stocksMap = predData.stocks || {};
+  const stocksList = [];
+  for (const code of Object.keys(stocksMap)) {
+    const s = stocksMap[code];
+    const combined = s.combined_data || [];
+    const actuals = combined.filter(r => !r.is_predicted);
+    // Compute 5-day change
+    let fiveDayPct = 0;
+    if (actuals.length >= 2) {
+      fiveDayPct = ((actuals[actuals.length - 1].close - actuals[0].close) / actuals[0].close) * 100;
+    }
+    stocksList.push({
+      code,
+      name: s.name,
+      symbol: s.symbol,
+      prices: actuals,
+      fiveDayPct,
+      analysis: {}, // stock_analysis style data no longer generated
+    });
+  }
+  return {
+    stocks: stocksList,
+    stockCount: stocksList.length,
+    generatedAt: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Hong_Kong' }),
+  };
 }
 
 // ── Style helper for recommendation badges ────────────────────────────────────
@@ -32,24 +60,18 @@ function App() {
   const [historyDates, setHistoryDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
 
-  // ── Load main stock data ──────────────────────────────────────────────────
+  // ── Load data + AI predictions ───────────────────────────────────────────
   useEffect(() => {
-    fetch(DATA_URL)
+    fetch(PREDICT_URL)
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-      .then(d => {
-        setData(d);
-        setLastUpdated(toHKTime(d.generatedAt || d.generatedDate) || '');
+      .then(p => {
+        setPredictionsDB(p);
+        const stockData = transformPredictions(p);
+        setData(stockData);
+        setLastUpdated(toHKTime(stockData.generatedAt));
         setLoading(false);
       })
       .catch(e => { setError(e.message); setLoading(false); });
-  }, []);
-
-  // ── Load AI predictions (new structure: {stocks: {...}, indices: {...}}) ──
-  useEffect(() => {
-    fetch(PREDICT_URL)
-      .then(r => r.ok ? r.json() : {})
-      .then(p => setPredictionsDB(p))
-      .catch(() => setPredictionsDB({}));
   }, []);
 
   // ── Load history dates ───────────────────────────────────────────────────
@@ -63,11 +85,13 @@ function App() {
   // ── Load selected history date ────────────────────────────────────────────
   useEffect(() => {
     if (!selectedDate) {
-      fetch(DATA_URL)
+      fetch(PREDICT_URL)
         .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-        .then(d => {
-          setData(d);
-          setLastUpdated(toHKTime(d.generatedAt || d.generatedDate) || '');
+        .then(p => {
+          setPredictionsDB(p);
+          const stockData = transformPredictions(p);
+          setData(stockData);
+          setLastUpdated(toHKTime(stockData.generatedAt));
           setError(null);
           setLoadingHistory(false);
         })
@@ -78,8 +102,10 @@ function App() {
     fetch(`/hkstock2/data/history/${selectedDate}.json`)
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then(d => {
-        setData(d);
-        setLastUpdated(toHKTime(d.generatedAt || d.generatedDate) || '');
+        setPredictionsDB(d);
+        const stockData = transformPredictions(d);
+        setData(stockData);
+        setLastUpdated(toHKTime(stockData.generatedAt));
         setError(null);
         setLoadingHistory(false);
       })
