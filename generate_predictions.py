@@ -402,14 +402,19 @@ def main():
     # ── Save to history ─────────────────────────────────────────────────────────
     HISTORY_DIR = Path("public/data/history")
     HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+    
+    # Include time in filename to distinguish between midday/evening runs
+    # e.g., 2026-06-01-13.json (for 13:xx run)
+    time_str = datetime.now().strftime('%H') 
     date_str = datetime.now().strftime('%Y-%m-%d')
-    history_file = HISTORY_DIR / f'{date_str}.json'
+    history_file = HISTORY_DIR / f'{date_str}-{time_str}.json'
     
     # Structure history file to match what the frontend expects (same as stocks.json)
     # But we need to preserve "generatedAt" for the frontend to display
     history_data = {
         "generatedAt": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         "generatedDate": date_str,
+        "generatedTime": f"{time_str}:00",
         "stockCount": len(final_predictions_db),
         "stocks": [
             {
@@ -428,18 +433,45 @@ def main():
 
     # Update manifest
     manifest_file = HISTORY_DIR / 'manifest.json'
-    existing_dates = []
+    existing_manifest = []
     if manifest_file.exists():
         with open(manifest_file, 'r', encoding='utf-8') as f:
             try:
-                existing_dates = json.load(f)
+                raw_data = json.load(f)
+                # Handle migration from old format (array of strings) to new format (array of objects)
+                if raw_data and isinstance(raw_data[0], str):
+                    # Old format: ["2026-05-26", ...]
+                    existing_manifest = []
+                    for d in raw_data:
+                        existing_manifest.append({
+                            "date": d,
+                            "time": "00:00", # Default time for old entries
+                            "file": f"{d}-00.json",
+                            "display": d
+                        })
+                else:
+                    existing_manifest = raw_data
             except:
-                existing_dates = []
-    if date_str not in existing_dates:
-        existing_dates.append(date_str)
-        existing_dates.sort(reverse=True)
+                existing_manifest = []
+    
+    # Add new entry
+    new_entry = {
+        "date": date_str,
+        "time": f"{time_str}:00",
+        "file": f"{date_str}-{time_str}.json",
+        "display": f"{date_str} {time_str}:00"
+    }
+    
+    # Remove old entry for same date+time if exists (overwrite), add new one
+    # Filter out entries with same date and time
+    existing_manifest = [e for e in existing_manifest if not (e['date'] == date_str and e['time'] == f"{time_str}:00")]
+    existing_manifest.append(new_entry)
+    
+    # Sort by date (desc) then time (desc)
+    existing_manifest.sort(key=lambda x: (x['date'], x['time']), reverse=True)
+    
     with open(manifest_file, 'w', encoding='utf-8') as f:
-        json.dump(existing_dates, f, ensure_ascii=False)
+        json.dump(existing_manifest, f, ensure_ascii=False)
     print(f"   ✅ Manifest updated")
 
 if __name__ == "__main__":

@@ -187,7 +187,7 @@ function App() {
           >
             <option value="">最新數據</option>
             {historyDates.length === 0 && <option value="" disabled>— 尚無歷史記錄 —</option>}
-            {historyDates.map(d => <option key={d} value={d}>{d}</option>)}
+            {historyDates.map(d => <option key={d.file} value={d.file}>{d.display}</option>)}
           </select>
         </div>
       </header>
