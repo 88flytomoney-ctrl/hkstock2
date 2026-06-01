@@ -399,5 +399,48 @@ def main():
         json.dump({"stocks": final_predictions_db, "indices": indices}, f, ensure_ascii=False, indent=2)
     print(f"✅ Telemetry database merged cleanly with past projections → {OUTPUT_FILE}")
 
+    # ── Save to history ─────────────────────────────────────────────────────────
+    HISTORY_DIR = Path("public/data/history")
+    HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+    date_str = datetime.now().strftime('%Y-%m-%d')
+    history_file = HISTORY_DIR / f'{date_str}.json'
+    
+    # Structure history file to match what the frontend expects (same as stocks.json)
+    # But we need to preserve "generatedAt" for the frontend to display
+    history_data = {
+        "generatedAt": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        "generatedDate": date_str,
+        "stockCount": len(final_predictions_db),
+        "stocks": [
+            {
+                "code": code,
+                "symbol": details["symbol"],
+                "name": details["name"],
+                "prices": [row for row in details.get("combined_data", []) if not row.get("is_predicted", False)] # Only actual prices for history
+            }
+            for code, details in final_predictions_db.items()
+        ]
+    }
+    
+    with open(history_file, "w", encoding="utf-8") as f:
+        json.dump(history_data, f, ensure_ascii=False, indent=2)
+    print(f"   ✅ History snapshot: {history_file}")
+
+    # Update manifest
+    manifest_file = HISTORY_DIR / 'manifest.json'
+    existing_dates = []
+    if manifest_file.exists():
+        with open(manifest_file, 'r', encoding='utf-8') as f:
+            try:
+                existing_dates = json.load(f)
+            except:
+                existing_dates = []
+    if date_str not in existing_dates:
+        existing_dates.append(date_str)
+        existing_dates.sort(reverse=True)
+    with open(manifest_file, 'w', encoding='utf-8') as f:
+        json.dump(existing_dates, f, ensure_ascii=False)
+    print(f"   ✅ Manifest updated")
+
 if __name__ == "__main__":
     main()
