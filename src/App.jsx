@@ -116,7 +116,7 @@ function App() {
       return;
     }
     setLoadingHistory(true);
-    fetch(`/hkstock2/data/history/${selectedDate}.json`)
+    fetch(`/hkstock2/data/history/${selectedDate}`)
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then(d => {
         setPredictionsDB(d);

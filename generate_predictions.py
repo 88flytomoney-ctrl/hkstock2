@@ -441,12 +441,13 @@ def main():
                 # Handle migration from old format (array of strings) to new format (array of objects)
                 if raw_data and isinstance(raw_data[0], str):
                     # Old format: ["2026-05-26", ...]
+                    # Old files are named like "2026-05-26.json" (no time suffix)
                     existing_manifest = []
                     for d in raw_data:
                         existing_manifest.append({
                             "date": d,
-                            "time": "00:00", # Default time for old entries
-                            "file": f"{d}-00.json",
+                            "time": "00:00",
+                            "file": f"{d}.json",
                             "display": d
                         })
                 else:
