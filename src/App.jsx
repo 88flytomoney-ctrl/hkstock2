@@ -16,7 +16,24 @@ function toHKTime(utcStr) {
 
 // ── Transform predictions.json structure into {stocks[], stockCount} ──────────
 function transformPredictions(predData) {
-  const stocksMap = predData.stocks || {};
+  // Handle both predictions.json (object) and history.json (array) formats
+  let stocksMap = {};
+  
+  if (Array.isArray(predData.stocks)) {
+    // History format: stocks is an array of { code, symbol, name, prices }
+    // prices is already the actual (non-predicted) data
+    predData.stocks.forEach(s => {
+      stocksMap[s.code] = {
+        name: s.name,
+        symbol: s.symbol,
+        combined_data: s.prices || [] // Treat prices as combined_data (all actuals)
+      };
+    });
+  } else {
+    // Predictions format: stocks is an object of { code: { combined_data } }
+    stocksMap = predData.stocks || {};
+  }
+
   const stocksList = [];
   for (const code of Object.keys(stocksMap)) {
     const s = stocksMap[code];
@@ -33,13 +50,13 @@ function transformPredictions(predData) {
       symbol: s.symbol,
       prices: actuals,
       fiveDayPct,
-      analysis: {}, // stock_analysis style data no longer generated
+      analysis: {},
     });
   }
   return {
     stocks: stocksList,
     stockCount: stocksList.length,
-    generatedAt: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Hong_Kong' }),
+    generatedAt: predData.generatedAt || new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Hong_Kong' }),
   };
 }
 
