@@ -374,7 +374,12 @@ def main():
         # Deduplicate predictions for the exact same predicted date (keep only latest run)
         unique_combined = []
         seen_keys = set()
+        # Collect actual dates first to filter out stale predictions
+        actual_dates = set(r['date'] for r in combined if not r.get('is_predicted', False))
         for row in combined:
+            # Skip AI-predicted rows that overlap with actual data dates
+            if row.get('is_predicted', False) and row['date'] in actual_dates:
+                continue
             # Create a unique composite key: date + prediction status
             key = f"{row['date']}_{row.get('is_predicted', False)}"
             if key not in seen_keys:
@@ -441,15 +446,30 @@ def main():
                 # Handle migration from old format (array of strings) to new format (array of objects)
                 if raw_data and isinstance(raw_data[0], str):
                     # Old format: ["2026-05-26", ...]
-                    # Old files are named like "2026-05-26.json" (no time suffix)
+                    # Check actual files exist: old files are "YYYY-MM-DD.json" (no time suffix)
                     existing_manifest = []
                     for d in raw_data:
-                        existing_manifest.append({
-                            "date": d,
-                            "time": "00:00",
-                            "file": f"{d}.json",
-                            "display": d
-                        })
+                        # First try: date only (old format)
+                        old_file = f"{d}.json"
+                        if Path(history_dir, old_file).exists():
+                            existing_manifest.append({
+                                "date": d,
+                                "time": "00:00",
+                                "file": old_file,
+                                "display": d
+                            })
+                        else:
+                            # Try: date with time (new format like 2026-06-01-08)
+                            for hour in ['00', '08', '13', '17']:
+                                new_file = f"{d}-{hour}.json"
+                                if Path(history_dir, new_file).exists():
+                                    existing_manifest.append({
+                                        "date": d,
+                                        "time": f"{hour}:00",
+                                        "file": new_file,
+                                        "display": f"{d} {hour}:00"
+                                    })
+                                    break
                 else:
                     existing_manifest = raw_data
             except:
