@@ -298,13 +298,24 @@ def call_openrouter_vector_engine(history_rows, stock_code):
             if len(vals) < 5: continue
             target_date = next_trading_days[idx]
             raw_vol_m = float(vals[4])
+            
+            # Validate and fix OHLC relationships (AI may generate invalid values)
+            o = float(vals[0])
+            h = float(vals[1])
+            l = float(vals[2])
+            c = float(vals[3])
+            
+            # Ensure high >= all other values, low <= all other values
+            h = max(h, o, c, l)
+            l = min(l, o, c, h)
+            
             normalised.append({
                 "date":      target_date.strftime("%Y-%m-%d"),
                 "dateShort": f"🔮 {target_date.strftime('%m/%d')}",
-                "open":      float(vals[0]),
-                "high":      float(vals[1]),
-                "low":       float(vals[2]),
-                "close":     float(vals[3]),
+                "open":      o,
+                "high":      h,
+                "low":       l,
+                "close":     c,
                 "volume":    int(raw_vol_m * 1e6),
                 "volumeM":   f"{raw_vol_m:.1f}M",
                 "is_predicted": True # 🛠️ CRITICAL FIX: Explicitly mark as predicted to avoid key collisions

@@ -8,8 +8,18 @@ function Candlestick({ x, y, width, height, payload, isPred, isUp }) {
   const color = up ? '#22c55e' : '#ef4444';
   const predColor = up ? '#a78bfa' : '#f472b6';   // purple/pink for AI bars
 
-  const bodyTop    = y + (height - (close - open) / (high - low || 1) * height);
-  const bodyHeight = Math.abs((close - open) / (high - low || 1) * height) || 2;
+  // Calculate body boundaries correctly (not using ratio formula which breaks when high==low or close==low/high)
+  const bodyTop    = up ? Math.min(open, close) : Math.max(open, close);
+  const bodyBottom = up ? Math.max(open, close) : Math.min(open, close);
+  
+  // Normalize to chart scale
+  const priceRange = high - low || 1;
+  const normalizedTop = (high - bodyTop) / priceRange * height;
+  const normalizedBottom = (high - bodyBottom) / priceRange * height;
+  
+  const rectY = y + normalizedTop;
+  const rectHeight = Math.max(normalizedBottom - normalizedTop, 2);
+  
   const cx         = x + width / 2;
   const fillColor  = isPred ? predColor : color;
   const strokeColor = isPred ? (up ? '#c084fc' : '#f9a8d4') : color;
@@ -22,9 +32,9 @@ function Candlestick({ x, y, width, height, payload, isPred, isUp }) {
       {/* Open-Close body */}
       <rect
         x={x + 1}
-        y={bodyTop}
+        y={rectY}
         width={Math.max(width - 2, 4)}
-        height={Math.max(bodyHeight, 2)}
+        height={rectHeight}
         fill={fillColor}
         stroke={strokeColor}
         strokeWidth={isPred ? 2 : 1}
