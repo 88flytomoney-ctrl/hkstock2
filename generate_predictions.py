@@ -195,15 +195,21 @@ def fetch_sina_realtime(codes, name_mapping):
     return result_map
 
 def fetch_global_indices():
-    """Fetches real-time HK index data using yfinance"""
+    """Fetches real-time HK index data using yfinance.
+    
+    IMPORTANT: Call this BEFORE fetching stock history to avoid Yahoo rate-limiting.
+    Only ^HSI and ^HSCE are available — ^HSTECH is delisted.
+    """
     indices = {
         "^HSI": {"name": "恒生指數", "key": "hsi"},
         "^HSCE": {"name": "國企指數", "key": "hsce"},
-        "^HSTECH": {"name": "恒生科技指數", "key": "hstech"}
+        # ^HSTECH is delisted/not available on Yahoo Finance
     }
     results = {}
     for ticker, info in indices.items():
         try:
+            import time
+            time.sleep(0.5)  # Small delay to avoid rate limiting
             obj = yf.Ticker(ticker)
             hist = obj.history(period="2d")
             if not hist.empty and len(hist) >= 2:
@@ -218,8 +224,12 @@ def fetch_global_indices():
                     "pct": pct,
                     "isPositive": change >= 0
                 }
+                print(f"📈 {ticker}: {close_today} ({change:+.2f}, {pct:+.2f}%)")
+            else:
+                print(f"⚠️ {ticker}: insufficient data ({len(hist)} rows)")
         except Exception as e:
             print(f"⚠️ Failed to fetch index {ticker}: {e}")
+    print(f"✅ Indices fetched: {list(results.keys())}")
     return results
 
 def call_openrouter_vector_engine(history_rows, stock_code):
@@ -338,13 +348,14 @@ def main():
     # Step 1: Get Sina real-time today's data
     sina_today = fetch_sina_realtime(codes, name_mapping)
     
+    # Step 1: Fetch HK indices FIRST (before stock fetches to avoid Yahoo rate-limiting)
+    indices = fetch_global_indices()
+
     # Step 2: Get Yahoo Finance historical data (10 days)
     stocks_data = fetch_yahoo_prices(codes, name_mapping)
     if not stocks_data:
         print("❌ Scraper failed to fetch pricing rows.")
         sys.exit(1)
-
-    indices = fetch_global_indices()
 
     final_predictions_db = {}
     for stock in stocks_data:
