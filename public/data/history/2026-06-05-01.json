@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-06-05 01:13:17",
+  "generatedDate": "2026-06-05",
+  "generatedTime": "01:00",
+  "stockCount": 2,
+  "stocks": [
+    {
+      "code": "02461",
+      "symbol": "2461.HK",
+      "name": "獅騰控股二九",
+      "prices": []
+    },
+    {
+      "code": "600000",
+      "symbol": "0000.HK",
+      "name": "0000.HK",
+      "prices": []
+    }
+  ]
+}
