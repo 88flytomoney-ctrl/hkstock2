@@ -1,20 +1,14 @@
 {
-  "stocks": {
-    "00700": {
-      "name": "騰訊控股",
+  "generatedAt": "2026-07-07 07:38:23",
+  "generatedDate": "2026-07-07",
+  "generatedTime": "07:00",
+  "stockCount": 20,
+  "stocks": [
+    {
+      "code": "00700",
       "symbol": "0700.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 452.6,
-          "high": 463.6,
-          "low": 449.2,
-          "close": 454.4,
-          "volume": 31850000,
-          "volumeM": "31.9M",
-          "is_predicted": true
-        },
+      "name": "騰訊控股",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -82,17 +76,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 370.0,
-          "high": 377.6,
-          "low": 355.6,
-          "close": 361.0,
-          "volume": 51490000,
-          "volumeM": "51.5M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 430.2,
@@ -135,70 +118,14 @@
           "volume": 49836663,
           "volumeM": "49.84M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-07-08",
-          "dateShort": "🔮 07/08",
-          "open": 468.2,
-          "high": 488.4,
-          "low": 463.8,
-          "close": 467.4,
-          "volume": 52310000,
-          "volumeM": "52.3M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-09",
-          "dateShort": "🔮 07/09",
-          "open": 477.4,
-          "high": 497.0,
-          "low": 470.6,
-          "close": 474.8,
-          "volume": 54780000,
-          "volumeM": "54.8M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-10",
-          "dateShort": "🔮 07/10",
-          "open": 486.6,
-          "high": 505.6,
-          "low": 477.4,
-          "close": 482.2,
-          "volume": 57250000,
-          "volumeM": "57.2M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-13",
-          "dateShort": "🔮 07/13",
-          "open": 495.8,
-          "high": 514.2,
-          "low": 484.2,
-          "close": 489.6,
-          "volume": 59720000,
-          "volumeM": "59.7M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-14",
-          "dateShort": "🔮 07/14",
-          "open": 505.0,
-          "high": 522.8,
-          "low": 491.0,
-          "close": 497.0,
-          "volume": 62190000,
-          "volumeM": "62.2M",
-          "is_predicted": true
         }
-      ],
-      "has_ai": true,
-      "recommendation": "買入"
+      ]
     },
-    "01024": {
-      "name": "快手－Ｗ",
+    {
+      "code": "01024",
       "symbol": "1024.HK",
-      "combined_data": [
+      "name": "快手－Ｗ",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -308,81 +235,14 @@
           "volume": 424865605,
           "volumeM": "424.87M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-07-08",
-          "dateShort": "🔮 07/08",
-          "open": 44.12,
-          "high": 44.52,
-          "low": 41.07,
-          "close": 41.41,
-          "volume": 258410000,
-          "volumeM": "258.4M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-09",
-          "dateShort": "🔮 07/09",
-          "open": 43.69,
-          "high": 45.35,
-          "low": 41.59,
-          "close": 43.31,
-          "volume": 341640000,
-          "volumeM": "341.6M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-10",
-          "dateShort": "🔮 07/10",
-          "open": 44.48,
-          "high": 44.72,
-          "low": 40.81,
-          "close": 41.43,
-          "volume": 392260000,
-          "volumeM": "392.3M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-13",
-          "dateShort": "🔮 07/13",
-          "open": 44.87,
-          "high": 45.02,
-          "low": 40.42,
-          "close": 41.91,
-          "volume": 408570000,
-          "volumeM": "408.6M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-14",
-          "dateShort": "🔮 07/14",
-          "open": 45.21,
-          "high": 46.1,
-          "low": 41.07,
-          "close": 43.61,
-          "volume": 416720000,
-          "volumeM": "416.7M",
-          "is_predicted": true
         }
-      ],
-      "has_ai": true,
-      "recommendation": "買入"
+      ]
     },
-    "07709": {
-      "name": "ＸＬ二南方海力士",
+    {
+      "code": "07709",
       "symbol": "7709.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 145.3,
-          "high": 148.6,
-          "low": 143.2,
-          "close": 147.8,
-          "volume": 25900000,
-          "volumeM": "25.9M",
-          "is_predicted": true
-        },
+      "name": "ＸＬ二南方海力士",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -450,17 +310,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 135.2,
-          "high": 146.5,
-          "low": 135.2,
-          "close": 146.5,
-          "volume": 92600000,
-          "volumeM": "92.6M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 109.6,
@@ -504,25 +353,13 @@
           "volumeM": "191.47M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "02800": {
-      "name": "盈富基金",
+    {
+      "code": "02800",
       "symbol": "2800.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 25.06,
-          "high": 25.44,
-          "low": 24.98,
-          "close": 25.4,
-          "volume": 474200000,
-          "volumeM": "474.2M",
-          "is_predicted": true
-        },
+      "name": "盈富基金",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -590,17 +427,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 22.18,
-          "high": 22.26,
-          "low": 21.84,
-          "close": 21.92,
-          "volume": 682750000,
-          "volumeM": "682.8M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 23.5,
@@ -643,81 +469,14 @@
           "volume": 639249458,
           "volumeM": "639.25M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-07-08",
-          "dateShort": "🔮 07/08",
-          "open": 24.22,
-          "high": 24.42,
-          "low": 24.04,
-          "close": 24.18,
-          "volume": 1024329999,
-          "volumeM": "1024.3M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-09",
-          "dateShort": "🔮 07/09",
-          "open": 24.36,
-          "high": 24.56,
-          "low": 24.22,
-          "close": 24.46,
-          "volume": 690120000,
-          "volumeM": "690.1M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-10",
-          "dateShort": "🔮 07/10",
-          "open": 24.5,
-          "high": 24.74,
-          "low": 24.4,
-          "close": 24.74,
-          "volume": 1033510000,
-          "volumeM": "1033.5M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-13",
-          "dateShort": "🔮 07/13",
-          "open": 24.64,
-          "high": 25.02,
-          "low": 24.58,
-          "close": 25.02,
-          "volume": 705380000,
-          "volumeM": "705.4M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-14",
-          "dateShort": "🔮 07/14",
-          "open": 24.78,
-          "high": 25.3,
-          "low": 24.76,
-          "close": 25.3,
-          "volume": 1042690000,
-          "volumeM": "1042.7M",
-          "is_predicted": true
         }
-      ],
-      "has_ai": true,
-      "recommendation": "買入"
+      ]
     },
-    "02828": {
-      "name": "恒生中國企業",
+    {
+      "code": "02828",
       "symbol": "2828.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 84.6,
-          "high": 85.2,
-          "low": 83.6,
-          "close": 84.2,
-          "volume": 78900000,
-          "volumeM": "78.9M",
-          "is_predicted": true
-        },
+      "name": "恒生中國企業",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -785,17 +544,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 75.1,
-          "high": 77.1,
-          "low": 75.1,
-          "close": 76.1,
-          "volume": 22600000,
-          "volumeM": "22.6M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 78.32,
@@ -839,25 +587,13 @@
           "volumeM": "131.28M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "00981": {
-      "name": "中芯國際",
+    {
+      "code": "00981",
       "symbol": "0981.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 78.9,
-          "high": 81.2,
-          "low": 77.8,
-          "close": 79.4,
-          "volume": 118500000,
-          "volumeM": "118.5M",
-          "is_predicted": true
-        },
+      "name": "中芯國際",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -925,17 +661,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 80.9,
-          "high": 87.2,
-          "low": 80.1,
-          "close": 86.1,
-          "volume": 191400000,
-          "volumeM": "191.4M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 80.4,
@@ -979,25 +704,13 @@
           "volumeM": "120.61M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "03033": {
-      "name": "南方恒生科技",
+    {
+      "code": "03033",
       "symbol": "3033.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 4.46,
-          "high": 4.5,
-          "low": 4.39,
-          "close": 4.45,
-          "volume": 3012880000,
-          "volumeM": "3012.9M",
-          "is_predicted": true
-        },
+      "name": "南方恒生科技",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -1065,17 +778,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 4.08,
-          "high": 4.1,
-          "low": 4.01,
-          "close": 4.06,
-          "volume": 1819750000,
-          "volumeM": "1819.8M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 4.36,
@@ -1119,25 +821,13 @@
           "volumeM": "2027.23M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "09988": {
-      "name": "阿里巴巴－Ｗ",
+    {
+      "code": "09988",
       "symbol": "9988.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 101.0,
-          "high": 103.1,
-          "low": 99.4,
-          "close": 101.5,
-          "volume": 70500000,
-          "volumeM": "70.5M",
-          "is_predicted": true
-        },
+      "name": "阿里巴巴－Ｗ",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -1205,17 +895,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 88.4,
-          "high": 89.3,
-          "low": 87.0,
-          "close": 88.4,
-          "volume": 72150000,
-          "volumeM": "72.2M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 94.5,
@@ -1259,25 +938,13 @@
           "volumeM": "86.34M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "01347": {
-      "name": "華虹宏力",
+    {
+      "code": "01347",
       "symbol": "1347.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 158.7,
-          "high": 168.4,
-          "low": 158.7,
-          "close": 166.3,
-          "volume": 38690000,
-          "volumeM": "38.7M",
-          "is_predicted": true
-        },
+      "name": "華虹宏力",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -1345,17 +1012,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 198.4,
-          "high": 213.6,
-          "low": 187.9,
-          "close": 213.6,
-          "volume": 57020000,
-          "volumeM": "57.0M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 186.1,
@@ -1399,14 +1055,13 @@
           "volumeM": "45.47M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "03690": {
-      "name": "美團－Ｗ",
+    {
+      "code": "03690",
       "symbol": "3690.HK",
-      "combined_data": [
+      "name": "美團－Ｗ",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -1516,81 +1171,14 @@
           "volume": 101650369,
           "volumeM": "101.65M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-07-08",
-          "dateShort": "🔮 07/08",
-          "open": 77.95,
-          "high": 83.35,
-          "low": 77.4,
-          "close": 81.95,
-          "volume": 112800000,
-          "volumeM": "112.8M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-09",
-          "dateShort": "🔮 07/09",
-          "open": 80.45,
-          "high": 85.45,
-          "low": 79.7,
-          "close": 85.45,
-          "volume": 123950000,
-          "volumeM": "124.0M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-10",
-          "dateShort": "🔮 07/10",
-          "open": 82.95,
-          "high": 88.95,
-          "low": 82.0,
-          "close": 88.95,
-          "volume": 135100000,
-          "volumeM": "135.1M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-13",
-          "dateShort": "🔮 07/13",
-          "open": 85.45,
-          "high": 92.45,
-          "low": 84.3,
-          "close": 92.45,
-          "volume": 146250000,
-          "volumeM": "146.2M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-14",
-          "dateShort": "🔮 07/14",
-          "open": 87.95,
-          "high": 95.95,
-          "low": 86.6,
-          "close": 95.95,
-          "volume": 157400000,
-          "volumeM": "157.4M",
-          "is_predicted": true
         }
-      ],
-      "has_ai": true,
-      "recommendation": "買入"
+      ]
     },
-    "01888": {
-      "name": "建滔積層板",
+    {
+      "code": "01888",
       "symbol": "1888.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 70.5,
-          "high": 73.1,
-          "low": 63.9,
-          "close": 70.1,
-          "volume": 53800000,
-          "volumeM": "53.8M",
-          "is_predicted": true
-        },
+      "name": "建滔積層板",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -1658,17 +1246,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 91.4,
-          "high": 98.6,
-          "low": 88.3,
-          "close": 95.9,
-          "volume": 68200000,
-          "volumeM": "68.2M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 83.8,
@@ -1712,25 +1289,13 @@
           "volumeM": "95.8M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "06869": {
-      "name": "長飛光纖光纜",
+    {
+      "code": "06869",
       "symbol": "6869.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 230.8,
-          "high": 237.2,
-          "low": 219.2,
-          "close": 229.0,
-          "volume": 20300000,
-          "volumeM": "20.3M",
-          "is_predicted": true
-        },
+      "name": "長飛光纖光纜",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -1798,17 +1363,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 273.8,
-          "high": 284.2,
-          "low": 253.2,
-          "close": 269.1,
-          "volume": 21740000,
-          "volumeM": "21.7M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 197.96,
@@ -1852,25 +1406,13 @@
           "volumeM": "36.86M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "02513": {
-      "name": "智譜",
+    {
+      "code": "02513",
       "symbol": "2513.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 1580.0,
-          "high": 1890.0,
-          "low": 1570.0,
-          "close": 1750.0,
-          "volume": 8900000,
-          "volumeM": "8.9M",
-          "is_predicted": true
-        },
+      "name": "智譜",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -1938,17 +1480,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 2830.0,
-          "high": 3230.0,
-          "low": 2830.0,
-          "close": 3030.0,
-          "volume": 5500000,
-          "volumeM": "5.5M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 1754.0,
@@ -1991,81 +1522,14 @@
           "volume": 2787713,
           "volumeM": "2.79M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-07-08",
-          "dateShort": "🔮 07/08",
-          "open": 1622.0,
-          "high": 1765.0,
-          "low": 1560.0,
-          "close": 1602.0,
-          "volume": 2710000,
-          "volumeM": "2.7M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-09",
-          "dateShort": "🔮 07/09",
-          "open": 1586.0,
-          "high": 1736.0,
-          "low": 1524.0,
-          "close": 1567.0,
-          "volume": 2740000,
-          "volumeM": "2.7M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-10",
-          "dateShort": "🔮 07/10",
-          "open": 1558.0,
-          "high": 1712.0,
-          "low": 1495.0,
-          "close": 1541.0,
-          "volume": 2760000,
-          "volumeM": "2.8M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-13",
-          "dateShort": "🔮 07/13",
-          "open": 1535.0,
-          "high": 1692.0,
-          "low": 1471.0,
-          "close": 1520.0,
-          "volume": 2780000,
-          "volumeM": "2.8M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-14",
-          "dateShort": "🔮 07/14",
-          "open": 1516.0,
-          "high": 1675.0,
-          "low": 1451.0,
-          "close": 1502.0,
-          "volume": 2800000,
-          "volumeM": "2.8M",
-          "is_predicted": true
         }
-      ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      ]
     },
-    "01810": {
-      "name": "小米集團－Ｗ",
+    {
+      "code": "01810",
       "symbol": "1810.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 25.25,
-          "high": 25.6,
-          "low": 24.7,
-          "close": 25.1,
-          "volume": 92000000,
-          "volumeM": "92.0M",
-          "is_predicted": true
-        },
+      "name": "小米集團－Ｗ",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -2133,17 +1597,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 20.1,
-          "high": 20.6,
-          "low": 19.8,
-          "close": 20.0,
-          "volume": 273200000,
-          "volumeM": "273.2M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 22.6,
@@ -2186,70 +1639,14 @@
           "volume": 174403542,
           "volumeM": "174.4M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-07-08",
-          "dateShort": "🔮 07/08",
-          "open": 23.62,
-          "high": 24.4,
-          "low": 23.2,
-          "close": 23.44,
-          "volume": 188600000,
-          "volumeM": "188.6M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-09",
-          "dateShort": "🔮 07/09",
-          "open": 23.94,
-          "high": 24.62,
-          "low": 23.38,
-          "close": 23.78,
-          "volume": 202800000,
-          "volumeM": "202.8M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-10",
-          "dateShort": "🔮 07/10",
-          "open": 24.26,
-          "high": 24.84,
-          "low": 23.56,
-          "close": 24.12,
-          "volume": 217000000,
-          "volumeM": "217.0M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-13",
-          "dateShort": "🔮 07/13",
-          "open": 24.58,
-          "high": 25.06,
-          "low": 23.74,
-          "close": 24.46,
-          "volume": 231200000,
-          "volumeM": "231.2M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-14",
-          "dateShort": "🔮 07/14",
-          "open": 24.9,
-          "high": 25.28,
-          "low": 23.92,
-          "close": 24.8,
-          "volume": 245400000,
-          "volumeM": "245.4M",
-          "is_predicted": true
         }
-      ],
-      "has_ai": true,
-      "recommendation": "買入"
+      ]
     },
-    "07747": {
-      "name": "ＸＬ二南三星",
+    {
+      "code": "07747",
       "symbol": "7747.HK",
-      "combined_data": [
+      "name": "ＸＬ二南三星",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -2360,25 +1757,13 @@
           "volumeM": "27.75M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "00148": {
-      "name": "建滔集團",
+    {
+      "code": "00148",
       "symbol": "0148.HK",
-      "combined_data": [
-        {
-          "date": "2026-06-19",
-          "dateShort": "🔮 06/19",
-          "open": 115.6,
-          "high": 116.0,
-          "low": 101.3,
-          "close": 103.2,
-          "volume": 43300000,
-          "volumeM": "43.3M",
-          "is_predicted": true
-        },
+      "name": "建滔集團",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -2446,17 +1831,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-07-01",
-          "dateShort": "🔮 07/01",
-          "open": 158.5,
-          "high": 176.0,
-          "low": 141.1,
-          "close": 161.0,
-          "volume": 87070000,
-          "volumeM": "87.1M",
-          "is_predicted": true
-        },
-        {
           "date": "2026-07-02",
           "dateShort": "07/02",
           "close": 102.3,
@@ -2500,14 +1874,13 @@
           "volumeM": "40.26M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "00992": {
-      "name": "聯想集團",
+    {
+      "code": "00992",
       "symbol": "0992.HK",
-      "combined_data": [
+      "name": "聯想集團",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -2618,14 +1991,13 @@
           "volumeM": "128.81M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "03986": {
-      "name": "兆易創新",
+    {
+      "code": "03986",
       "symbol": "3986.HK",
-      "combined_data": [
+      "name": "兆易創新",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -2736,14 +2108,13 @@
           "volumeM": "2.76M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "01211": {
-      "name": "比亞迪股份",
+    {
+      "code": "01211",
       "symbol": "1211.HK",
-      "combined_data": [
+      "name": "比亞迪股份",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -2854,14 +2225,13 @@
           "volumeM": "20.51M",
           "is_predicted": false
         }
-      ],
-      "has_ai": false,
-      "recommendation": "持有"
+      ]
     },
-    "00005": {
-      "name": "匯豐控股",
+    {
+      "code": "00005",
       "symbol": "0005.HK",
-      "combined_data": [
+      "name": "匯豐控股",
+      "prices": [
         {
           "date": "2026-06-23",
           "dateShort": "06/23",
@@ -2971,81 +2341,8 @@
           "volume": 10847850,
           "volumeM": "10.85M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-07-08",
-          "dateShort": "🔮 07/08",
-          "open": 154.2,
-          "high": 155.8,
-          "low": 153.8,
-          "close": 154.5,
-          "volume": 12400000,
-          "volumeM": "12.4M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-09",
-          "dateShort": "🔮 07/09",
-          "open": 155.4,
-          "high": 157.2,
-          "low": 155.4,
-          "close": 156.0,
-          "volume": 14100000,
-          "volumeM": "14.1M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-10",
-          "dateShort": "🔮 07/10",
-          "open": 156.6,
-          "high": 158.6,
-          "low": 156.6,
-          "close": 157.5,
-          "volume": 16000000,
-          "volumeM": "16.0M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-13",
-          "dateShort": "🔮 07/13",
-          "open": 157.8,
-          "high": 160.0,
-          "low": 157.8,
-          "close": 159.0,
-          "volume": 18100000,
-          "volumeM": "18.1M",
-          "is_predicted": true
-        },
-        {
-          "date": "2026-07-14",
-          "dateShort": "🔮 07/14",
-          "open": 159.0,
-          "high": 161.4,
-          "low": 159.0,
-          "close": 160.5,
-          "volume": 20400000,
-          "volumeM": "20.4M",
-          "is_predicted": true
         }
-      ],
-      "has_ai": true,
-      "recommendation": "買入"
+      ]
     }
-  },
-  "indices": {
-    "hsi": {
-      "name": "恒生指數",
-      "value": 23450.77,
-      "change": -165.55,
-      "pct": -0.7,
-      "isPositive": false
-    },
-    "hsce": {
-      "name": "國企指數",
-      "value": 7755.23,
-      "change": -57.12,
-      "pct": -0.73,
-      "isPositive": false
-    }
-  }
+  ]
 }
