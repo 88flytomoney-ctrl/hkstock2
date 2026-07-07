@@ -22,7 +22,7 @@ from openai import OpenAI
 # ── OpenRouter Configuration ──────────────────────────────────────────────────
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 OUTPUT_FILE = Path("public/data/predictions.json")
-AI_MODEL_ID = "openrouter/owl-alpha"
+AI_MODEL_ID = "nvidia/nemotron-3-ultra-550b-a55b:free"
 LIMIT = 20
 
 def get_openrouter_client():
