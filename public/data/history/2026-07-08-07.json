@@ -1,0 +1,350 @@
+{
+  "generatedAt": "2026-07-08 07:07:05",
+  "generatedDate": "2026-07-08",
+  "generatedTime": "07:00",
+  "stockCount": 20,
+  "stocks": [
+    {
+      "code": "09988",
+      "symbol": "9988.HK",
+      "name": "阿里巴巴－Ｗ",
+      "prices": []
+    },
+    {
+      "code": "00700",
+      "symbol": "0700.HK",
+      "name": "騰訊控股",
+      "prices": []
+    },
+    {
+      "code": "02800",
+      "symbol": "2800.HK",
+      "name": "盈富基金",
+      "prices": []
+    },
+    {
+      "code": "02513",
+      "symbol": "2513.HK",
+      "name": "智譜",
+      "prices": []
+    },
+    {
+      "code": "07709",
+      "symbol": "7709.HK",
+      "name": "ＸＬ二南方海力士",
+      "prices": []
+    },
+    {
+      "code": "03033",
+      "symbol": "3033.HK",
+      "name": "南方恒生科技",
+      "prices": []
+    },
+    {
+      "code": "00981",
+      "symbol": "0981.HK",
+      "name": "中芯國際",
+      "prices": []
+    },
+    {
+      "code": "02828",
+      "symbol": "2828.HK",
+      "name": "恒生中國企業",
+      "prices": []
+    },
+    {
+      "code": "01347",
+      "symbol": "1347.HK",
+      "name": "華虹宏力",
+      "prices": []
+    },
+    {
+      "code": "01810",
+      "symbol": "1810.HK",
+      "name": "小米集團－Ｗ",
+      "prices": []
+    },
+    {
+      "code": "01024",
+      "symbol": "1024.HK",
+      "name": "快手－Ｗ",
+      "prices": []
+    },
+    {
+      "code": "01888",
+      "symbol": "1888.HK",
+      "name": "建滔積層板",
+      "prices": []
+    },
+    {
+      "code": "06869",
+      "symbol": "6869.HK",
+      "name": "長飛光纖光纜",
+      "prices": []
+    },
+    {
+      "code": "03690",
+      "symbol": "3690.HK",
+      "name": "美團－Ｗ",
+      "prices": []
+    },
+    {
+      "code": "00148",
+      "symbol": "0148.HK",
+      "name": "建滔集團",
+      "prices": []
+    },
+    {
+      "code": "00992",
+      "symbol": "0992.HK",
+      "name": "聯想集團",
+      "prices": []
+    },
+    {
+      "code": "07747",
+      "symbol": "7747.HK",
+      "name": "ＸＬ二南三星",
+      "prices": []
+    },
+    {
+      "code": "09903",
+      "symbol": "9903.HK",
+      "name": "天數智芯",
+      "prices": []
+    },
+    {
+      "code": "09992",
+      "symbol": "9992.HK",
+      "name": "泡泡瑪特",
+      "prices": [
+        {
+          "date": "2026-06-24",
+          "dateShort": "06/24",
+          "close": 158.1,
+          "open": 158.1,
+          "high": 160.2,
+          "low": 156.3,
+          "volume": 9414527,
+          "volumeM": "9.41M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-06-25",
+          "dateShort": "06/25",
+          "close": 156.0,
+          "open": 158.0,
+          "high": 158.0,
+          "low": 152.0,
+          "volume": 17053820,
+          "volumeM": "17.05M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-06-26",
+          "dateShort": "06/26",
+          "close": 158.5,
+          "open": 154.0,
+          "high": 161.7,
+          "low": 150.4,
+          "volume": 19699634,
+          "volumeM": "19.7M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-06-29",
+          "dateShort": "06/29",
+          "close": 158.5,
+          "open": 158.5,
+          "high": 160.4,
+          "low": 153.0,
+          "volume": 14026757,
+          "volumeM": "14.03M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-06-30",
+          "dateShort": "06/30",
+          "close": 154.7,
+          "open": 155.8,
+          "high": 157.9,
+          "low": 151.1,
+          "volume": 15237645,
+          "volumeM": "15.24M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-02",
+          "dateShort": "07/02",
+          "close": 153.4,
+          "open": 155.4,
+          "high": 157.4,
+          "low": 151.1,
+          "volume": 15662540,
+          "volumeM": "15.66M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-03",
+          "dateShort": "07/03",
+          "close": 153.3,
+          "open": 153.4,
+          "high": 157.9,
+          "low": 152.5,
+          "volume": 9866611,
+          "volumeM": "9.87M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-06",
+          "dateShort": "07/06",
+          "close": 152.7,
+          "open": 153.3,
+          "high": 153.9,
+          "low": 148.3,
+          "volume": 15251047,
+          "volumeM": "15.25M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-07",
+          "dateShort": "07/07",
+          "close": 151.1,
+          "open": 151.1,
+          "high": 153.7,
+          "low": 149.5,
+          "volume": 8587037,
+          "volumeM": "8.59M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-08",
+          "dateShort": "07/08",
+          "close": 155.3,
+          "open": 151.1,
+          "high": 156.6,
+          "low": 147.1,
+          "volume": 14718664,
+          "volumeM": "14.72M",
+          "is_predicted": false
+        }
+      ]
+    },
+    {
+      "code": "03986",
+      "symbol": "3986.HK",
+      "name": "兆易創新",
+      "prices": [
+        {
+          "date": "2026-06-24",
+          "dateShort": "06/24",
+          "close": 986.5,
+          "open": 950.0,
+          "high": 1033.0,
+          "low": 930.0,
+          "volume": 3235457,
+          "volumeM": "3.24M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-06-25",
+          "dateShort": "06/25",
+          "close": 1108.0,
+          "open": 1045.0,
+          "high": 1119.0,
+          "low": 1034.0,
+          "volume": 2963306,
+          "volumeM": "2.96M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-06-26",
+          "dateShort": "06/26",
+          "close": 1083.0,
+          "open": 1083.0,
+          "high": 1106.0,
+          "low": 995.5,
+          "volume": 2498233,
+          "volumeM": "2.5M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-06-29",
+          "dateShort": "06/29",
+          "close": 1241.0,
+          "open": 1085.0,
+          "high": 1248.0,
+          "low": 1075.0,
+          "volume": 3230501,
+          "volumeM": "3.23M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-06-30",
+          "dateShort": "06/30",
+          "close": 1188.0,
+          "open": 1200.0,
+          "high": 1218.0,
+          "low": 1151.0,
+          "volume": 2092894,
+          "volumeM": "2.09M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-02",
+          "dateShort": "07/02",
+          "close": 969.5,
+          "open": 1040.0,
+          "high": 1096.0,
+          "low": 963.0,
+          "volume": 3051888,
+          "volumeM": "3.05M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-03",
+          "dateShort": "07/03",
+          "close": 917.5,
+          "open": 955.0,
+          "high": 1009.0,
+          "low": 905.5,
+          "volume": 3661525,
+          "volumeM": "3.66M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-06",
+          "dateShort": "07/06",
+          "close": 876.5,
+          "open": 960.0,
+          "high": 962.5,
+          "low": 816.5,
+          "volume": 3224092,
+          "volumeM": "3.22M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-07",
+          "dateShort": "07/07",
+          "close": 770.0,
+          "open": 829.0,
+          "high": 849.0,
+          "low": 770.0,
+          "volume": 3157752,
+          "volumeM": "3.16M",
+          "is_predicted": false
+        },
+        {
+          "date": "2026-07-08",
+          "dateShort": "07/08",
+          "close": 765.5,
+          "open": 796.0,
+          "high": 815.0,
+          "low": 763.0,
+          "volume": 2693820,
+          "volumeM": "2.69M",
+          "is_predicted": false
+        }
+      ]
+    }
+  ]
+}
