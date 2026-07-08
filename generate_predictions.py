@@ -394,9 +394,18 @@ def main():
         past_predicted_saved = []
         if code in existing_stocks:
             old_combined = existing_stocks[code].get("combined_data", [])
+            # Get the earliest and latest actual data dates
+            actual_date_set = set(r['date'] for r in history)
+            first_actual_date = history[0]['date'] if history else None
             for old_row in old_combined:
                 # Retain older historical predictions to enable side-by-side display
                 if old_row.get("is_predicted", False):
+                    # Discard stale predicted rows that fall before or overlap with
+                    # actual data — those dates already have real prices
+                    if first_actual_date and old_row['date'] < first_actual_date:
+                        continue
+                    if old_row['date'] in actual_date_set:
+                        continue
                     past_predicted_saved.append(old_row)
 
         # Merge Actual History + Old Predictions + New Predictions
