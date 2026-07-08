@@ -22,7 +22,7 @@ from openai import OpenAI
 # ── OpenRouter Configuration ──────────────────────────────────────────────────
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 OUTPUT_FILE = Path("public/data/predictions.json")
-AI_MODEL_ID = "tencent/hy3:free"
+AI_MODEL_ID = "poolside/laguna-xs-2.1:free"
 LIMIT = 20
 
 def get_openrouter_client():
