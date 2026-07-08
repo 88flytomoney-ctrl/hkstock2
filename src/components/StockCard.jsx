@@ -155,7 +155,7 @@ export default function StockCard({ stock, prediction, recommendation }) {
         <div className="ai-prediction-matrix border border-purple-700/60 rounded-lg overflow-hidden">
           <div className="bg-purple-900/30 px-3 py-1.5 flex items-center gap-2 border-b border-purple-700/40">
             <span className="text-purple-300 text-xs font-semibold">🔮 AI 預測（未來5日）</span>
-            <span className="text-xs text-slate-500">OpenRouter owl-alpha</span>
+            <span className="text-xs text-slate-500">OpenRouter AI</span>
           </div>
           <table className="w-full text-xs">
             <thead>

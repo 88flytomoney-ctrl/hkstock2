@@ -274,10 +274,19 @@ def call_openrouter_vector_engine(history_rows, stock_code):
             model=AI_MODEL_ID,
             messages=[{"role": "user", "content": prompt}],
             temperature=0.2,
-            max_tokens=1500,
-            timeout=25,
+            max_tokens=4000,
+            timeout=30,
+            extra_body={"reasoning": {"enabled": False}},
         )
-        raw = response.choices[0].message.content.strip()
+        msg = response.choices[0].message
+        raw = msg.content
+        if not raw:
+            # Reasoning models may put output in reasoning_content / reasoning
+            raw = getattr(msg, "reasoning_content", None) or getattr(msg, "reasoning", None)
+        if not raw:
+            print(f"⚠️ Model returned empty content for {stock_code}")
+            return None, "持有"
+        raw = raw.strip()
         if raw.startswith("```"):
             raw = raw.split("\n", 1)[1]
             if raw.endswith("```"):
