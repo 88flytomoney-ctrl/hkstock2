@@ -397,6 +397,7 @@ def main():
             # Get the earliest and latest actual data dates
             actual_date_set = set(r['date'] for r in history)
             first_actual_date = history[0]['date'] if history else None
+            last_actual_date = history[-1]['date'] if history else None
             for old_row in old_combined:
                 # Retain older historical predictions to enable side-by-side display
                 if old_row.get("is_predicted", False):
@@ -405,6 +406,11 @@ def main():
                     if first_actual_date and old_row['date'] < first_actual_date:
                         continue
                     if old_row['date'] in actual_date_set:
+                        continue
+                    # Discard predicted rows that fall on or before the last actual
+                    # date — they are stale (e.g., predicted for a HK holiday like
+                    # 07-01 that has no actual data, or dates already passed)
+                    if last_actual_date and old_row['date'] <= last_actual_date:
                         continue
                     past_predicted_saved.append(old_row)
 
