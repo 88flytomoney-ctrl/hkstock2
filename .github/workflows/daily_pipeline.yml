@@ -56,18 +56,22 @@ jobs:
               print(f'  {ai} {code}: {v[\"name\"]} [{rec}]')
           "
 
-      # ── Step 2: Commit stock data + predictions ──────────────────────────────
+      # ── Step 2: Generate daily report ────────────────────────────────────────
+      - name: Build daily report
+        run: python build_dl_report.py
+
+      # ── Step 3: Commit stock data + predictions ──────────────────────────────
       - name: Commit data
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add public/data/predictions.json public/data/history/
+          git add public/data/predictions.json public/data/history/ public/report.html
           git diff --staged --quiet && echo "No data changes" || \
             git commit -m "🤖 Auto-update data + AI predictions $(date +%Y-%m-%d\ %H:%M)" && \
             git pull --ff-only || echo "Force pushing..." && \
             git push --force-with-lease
 
-      # ── Step 3: Build frontend ─────────────────────────────────────────────
+      # ── Step 4: Build frontend ─────────────────────────────────────────────
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
