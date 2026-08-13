@@ -29,6 +29,22 @@ HK_TZ = timezone(timedelta(hours=8))
 REC_LABEL = {"買入": "buy", "賣出": "sell", "持有": "hold"}
 
 
+def format_ts_label(slug):
+    """Convert an archive slug to a readable label with time.
+
+    "2026-08-13_1530"  -> "08/13 15:30"
+    "2026-08-13"       -> "08/13"          (legacy daily snapshot)
+    """
+    if not slug:
+        return ""
+    if "_" in slug:
+        date_part, time_part = slug.split("_", 1)
+        mmdd = date_part[5:].replace("-", "/")
+        hhmm = f"{time_part[:2]}:{time_part[2:]}" if len(time_part) >= 4 else time_part
+        return f"{mmdd} {hhmm}"
+    return slug[5:].replace("-", "/")
+
+
 def fetch_data():
     """Read predictions JSON from local file (pipeline just wrote it),
     or fall back to the live URL if the local file doesn't exist."""
@@ -87,22 +103,29 @@ def compute_stock_stats(stocks):
     return rows
 
 
-def build_html(data, rows, archive_dates=None, current_date=None):
-    """Build the full HTML report. If current_date is set, it's an archive page."""
+def build_html(data, rows, archive_entries=None, current_ts=None):
+    """Build the full HTML report.
+
+    archive_entries: list of archive slug strings (newest first), e.g.
+                     ["2026-08-13_1530", "2026-08-13_0930", "2026-08-12_1600"]
+                     Legacy date-only slugs ("2026-08-13") are supported.
+    current_ts:      slug of the page being rendered (archive page), or None
+                     for the latest report.html.
+    """
     indices = data.get("indices", {})
-    is_archive = current_date is not None
-    now_str = current_date if current_date else datetime.now(HK_TZ).strftime("%Y/%m/%d %H:%M HKT")
+    is_archive = current_ts is not None
+    now_str = format_ts_label(current_ts) if current_ts else datetime.now(HK_TZ).strftime("%Y/%m/%d %H:%M HKT")
 
     # Build archive dropdown
     archive_options = '<option value="">最新數據</option>\n'
-    if archive_dates:
-        for d in archive_dates:
-            selected = ' selected' if d == current_date else ''
-            label = d.replace("-", "/")
-            archive_options += f'<option value="{d}"{selected}>{label}</option>\n'
+    if archive_entries:
+        for slug in archive_entries:
+            selected = ' selected' if slug == current_ts else ''
+            label = format_ts_label(slug)
+            archive_options += f'<option value="{slug}"{selected}>{label}</option>\n'
 
     dropdown_html = ""
-    if archive_dates is not None:
+    if archive_entries is not None:
         if is_archive:
             onchange = ("document.location.href="
                          "this.value? '../archive/'+this.value+'.html'"
@@ -246,7 +269,7 @@ def build_html(data, rows, archive_dates=None, current_date=None):
     hsce_chg = indices.get('hscei',{}).get('change',0) or indices.get('hsce',{}).get('change',0)
     hsce_pct = indices.get('hscei',{}).get('pct',0) or indices.get('hsce',{}).get('pct',0)
 
-    title = f"HK Stock 2 AI — {current_date}" if is_archive else "HK Stock 2 AI — Summary Report"
+    title = f"HK Stock 2 AI — {format_ts_label(current_ts)}" if is_archive else "HK Stock 2 AI — Summary Report"
 
     html = f"""<!DOCTYPE html>
 <html lang="zh-HK">
@@ -381,19 +404,29 @@ def save_archive_index(dates):
         json.dump(dates, f, ensure_ascii=False, indent=2)
 
 
-def archive_today(data, rows, archive_dates):
-    today = datetime.now(HK_TZ).strftime("%Y-%m-%d")
-    archive_html = build_html(data, rows, archive_dates=archive_dates, current_date=today)
+def archive_today(data, rows, archive_entries):
+    """Save a timestamped archive snapshot. Multiple runs per day are preserved.
+
+    Slug format: YYYY-MM-DD_HHMM  (e.g. 2026-08-13_1530)
+    Filename:    <slug>.html       (e.g. 2026-08-13_1530.html)
+    """
+    now = datetime.now(HK_TZ)
+    today_slug = now.strftime("%Y-%m-%d_%H%M")
+    archive_html = build_html(data, rows, archive_entries=archive_entries, current_ts=today_slug)
     ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
-    archive_file = ARCHIVE_DIR / f"{today}.html"
+    archive_file = ARCHIVE_DIR / f"{today_slug}.html"
     with open(archive_file, "w", encoding="utf-8") as f:
         f.write(archive_html)
     print(f"✅ Archive saved: {archive_file}")
-    if today not in archive_dates:
-        archive_dates.insert(0, today)
-    save_archive_index(archive_dates)
-    print(f"✅ Archive index updated: {len(archive_dates)} dates")
-    return archive_dates
+    if today_slug not in archive_entries:
+        archive_entries.insert(0, today_slug)
+    else:
+        # move to top in case the slug already existed (shouldn't normally)
+        archive_entries.remove(today_slug)
+        archive_entries.insert(0, today_slug)
+    save_archive_index(archive_entries)
+    print(f"✅ Archive index updated: {len(archive_entries)} entries")
+    return archive_entries
 
 
 def main():
@@ -401,15 +434,15 @@ def main():
     data = fetch_data()
     rows = compute_stock_stats(data["stocks"])
 
-    # Load existing archive dates
-    archive_dates = load_archive_index()
-    print(f"  → Existing archives: {len(archive_dates)}")
+    # Load existing archive entries (list of slugs, newest first)
+    archive_entries = load_archive_index()
+    print(f"  → Existing archives: {len(archive_entries)}")
 
-    # 1. Save today's archive snapshot
-    archive_dates = archive_today(data, rows, archive_dates)
+    # 1. Save today's archive snapshot (timestamped)
+    archive_entries = archive_today(data, rows, archive_entries)
 
     # 2. Generate the latest report.html
-    html = build_html(data, rows, archive_dates=archive_dates, current_date=None)
+    html = build_html(data, rows, archive_entries=archive_entries, current_ts=None)
     PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write(html)
