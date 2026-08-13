@@ -65,7 +65,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add public/data/predictions.json public/data/history/ public/report.html
+          git add public/data/predictions.json public/data/history/ public/report.html public/archive/
           git diff --staged --quiet && echo "No data changes" || \
             git commit -m "🤖 Auto-update data + AI predictions $(date +%Y-%m-%d\ %H:%M)" && \
             git pull --ff-only || echo "Force pushing..." && \
