@@ -1728,7 +1728,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "00981": {
       "name": "中芯國際",
@@ -2074,7 +2074,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "00100": {
       "name": "MINIMAX-W",
@@ -2593,7 +2593,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "02259": {
       "name": "紫金黃金國際",
