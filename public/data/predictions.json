@@ -104,15 +104,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 24.52,
+          "high": 24.86,
+          "low": 24.5,
+          "close": 24.72,
+          "volume": 538420000,
+          "volumeM": "538.4M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 25.02,
-          "open": 24.84,
-          "high": 25.02,
-          "low": 24.66,
-          "volume": 470825403,
-          "volumeM": "470.83M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 24.56,
+          "high": 24.88,
+          "low": 24.54,
+          "close": 24.74,
+          "volume": 542180000,
+          "volumeM": "542.2M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -277,15 +288,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 32.15,
+          "high": 34.2,
+          "low": 31.8,
+          "close": 33.9,
+          "volume": 38450000,
+          "volumeM": "38.5M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 26.1,
-          "open": 27.2,
-          "high": 27.22,
-          "low": 24.74,
-          "volume": 310701285,
-          "volumeM": "310.7M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 31.8,
+          "high": 33.95,
+          "low": 31.45,
+          "close": 33.55,
+          "volume": 37600000,
+          "volumeM": "37.6M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -450,15 +472,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 4.05,
+          "high": 4.08,
+          "low": 3.98,
+          "close": 4.02,
+          "volume": 1650250000,
+          "volumeM": "1650.2M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
+          "dateShort": "🔮 10/13",
+          "open": 4.08,
+          "high": 4.1,
+          "low": 4.01,
           "close": 4.05,
-          "open": 4.06,
-          "high": 4.06,
-          "low": 3.97,
-          "volume": 1786405635,
-          "volumeM": "1786.41M",
-          "is_predicted": false
+          "volume": 1580400000,
+          "volumeM": "1580.4M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -516,8 +549,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "00700": {
       "name": "騰訊控股",
@@ -620,17 +653,6 @@
           "low": 414.8,
           "volume": 20422500,
           "volumeM": "20.42M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 425.2,
-          "open": 421.0,
-          "high": 425.6,
-          "low": 419.8,
-          "volume": 12729135,
-          "volumeM": "12.73M",
           "is_predicted": false
         },
         {
@@ -796,15 +818,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 104.2,
+          "high": 106.5,
+          "low": 103.1,
+          "close": 104.6,
+          "volume": 78900000,
+          "volumeM": "78.9M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 107.2,
-          "open": 107.7,
-          "high": 108.0,
-          "low": 104.9,
-          "volume": 49272446,
-          "volumeM": "49.27M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 104.0,
+          "high": 106.3,
+          "low": 102.9,
+          "close": 104.4,
+          "volume": 81200000,
+          "volumeM": "81.2M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -969,15 +1002,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 50.12,
+          "high": 51.3,
+          "low": 47.85,
+          "close": 50.2,
+          "volume": 72450000,
+          "volumeM": "72.5M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 44.7,
-          "open": 44.42,
-          "high": 45.66,
-          "low": 42.7,
-          "volume": 90680414,
-          "volumeM": "90.68M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 50.85,
+          "high": 52.15,
+          "low": 48.5,
+          "close": 51.3,
+          "volume": 69800000,
+          "volumeM": "69.8M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -1036,7 +1080,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "01810": {
       "name": "小米集團－Ｗ",
@@ -1142,15 +1186,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 24.12,
+          "high": 25.2,
+          "low": 23.8,
+          "close": 24.8,
+          "volume": 180500000,
+          "volumeM": "180.5M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 25.04,
-          "open": 24.72,
-          "high": 25.14,
-          "low": 24.0,
-          "volume": 154848800,
-          "volumeM": "154.85M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 24.3,
+          "high": 24.8,
+          "low": 23.9,
+          "close": 24.5,
+          "volume": 150250000,
+          "volumeM": "150.2M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -1208,7 +1263,7 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
+      "has_ai": true,
       "recommendation": "持有"
     },
     "02828": {
@@ -1315,17 +1370,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 84.0,
-          "open": 83.66,
-          "high": 84.0,
-          "low": 82.76,
-          "volume": 44757503,
-          "volumeM": "44.76M",
-          "is_predicted": false
-        },
-        {
           "date": "2026-10-14",
           "dateShort": "🔮 10/14",
           "open": 83.1,
@@ -1381,8 +1425,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00981": {
       "name": "中芯國際",
@@ -1488,15 +1532,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 55.25,
+          "high": 57.3,
+          "low": 54.1,
+          "close": 56.45,
+          "volume": 58920000,
+          "volumeM": "58.9M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 55.55,
-          "open": 55.15,
-          "high": 56.0,
-          "low": 53.6,
-          "volume": 64625222,
-          "volumeM": "64.63M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 54.2,
+          "high": 56.45,
+          "low": 53.0,
+          "close": 55.3,
+          "volume": 54350000,
+          "volumeM": "54.4M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -1661,15 +1716,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 95.5,
+          "high": 95.75,
+          "low": 90.25,
+          "close": 94.55,
+          "volume": 24990000,
+          "volumeM": "25.0M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 85.1,
-          "open": 87.85,
-          "high": 87.85,
-          "low": 83.2,
-          "volume": 35224448,
-          "volumeM": "35.22M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 95.5,
+          "high": 95.75,
+          "low": 90.25,
+          "close": 94.55,
+          "volume": 24990000,
+          "volumeM": "25.0M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -1728,7 +1794,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "持有"
     },
     "01548": {
       "name": "金斯瑞生物科技",
@@ -1831,17 +1897,6 @@
           "low": 38.46,
           "volume": 49856027,
           "volumeM": "49.86M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 35.56,
-          "open": 39.6,
-          "high": 40.4,
-          "low": 34.2,
-          "volume": 82898889,
-          "volumeM": "82.9M",
           "is_predicted": false
         },
         {
@@ -1996,15 +2051,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 168.45,
+          "high": 174.35,
+          "low": 161.45,
+          "close": 167.95,
+          "volume": 17520000,
+          "volumeM": "17.5M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 150.6,
-          "open": 148.0,
-          "high": 154.4,
-          "low": 145.8,
-          "volume": 18691230,
-          "volumeM": "18.69M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 170.1,
+          "high": 176.25,
+          "low": 163.2,
+          "close": 169.7,
+          "volume": 16850000,
+          "volumeM": "16.9M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -2051,8 +2117,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "00992": {
       "name": "聯想集團",
@@ -2158,15 +2224,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 31.5,
+          "high": 32.5,
+          "low": 30.5,
+          "close": 32.0,
+          "volume": 95000000,
+          "volumeM": "95.0M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 31.1,
-          "open": 31.54,
-          "high": 31.94,
-          "low": 30.3,
-          "volume": 87816834,
-          "volumeM": "87.82M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 30.8,
+          "high": 32.2,
+          "low": 29.8,
+          "close": 31.5,
+          "volume": 98500000,
+          "volumeM": "98.5M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -2213,8 +2290,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "02269": {
       "name": "藥明生物",
@@ -2320,19 +2397,63 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 54.2,
+          "high": 55.3,
+          "low": 52.4,
+          "close": 54.1,
+          "volume": 22500000,
+          "volumeM": "22.5M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 51.25,
-          "open": 51.05,
-          "high": 51.45,
-          "low": 49.02,
-          "volume": 43812745,
-          "volumeM": "43.81M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 54.8,
+          "high": 55.9,
+          "low": 53.1,
+          "close": 54.8,
+          "volume": 28750000,
+          "volumeM": "28.8M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-14",
+          "dateShort": "🔮 10/14",
+          "open": 55.4,
+          "high": 56.5,
+          "low": 53.8,
+          "close": 55.5,
+          "volume": 34200000,
+          "volumeM": "34.2M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-15",
+          "dateShort": "🔮 10/15",
+          "open": 56.0,
+          "high": 57.1,
+          "low": 54.5,
+          "close": 56.2,
+          "volume": 39800000,
+          "volumeM": "39.8M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-16",
+          "dateShort": "🔮 10/16",
+          "open": 56.6,
+          "high": 57.7,
+          "low": 55.2,
+          "close": 56.9,
+          "volume": 45600000,
+          "volumeM": "45.6M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "00883": {
       "name": "中國海洋石油",
@@ -2435,17 +2556,6 @@
           "low": 23.62,
           "volume": 89707243,
           "volumeM": "89.71M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 24.28,
-          "open": 24.14,
-          "high": 24.38,
-          "low": 23.98,
-          "volume": 86394295,
-          "volumeM": "86.39M",
           "is_predicted": false
         },
         {
@@ -2600,17 +2710,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 73.05,
-          "open": 71.5,
-          "high": 73.3,
-          "low": 71.45,
-          "volume": 27706780,
-          "volumeM": "27.71M",
-          "is_predicted": false
-        },
-        {
           "date": "2026-10-14",
           "dateShort": "🔮 10/14",
           "open": 73.0,
@@ -2666,8 +2765,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00005": {
       "name": "匯豐控股",
@@ -2773,17 +2872,6 @@
           "is_predicted": false
         },
         {
-          "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 150.7,
-          "open": 148.0,
-          "high": 151.0,
-          "low": 147.2,
-          "volume": 12775121,
-          "volumeM": "12.78M",
-          "is_predicted": false
-        },
-        {
           "date": "2026-10-14",
           "dateShort": "🔮 10/14",
           "open": 149.5,
@@ -2839,8 +2927,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "02513": {
       "name": "智譜",
@@ -2946,15 +3034,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 642.0,
+          "high": 658.0,
+          "low": 615.0,
+          "close": 635.0,
+          "volume": 4800000,
+          "volumeM": "4.8M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 601.0,
-          "open": 600.0,
-          "high": 619.0,
-          "low": 580.0,
-          "volume": 3078283,
-          "volumeM": "3.08M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 650.0,
+          "high": 665.0,
+          "low": 622.0,
+          "close": 642.0,
+          "volume": 3900000,
+          "volumeM": "3.9M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -3013,7 +3112,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "06166": {
       "name": "劍橋科技",
@@ -3116,17 +3215,6 @@
           "low": 100.2,
           "volume": 10906210,
           "volumeM": "10.91M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 95.0,
-          "open": 87.0,
-          "high": 98.25,
-          "low": 85.1,
-          "volume": 19343804,
-          "volumeM": "19.34M",
           "is_predicted": false
         }
       ],
@@ -3237,15 +3325,26 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-12",
+          "dateShort": "🔮 10/12",
+          "open": 985.0,
+          "high": 998.0,
+          "low": 930.0,
+          "close": 980.0,
+          "volume": 1750000,
+          "volumeM": "1.8M",
+          "is_predicted": true
+        },
+        {
           "date": "2026-10-13",
-          "dateShort": "10/13",
-          "close": 890.0,
-          "open": 864.5,
-          "high": 911.5,
-          "low": 853.0,
-          "volume": 1926251,
-          "volumeM": "1.93M",
-          "is_predicted": false
+          "dateShort": "🔮 10/13",
+          "open": 990.0,
+          "high": 1005.0,
+          "low": 935.0,
+          "close": 985.0,
+          "volume": 1800000,
+          "volumeM": "1.8M",
+          "is_predicted": true
         },
         {
           "date": "2026-10-14",
@@ -3304,23 +3403,8 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     }
   },
-  "indices": {
-    "hsi": {
-      "name": "恒生指數",
-      "value": 24345.22,
-      "change": 74.02,
-      "pct": 0.3,
-      "isPositive": true
-    },
-    "hsce": {
-      "name": "國企指數",
-      "value": 8174.72,
-      "change": 6.15,
-      "pct": 0.08,
-      "isPositive": true
-    }
-  }
+  "indices": {}
 }
