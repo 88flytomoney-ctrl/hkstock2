@@ -516,8 +516,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "01810": {
       "name": "小米集團－Ｗ",
@@ -689,8 +689,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "03033": {
       "name": "南方恒生科技",
@@ -863,7 +863,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "03690": {
       "name": "美團－Ｗ",
@@ -1381,8 +1381,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "01888": {
       "name": "建滔積層板",
@@ -1541,10 +1541,21 @@
           "volume": 36000000,
           "volumeM": "36.0M",
           "is_predicted": true
+        },
+        {
+          "date": "2026-10-21",
+          "dateShort": "🔮 10/21",
+          "open": 43.6,
+          "high": 44.6,
+          "low": 39.6,
+          "close": 40.9,
+          "volume": 58500000,
+          "volumeM": "58.5M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "00992": {
       "name": "聯想集團",
@@ -1716,8 +1727,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00981": {
       "name": "中芯國際",
@@ -2062,8 +2073,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "09926": {
       "name": "康方生物",
@@ -2178,10 +2189,65 @@
           "volume": 27853343,
           "volumeM": "27.85M",
           "is_predicted": false
+        },
+        {
+          "date": "2026-10-15",
+          "dateShort": "🔮 10/15",
+          "open": 98.5,
+          "high": 99.5,
+          "low": 94.35,
+          "close": 95.4,
+          "volume": 26850000,
+          "volumeM": "26.9M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-16",
+          "dateShort": "🔮 10/16",
+          "open": 99.0,
+          "high": 100.0,
+          "low": 94.85,
+          "close": 95.9,
+          "volume": 25850000,
+          "volumeM": "25.9M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-19",
+          "dateShort": "🔮 10/19",
+          "open": 99.5,
+          "high": 100.5,
+          "low": 95.35,
+          "close": 96.4,
+          "volume": 24850000,
+          "volumeM": "24.9M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-20",
+          "dateShort": "🔮 10/20",
+          "open": 100.0,
+          "high": 101.0,
+          "low": 95.85,
+          "close": 96.9,
+          "volume": 23850000,
+          "volumeM": "23.9M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-21",
+          "dateShort": "🔮 10/21",
+          "open": 100.5,
+          "high": 101.5,
+          "low": 96.35,
+          "close": 97.4,
+          "volume": 22850000,
+          "volumeM": "22.9M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "02318": {
       "name": "中國平安",
@@ -2353,8 +2419,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "02513": {
       "name": "智譜",
@@ -2526,8 +2592,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "02628": {
       "name": "中國人壽",
@@ -2699,8 +2765,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00883": {
       "name": "中國海洋石油",
@@ -3046,7 +3112,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "買入"
+      "recommendation": "持有"
     },
     "00939": {
       "name": "建設銀行",
@@ -3391,8 +3457,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     }
   },
   "indices": {
