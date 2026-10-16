@@ -283,8 +283,8 @@
           "open": 424.0,
           "high": 428.8,
           "low": 415.8,
-          "volume": 18749869,
-          "volumeM": "18.75M",
+          "volume": 18756869,
+          "volumeM": "18.76M",
           "is_predicted": false
         },
         {
@@ -344,7 +344,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "買入"
+      "recommendation": "持有"
     },
     "03033": {
       "name": "南方恒生科技",
@@ -689,8 +689,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00992": {
       "name": "聯想集團",
@@ -862,8 +862,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "02828": {
       "name": "恒生中國企業",
@@ -975,8 +975,8 @@
           "open": 83.86,
           "high": 84.4,
           "low": 83.18,
-          "volume": 52158594,
-          "volumeM": "52.16M",
+          "volume": 52117594,
+          "volumeM": "52.12M",
           "is_predicted": false
         },
         {
@@ -1022,10 +1022,21 @@
           "volume": 47000000,
           "volumeM": "47.0M",
           "is_predicted": true
+        },
+        {
+          "date": "2026-10-23",
+          "dateShort": "🔮 10/23",
+          "open": 84.1,
+          "high": 84.9,
+          "low": 83.6,
+          "close": 84.2,
+          "volume": 54000000,
+          "volumeM": "54.0M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "01810": {
       "name": "小米集團－Ｗ",
@@ -1310,8 +1321,8 @@
           "open": 20.12,
           "high": 20.8,
           "low": 19.07,
-          "volume": 187837825,
-          "volumeM": "187.84M",
+          "volume": 187863125,
+          "volumeM": "187.86M",
           "is_predicted": false
         },
         {
@@ -1370,8 +1381,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "02269": {
       "name": "藥明生物",
@@ -1483,8 +1494,8 @@
           "open": 49.98,
           "high": 50.85,
           "low": 45.82,
-          "volume": 55035830,
-          "volumeM": "55.04M",
+          "volume": 55205330,
+          "volumeM": "55.21M",
           "is_predicted": false
         }
       ],
@@ -1661,8 +1672,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "01299": {
       "name": "友邦保險",
@@ -1947,8 +1958,8 @@
           "open": 50.85,
           "high": 51.0,
           "low": 49.92,
-          "volume": 40174750,
-          "volumeM": "40.17M",
+          "volume": 40108750,
+          "volumeM": "40.11M",
           "is_predicted": false
         },
         {
@@ -2007,8 +2018,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "02359": {
       "name": "藥明康德",
@@ -2120,8 +2131,8 @@
           "open": 203.8,
           "high": 209.0,
           "low": 185.0,
-          "volume": 10148220,
-          "volumeM": "10.15M",
+          "volume": 10159420,
+          "volumeM": "10.16M",
           "is_predicted": false
         }
       ],
@@ -2237,9 +2248,9 @@
           "close": 39.48,
           "open": 39.7,
           "high": 39.98,
-          "low": 38.74,
-          "volume": 48563808,
-          "volumeM": "48.56M",
+          "low": 38.72,
+          "volume": 48517808,
+          "volumeM": "48.52M",
           "is_predicted": false
         },
         {
@@ -2298,8 +2309,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00005": {
       "name": "匯豐控股",
@@ -2411,8 +2422,8 @@
           "open": 148.9,
           "high": 150.3,
           "low": 148.8,
-          "volume": 12156298,
-          "volumeM": "12.16M",
+          "volume": 12380698,
+          "volumeM": "12.38M",
           "is_predicted": false
         },
         {
@@ -2471,8 +2482,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00939": {
       "name": "建設銀行",
@@ -2644,7 +2655,7 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
+      "has_ai": false,
       "recommendation": "持有"
     },
     "02513": {
@@ -2757,7 +2768,7 @@
           "open": 529.0,
           "high": 541.5,
           "low": 513.5,
-          "volume": 3446822,
+          "volume": 3446922,
           "volumeM": "3.45M",
           "is_predicted": false
         },
@@ -2817,8 +2828,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00981": {
       "name": "中芯國際",
@@ -3163,8 +3174,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "01378": {
       "name": "中國宏橋",
@@ -3337,7 +3348,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "持有"
+      "recommendation": "賣出"
     }
   },
   "indices": {
