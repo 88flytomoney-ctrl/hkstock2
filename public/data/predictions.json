@@ -171,7 +171,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "00700": {
       "name": "騰訊控股",
@@ -343,8 +343,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "03033": {
       "name": "南方恒生科技",
@@ -516,8 +516,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "09988": {
       "name": "阿里巴巴－Ｗ",
@@ -689,8 +689,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "00992": {
       "name": "聯想集團",
@@ -862,8 +862,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "02828": {
       "name": "恒生中國企業",
@@ -1381,8 +1381,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "02269": {
       "name": "藥明生物",
@@ -1497,10 +1497,65 @@
           "volume": 55182330,
           "volumeM": "55.18M",
           "is_predicted": false
+        },
+        {
+          "date": "2026-10-19",
+          "dateShort": "🔮 10/19",
+          "open": 50.25,
+          "high": 51.1,
+          "low": 46.95,
+          "close": 48.45,
+          "volume": 58320000,
+          "volumeM": "58.3M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-20",
+          "dateShort": "🔮 10/20",
+          "open": 49.8,
+          "high": 50.65,
+          "low": 46.5,
+          "close": 48.0,
+          "volume": 57870000,
+          "volumeM": "57.9M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-21",
+          "dateShort": "🔮 10/21",
+          "open": 49.35,
+          "high": 50.2,
+          "low": 46.05,
+          "close": 47.55,
+          "volume": 57420000,
+          "volumeM": "57.4M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-22",
+          "dateShort": "🔮 10/22",
+          "open": 48.9,
+          "high": 49.75,
+          "low": 45.6,
+          "close": 47.1,
+          "volume": 56970000,
+          "volumeM": "57.0M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-10-23",
+          "dateShort": "🔮 10/23",
+          "open": 48.45,
+          "high": 49.3,
+          "low": 45.15,
+          "close": 46.65,
+          "volume": 56520000,
+          "volumeM": "56.5M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "06869": {
       "name": "長飛光纖光纜",
@@ -2018,7 +2073,7 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
+      "has_ai": true,
       "recommendation": "持有"
     },
     "02359": {
@@ -2364,8 +2419,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00005": {
       "name": "匯豐控股",
@@ -2710,8 +2765,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "02513": {
       "name": "智譜",
@@ -3229,8 +3284,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "01378": {
       "name": "中國宏橋",
@@ -3402,8 +3457,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     }
   },
   "indices": {
