@@ -178,17 +178,6 @@
       "symbol": "2800.HK",
       "combined_data": [
         {
-          "date": "2026-10-07",
-          "dateShort": "10/07",
-          "close": 24.76,
-          "open": 24.84,
-          "high": 24.92,
-          "low": 24.7,
-          "volume": 388968931,
-          "volumeM": "388.97M",
-          "is_predicted": false
-        },
-        {
           "date": "2026-10-08",
           "dateShort": "10/08",
           "close": 24.42,
@@ -277,6 +266,17 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-21",
+          "dateShort": "10/21",
+          "close": 24.34,
+          "open": 24.78,
+          "high": 24.78,
+          "low": 24.3,
+          "volume": 437435248,
+          "volumeM": "437.44M",
+          "is_predicted": false
+        },
+        {
           "date": "2026-10-22",
           "dateShort": "10/22",
           "close": 23.58,
@@ -343,8 +343,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "09988": {
       "name": "阿里巴巴－Ｗ",
@@ -524,17 +524,6 @@
       "symbol": "3033.HK",
       "combined_data": [
         {
-          "date": "2026-10-07",
-          "dateShort": "10/07",
-          "close": 4.11,
-          "open": 4.12,
-          "high": 4.14,
-          "low": 4.07,
-          "volume": 944316187,
-          "volumeM": "944.32M",
-          "is_predicted": false
-        },
-        {
           "date": "2026-10-08",
           "dateShort": "10/08",
           "close": 3.99,
@@ -623,6 +612,17 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-21",
+          "dateShort": "10/21",
+          "close": 3.92,
+          "open": 4.0,
+          "high": 4.03,
+          "low": 3.91,
+          "volume": 1336882020,
+          "volumeM": "1336.88M",
+          "is_predicted": false
+        },
+        {
           "date": "2026-10-22",
           "dateShort": "10/22",
           "close": 3.71,
@@ -689,24 +689,13 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "02828": {
       "name": "恒生中國企業",
       "symbol": "2828.HK",
       "combined_data": [
-        {
-          "date": "2026-10-07",
-          "dateShort": "10/07",
-          "close": 82.88,
-          "open": 83.18,
-          "high": 83.28,
-          "low": 82.48,
-          "volume": 51658700,
-          "volumeM": "51.66M",
-          "is_predicted": false
-        },
         {
           "date": "2026-10-08",
           "dateShort": "10/08",
@@ -796,6 +785,17 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-21",
+          "dateShort": "10/21",
+          "close": 81.62,
+          "open": 82.74,
+          "high": 83.3,
+          "low": 81.52,
+          "volume": 38539830,
+          "volumeM": "38.54M",
+          "is_predicted": false
+        },
+        {
           "date": "2026-10-22",
           "dateShort": "10/22",
           "close": 78.88,
@@ -862,8 +862,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "00981": {
       "name": "中芯國際",
@@ -1035,8 +1035,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00992": {
       "name": "聯想集團",
@@ -1381,8 +1381,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "00883": {
       "name": "中國海洋石油",
@@ -1555,7 +1555,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "買入"
+      "recommendation": "賣出"
     },
     "03750": {
       "name": "寧德時代",
@@ -1727,8 +1727,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "06869": {
       "name": "長飛光纖光纜",
@@ -2254,17 +2254,6 @@
       "symbol": "7709.HK",
       "combined_data": [
         {
-          "date": "2026-10-07",
-          "dateShort": "10/07",
-          "close": 37.26,
-          "open": 38.3,
-          "high": 38.54,
-          "low": 36.88,
-          "volume": 78248701,
-          "volumeM": "78.25M",
-          "is_predicted": false
-        },
-        {
           "date": "2026-10-08",
           "dateShort": "10/08",
           "close": 35.28,
@@ -2353,6 +2342,17 @@
           "is_predicted": false
         },
         {
+          "date": "2026-10-21",
+          "dateShort": "10/21",
+          "close": 19.62,
+          "open": 19.68,
+          "high": 20.6,
+          "low": 18.94,
+          "volume": 179803290,
+          "volumeM": "179.8M",
+          "is_predicted": false
+        },
+        {
           "date": "2026-10-22",
           "dateShort": "10/22",
           "close": 17.2,
@@ -2420,7 +2420,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "買入"
+      "recommendation": "賣出"
     },
     "02513": {
       "name": "智譜",
@@ -2939,7 +2939,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "01299": {
       "name": "友邦保險",
@@ -3457,8 +3457,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     }
   },
   "indices": {
