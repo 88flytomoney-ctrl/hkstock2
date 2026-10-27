@@ -170,8 +170,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "02828": {
       "name": "恒生中國企業",
@@ -344,7 +344,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "00700": {
       "name": "騰訊控股",
@@ -689,8 +689,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "02513": {
       "name": "智譜",
@@ -1197,8 +1197,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "09988": {
       "name": "阿里巴巴－Ｗ",
@@ -1371,7 +1371,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "07709": {
       "name": "ＸＬ二南方海力士",
@@ -1543,8 +1543,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "00939": {
       "name": "建設銀行",
@@ -2353,8 +2353,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00100": {
       "name": "MINIMAX-W",
@@ -2526,8 +2526,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "02359": {
       "name": "藥明康德",
@@ -2699,8 +2699,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "03750": {
       "name": "寧德時代",
@@ -3046,7 +3046,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "買入"
     },
     "01888": {
       "name": "建滔積層板",
@@ -3392,7 +3392,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "買入"
+      "recommendation": "賣出"
     }
   },
   "indices": {
