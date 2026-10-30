@@ -170,8 +170,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "賣出"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "02828": {
       "name": "恒生中國企業",
@@ -343,8 +343,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "00700": {
       "name": "騰訊控股",
@@ -975,8 +975,8 @@
           "open": 26.08,
           "high": 27.28,
           "low": 26.02,
-          "volume": 207860564,
-          "volumeM": "207.86M",
+          "volume": 207524364,
+          "volumeM": "207.52M",
           "is_predicted": false
         },
         {
@@ -1148,8 +1148,8 @@
           "open": 43.5,
           "high": 44.28,
           "low": 42.26,
-          "volume": 122458515,
-          "volumeM": "122.46M",
+          "volume": 122510515,
+          "volumeM": "122.51M",
           "is_predicted": false
         },
         {
@@ -1727,8 +1727,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "00939": {
       "name": "建設銀行",
@@ -2013,8 +2013,8 @@
           "open": 72.55,
           "high": 75.45,
           "low": 72.2,
-          "volume": 38113431,
-          "volumeM": "38.11M",
+          "volume": 37640631,
+          "volumeM": "37.64M",
           "is_predicted": false
         },
         {
@@ -2073,8 +2073,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "01888": {
       "name": "建滔積層板",
@@ -2184,10 +2184,10 @@
           "dateShort": "10/30",
           "close": 34.68,
           "open": 34.8,
-          "high": 36.42,
+          "high": 36.48,
           "low": 33.68,
-          "volume": 77444945,
-          "volumeM": "77.44M",
+          "volume": 77477445,
+          "volumeM": "77.48M",
           "is_predicted": false
         },
         {
@@ -2359,8 +2359,8 @@
           "open": 69.0,
           "high": 73.3,
           "low": 68.85,
-          "volume": 36190642,
-          "volumeM": "36.19M",
+          "volume": 36203842,
+          "volumeM": "36.2M",
           "is_predicted": false
         },
         {
@@ -2532,8 +2532,8 @@
           "open": 35.7,
           "high": 39.26,
           "low": 33.8,
-          "volume": 68460409,
-          "volumeM": "68.46M",
+          "volume": 68254409,
+          "volumeM": "68.25M",
           "is_predicted": false
         },
         {
@@ -2705,7 +2705,7 @@
           "open": 67.95,
           "high": 68.75,
           "low": 67.0,
-          "volume": 36602423,
+          "volume": 36599723,
           "volumeM": "36.6M",
           "is_predicted": false
         },
@@ -2938,8 +2938,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": true,
-      "recommendation": "買入"
+      "has_ai": false,
+      "recommendation": "持有"
     },
     "01398": {
       "name": "工商銀行",
@@ -3051,8 +3051,8 @@
           "open": 7.85,
           "high": 7.91,
           "low": 7.78,
-          "volume": 291738718,
-          "volumeM": "291.74M",
+          "volume": 291767718,
+          "volumeM": "291.77M",
           "is_predicted": false
         },
         {
@@ -3224,8 +3224,8 @@
           "open": 92.45,
           "high": 101.0,
           "low": 92.05,
-          "volume": 21951449,
-          "volumeM": "21.95M",
+          "volume": 21957449,
+          "volumeM": "21.96M",
           "is_predicted": false
         },
         {
@@ -3284,8 +3284,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     },
     "00857": {
       "name": "中國石油股份",
@@ -3397,13 +3397,68 @@
           "open": 10.35,
           "high": 10.84,
           "low": 10.26,
-          "volume": 190125898,
-          "volumeM": "190.13M",
+          "volume": 188335898,
+          "volumeM": "188.34M",
           "is_predicted": false
+        },
+        {
+          "date": "2026-11-02",
+          "dateShort": "🔮 11/02",
+          "open": 10.42,
+          "high": 11.05,
+          "low": 10.32,
+          "close": 10.9,
+          "volume": 205120000,
+          "volumeM": "205.1M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-11-03",
+          "dateShort": "🔮 11/03",
+          "open": 10.49,
+          "high": 11.26,
+          "low": 10.38,
+          "close": 10.95,
+          "volume": 222450000,
+          "volumeM": "222.4M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-11-04",
+          "dateShort": "🔮 11/04",
+          "open": 10.56,
+          "high": 11.47,
+          "low": 10.44,
+          "close": 11.0,
+          "volume": 239780000,
+          "volumeM": "239.8M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-11-05",
+          "dateShort": "🔮 11/05",
+          "open": 10.63,
+          "high": 11.68,
+          "low": 10.5,
+          "close": 11.05,
+          "volume": 257110000,
+          "volumeM": "257.1M",
+          "is_predicted": true
+        },
+        {
+          "date": "2026-11-06",
+          "dateShort": "🔮 11/06",
+          "open": 10.7,
+          "high": 11.89,
+          "low": 10.56,
+          "close": 11.1,
+          "volume": 274440000,
+          "volumeM": "274.4M",
+          "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "買入"
     }
   },
   "indices": {
