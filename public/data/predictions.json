@@ -102,17 +102,6 @@
           "volume": 633000680,
           "volumeM": "633.0M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 24.58,
-          "open": 24.72,
-          "high": 24.84,
-          "low": 24.54,
-          "volume": 414899813,
-          "volumeM": "414.9M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -219,17 +208,6 @@
           "low": 84.54,
           "volume": 112968128,
           "volumeM": "112.97M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 84.88,
-          "open": 85.46,
-          "high": 85.98,
-          "low": 84.74,
-          "volume": 87150480,
-          "volumeM": "87.15M",
           "is_predicted": false
         }
       ],
@@ -338,17 +316,6 @@
           "volume": 29605485,
           "volumeM": "29.61M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 418.4,
-          "open": 425.2,
-          "high": 428.4,
-          "low": 416.0,
-          "volume": 16370386,
-          "volumeM": "16.37M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -455,17 +422,6 @@
           "low": 3.93,
           "volume": 1796823558,
           "volumeM": "1796.82M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 3.96,
-          "open": 4.03,
-          "high": 4.08,
-          "low": 3.95,
-          "volume": 1507271829,
-          "volumeM": "1507.27M",
           "is_predicted": false
         }
       ],
@@ -574,17 +530,6 @@
           "volume": 95566833,
           "volumeM": "95.57M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 104.6,
-          "open": 107.2,
-          "high": 108.1,
-          "low": 104.5,
-          "volume": 53331523,
-          "volumeM": "53.33M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -691,17 +636,6 @@
           "low": 78.0,
           "volume": 51431875,
           "volumeM": "51.43M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 75.15,
-          "open": 80.65,
-          "high": 81.9,
-          "low": 74.75,
-          "volume": 65526199,
-          "volumeM": "65.53M",
           "is_predicted": false
         }
       ],
@@ -810,17 +744,6 @@
           "volume": 564813447,
           "volumeM": "564.81M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 13.33,
-          "open": 14.46,
-          "high": 15.45,
-          "low": 13.3,
-          "volume": 310914270,
-          "volumeM": "310.91M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -927,17 +850,6 @@
           "low": 30.22,
           "volume": 303884871,
           "volumeM": "303.88M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 30.1,
-          "open": 30.98,
-          "high": 31.06,
-          "low": 29.94,
-          "volume": 129731979,
-          "volumeM": "129.73M",
           "is_predicted": false
         }
       ],
@@ -1046,17 +958,6 @@
           "volume": 116297675,
           "volumeM": "116.3M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 27.6,
-          "open": 30.96,
-          "high": 30.96,
-          "low": 27.3,
-          "volume": 125925296,
-          "volumeM": "125.93M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -1163,17 +1064,6 @@
           "low": 80.0,
           "volume": 43228655,
           "volumeM": "43.23M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 84.9,
-          "open": 88.0,
-          "high": 92.4,
-          "low": 84.6,
-          "volume": 31114635,
-          "volumeM": "31.11M",
           "is_predicted": false
         }
       ],
@@ -1282,17 +1172,6 @@
           "volume": 76798440,
           "volumeM": "76.8M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 71.85,
-          "open": 72.05,
-          "high": 73.6,
-          "low": 69.45,
-          "volume": 36027425,
-          "volumeM": "36.03M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -1399,17 +1278,6 @@
           "low": 44.38,
           "volume": 100739081,
           "volumeM": "100.74M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 46.04,
-          "open": 46.6,
-          "high": 47.22,
-          "low": 45.78,
-          "volume": 52633343,
-          "volumeM": "52.63M",
           "is_predicted": false
         }
       ],
@@ -1518,17 +1386,6 @@
           "volume": 9372082,
           "volumeM": "9.37M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 433.8,
-          "open": 430.2,
-          "high": 456.6,
-          "low": 425.2,
-          "volume": 5419421,
-          "volumeM": "5.42M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -1635,17 +1492,6 @@
           "low": 540.5,
           "volume": 3253226,
           "volumeM": "3.25M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 545.0,
-          "open": 579.0,
-          "high": 581.5,
-          "low": 535.0,
-          "volume": 4102133,
-          "volumeM": "4.1M",
           "is_predicted": false
         }
       ],
@@ -1754,17 +1600,6 @@
           "volume": 154944246,
           "volumeM": "154.94M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 18.65,
-          "open": 19.0,
-          "high": 19.47,
-          "low": 18.54,
-          "volume": 97597126,
-          "volumeM": "97.6M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -1871,17 +1706,6 @@
           "low": 6.05,
           "volume": 220457199,
           "volumeM": "220.46M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 6.25,
-          "open": 6.16,
-          "high": 6.3,
-          "low": 6.09,
-          "volume": 275761276,
-          "volumeM": "275.76M",
           "is_predicted": false
         }
       ],
@@ -1990,17 +1814,6 @@
           "volume": 66001821,
           "volumeM": "66.0M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 23.36,
-          "open": 23.6,
-          "high": 23.66,
-          "low": 23.26,
-          "volume": 62417275,
-          "volumeM": "62.42M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -2107,17 +1920,6 @@
           "low": 10.38,
           "volume": 174790056,
           "volumeM": "174.79M",
-          "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 10.59,
-          "open": 10.53,
-          "high": 10.66,
-          "low": 10.48,
-          "volume": 133887631,
-          "volumeM": "133.89M",
           "is_predicted": false
         }
       ],
@@ -2226,17 +2028,6 @@
           "volume": 5034768,
           "volumeM": "5.03M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 369.8,
-          "open": 385.6,
-          "high": 385.6,
-          "low": 367.2,
-          "volume": 3744024,
-          "volumeM": "3.74M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
@@ -2344,37 +2135,11 @@
           "volume": 11954680,
           "volumeM": "11.95M",
           "is_predicted": false
-        },
-        {
-          "date": "2026-11-09",
-          "dateShort": "11/09",
-          "close": 157.2,
-          "open": 159.0,
-          "high": 164.6,
-          "low": 156.1,
-          "volume": 8227027,
-          "volumeM": "8.23M",
-          "is_predicted": false
         }
       ],
       "has_ai": false,
       "recommendation": "持有"
     }
   },
-  "indices": {
-    "hsi": {
-      "name": "恒生指數",
-      "value": 24448.95,
-      "change": -32.91,
-      "pct": -0.13,
-      "isPositive": false
-    },
-    "hsce": {
-      "name": "國企指數",
-      "value": 8260.15,
-      "change": -13.95,
-      "pct": -0.17,
-      "isPositive": false
-    }
-  }
+  "indices": {}
 }
