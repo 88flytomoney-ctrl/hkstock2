@@ -10,6 +10,10 @@ on:
   push:
     branches: [master]
 
+concurrency:
+  group: hkstock-daily-pipeline-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   pipeline:
     runs-on: ubuntu-latest
@@ -23,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ── Step 1: Scrape current stock data ───────────────────────────────────
+      # ── Step 1: Scrape current stock data + AI predictions ──────────────────
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -36,6 +40,7 @@ jobs:
       - name: Scrape ETNet + Fetch prices
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
         run: |
           python generate_predictions.py
 
@@ -66,10 +71,15 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add public/data/predictions.json public/data/history/ public/report.html public/archive/
-          git diff --staged --quiet && echo "No data changes" || \
-            git commit -m "🤖 Auto-update data + AI predictions $(date +%Y-%m-%d\ %H:%M)" && \
-            git pull --ff-only || echo "Force pushing..." && \
-            git push --force-with-lease
+          if ! git diff --staged --quiet; then
+            git fetch origin master --depth=1
+            git reset --soft origin/master
+            git add public/data/predictions.json public/data/history/ public/report.html public/archive/
+            git commit -m "🤖 Auto-update data + AI predictions $(date +%Y-%m-%d\ %H:%M)"
+            git push origin HEAD:master
+          else
+            echo "No data changes"
+          fi
 
       # ── Step 4: Build frontend ─────────────────────────────────────────────
       - name: Setup Node
@@ -83,11 +93,14 @@ jobs:
           npm ci
           npm run build
 
-      # ── Step 4: Deploy to GitHub Pages ─────────────────────────────────────
+      # ── Step 5: Deploy to GitHub Pages ─────────────────────────────────────
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: dist
+
+      - name: Wait for artifact indexing
+        run: sleep 5
 
       - name: Deploy to GitHub Pages
         id: deployment
