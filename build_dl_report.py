@@ -12,6 +12,8 @@ Output:      public/report.html        (latest report)
 """
 import json
 import os
+import sys
+import subprocess
 import urllib.request
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -68,8 +70,6 @@ def compute_stock_stats(stocks):
         last = actual[-1]
         prev = actual[-2]
         first = actual[0]
-        if not prev.get("close") or not first.get("close"):
-            continue
         today_chg = ((last["close"] - prev["close"]) / prev["close"]) * 100
         ten_chg = ((last["close"] - first["close"]) / first["close"]) * 100
 
@@ -99,12 +99,19 @@ def compute_stock_stats(stocks):
             "pred_min_chg": pred_min_chg,
             "pred_max_chg": pred_max_chg,
         })
-    rows.sort(key=lambda r: ["買入", "賣出", "持有"].index(r["rec"]) if r["rec"] in ["買入", "賣出", "持有"] else 9)
+    rows.sort(key=lambda r: ["buy", "sell", "hold"].index(r["rec"]) if r["rec"] in ["buy", "sell", "hold"] else 9)
     return rows
 
 
 def build_html(data, rows, archive_entries=None, current_ts=None):
-    """Build the full HTML report."""
+    """Build the full HTML report.
+
+    archive_entries: list of archive slug strings (newest first), e.g.
+                     ["2026-08-13_1530", "2026-08-13_0930", "2026-08-12_1600"]
+                     Legacy date-only slugs ("2026-08-13") are supported.
+    current_ts:      slug of the page being rendered (archive page), or None
+                     for the latest report.html.
+    """
     indices = data.get("indices", {})
     is_archive = current_ts is not None
     now_str = format_ts_label(current_ts) if current_ts else datetime.now(HK_TZ).strftime("%Y/%m/%d %H:%M HKT")
@@ -121,12 +128,12 @@ def build_html(data, rows, archive_entries=None, current_ts=None):
     if archive_entries is not None:
         if is_archive:
             onchange = ("document.location.href="
-                        "this.value? '../archive/'+this.value+'.html'"
-                        ": '../report.html'")
+                         "this.value? '../archive/'+this.value+'.html'"
+                         ": '../report.html'")
         else:
             onchange = ("document.location.href="
-                        "this.value? 'archive/'+this.value+'.html'"
-                        ": 'report.html'")
+                         "this.value? 'archive/'+this.value+'.html'"
+                         ": 'report.html'")
         dropdown_html = f"""
   <div class="mb-4">
     <label class="text-sm text-gray-400 mr-2">📜 歷史記錄:</label>
@@ -140,6 +147,7 @@ def build_html(data, rows, archive_entries=None, current_ts=None):
     for key in ["hsi", "hscei"]:
         idx = indices.get(key, {})
         if not idx:
+            # Try alternate keys
             for alt in [key, key.upper(), "hsce"]:
                 if alt in indices:
                     idx = indices[alt]
@@ -181,36 +189,25 @@ def build_html(data, rows, archive_entries=None, current_ts=None):
     # Today highlights
     gainers.sort(key=lambda x: x["today_chg"], reverse=True)
     losers.sort(key=lambda x: x["today_chg"])
-    top_gainers = ", ".join(f'{r["name"]} ({r["code"]}) {r["today_chg"]:+.2f}%' for r in gainers[:3]) or "無"
-    top_losers = ", ".join(f'{r["name"]} ({r["code"]}) {r["today_chg"]:+.2f}%' for r in losers[:3]) or "無"
+    top_gainers = ", ".join(f'{r["name"]} ({r["code"]}) {r["today_chg"]:+.2f}%' for r in gainers[:3])
+    top_losers = ", ".join(f'{r["name"]} ({r["code"]}) {r["today_chg"]:+.2f}%' for r in losers[:3])
     adv_dec = f'{len(gainers)} 升 {len(losers)} 跌'
 
     buy_count = sum(1 for r in rows if r["rec"] == "買入")
     sell_count = sum(1 for r in rows if r["rec"] == "賣出")
     hold_count = sum(1 for r in rows if r["rec"] == "持有")
 
-    # 10-day highlights (safe for < 2 rows)
+    # 10-day highlights
     sorted_10d = sorted(rows, key=lambda x: x["ten_chg"], reverse=True)
-    if len(sorted_10d) >= 2:
-        biggest_gainer = sorted_10d[0]
-        runner_up = sorted_10d[1]
-        biggest_loser = sorted_10d[-1]
-        standouts_html = f"""
-      <li><b class="text-green-400">Biggest gainer:</b> {biggest_gainer['name']} ({biggest_gainer['code']}) ▲ {biggest_gainer['ten_chg']:+.2f}% → {biggest_gainer['close']:,.2f} HKD</li>
-      <li><b class="text-green-400">Runner-up:</b> {runner_up['name']} ({runner_up['code']}) ▲ {runner_up['ten_chg']:+.2f}% → {runner_up['close']:,.2f} HKD</li>
-      <li><b class="text-red-400">Biggest loser:</b> {biggest_loser['name']} ({biggest_loser['code']}) ▼ {biggest_loser['ten_chg']:+.2f}% → {biggest_loser['close']:,.2f} HKD</li>"""
-    elif len(sorted_10d) == 1:
-        only = sorted_10d[0]
-        standouts_html = f'<li><b>唯一追蹤股:</b> {only["name"]} ({only["code"]}) {only["ten_chg"]:+.2f}% → {only["close"]:,.2f} HKD</li>'
-    else:
-        standouts_html = "<li>暫無足夠歷史數據</li>"
-
-    buy_list = ", ".join(f'{r["name"]} ({r["code"]})' for r in rows if r["rec"] == "買入") or "無"
-    sell_list = ", ".join(f'{r["name"]} ({r["code"]})' for r in rows if r["rec"] == "賣出") or "無"
+    biggest_gainer = sorted_10d[0]
+    runner_up = sorted_10d[1]
+    biggest_loser = sorted_10d[-1]
+    buy_list = ", ".join(f'{r["name"]} ({r["code"]})' for r in rows if r["rec"] == "買入")
+    sell_list = ", ".join(f'{r["name"]} ({r["code"]})' for r in rows if r["rec"] == "賣出")
 
     # ── AI 5-Day Prediction Section ────────────────────────────────────────────
     pred_day_headers = ""
-    pred_dates_raw = next((r["pred_dates"] for r in rows if r["pred_dates"]), [])
+    pred_dates_raw = rows[0]["pred_dates"] if rows and rows[0]["pred_dates"] else []
     for d in pred_dates_raw:
         if d:
             label = d[5:].replace("-", "/")
@@ -236,7 +233,7 @@ def build_html(data, rows, archive_entries=None, current_ts=None):
         lo = r["pred_min_chg"]
         hi_color = "#22c55e" if hi and hi > 0 else "#ef4444"
         lo_color = "#ef4444" if lo and lo < 0 else "#22c55e"
-        range_str = f'<span style="color:{hi_color}">{hi:+.2f}%</span> / <span style="color:{lo_color}">{lo:+.2f}%</span>' if (hi is not None and lo is not None) else "—"
+        range_str = f'<span style="color:{hi_color}">+{hi:+.2f}%</span> / <span style="color:{lo_color}">{lo:+.2f}%</span>' if (hi is not None and lo is not None) else "—"
 
         rec_color = {"買入": "#22c55e", "賣出": "#ef4444", "持有": "#f59e0b"}.get(r["rec"], "#888")
 
@@ -267,10 +264,10 @@ def build_html(data, rows, archive_entries=None, current_ts=None):
     else:
         top_pred_gainer = top_pred_loser = most_volatile = most_stable = "無預測數據"
 
-    hsi_chg = indices.get('hsi', {}).get('change', 0)
-    hsi_pct = indices.get('hsi', {}).get('pct', 0)
-    hsce_chg = indices.get('hscei', {}).get('change', 0) or indices.get('hsce', {}).get('change', 0)
-    hsce_pct = indices.get('hscei', {}).get('pct', 0) or indices.get('hsce', {}).get('pct', 0)
+    hsi_chg = indices.get('hsi',{}).get('change',0)
+    hsi_pct = indices.get('hsi',{}).get('pct',0)
+    hsce_chg = indices.get('hscei',{}).get('change',0) or indices.get('hsce',{}).get('change',0)
+    hsce_pct = indices.get('hscei',{}).get('pct',0) or indices.get('hsce',{}).get('pct',0)
 
     title = f"HK Stock 2 AI — {format_ts_label(current_ts)}" if is_archive else "HK Stock 2 AI — Summary Report"
 
@@ -337,7 +334,9 @@ def build_html(data, rows, archive_entries=None, current_ts=None):
   <div class="bg-gray-900 rounded-lg p-5 mb-4 border border-gray-700">
     <h3 class="text-lg font-semibold mb-3">📊 10-Day Standouts</h3>
     <ul class="space-y-1 text-sm">
-      {standouts_html}
+      <li><b class="text-green-400">Biggest gainer:</b> {biggest_gainer['name']} ({biggest_gainer['code']}) ▲ {biggest_gainer['ten_chg']:+.2f}% → {biggest_gainer['close']:,.2f} HKD</li>
+      <li><b class="text-green-400">Runner-up:</b> {runner_up['name']} ({runner_up['code']}) ▲ {runner_up['ten_chg']:+.2f}% → {runner_up['close']:,.2f} HKD</li>
+      <li><b class="text-red-400">Biggest loser:</b> {biggest_loser['name']} ({biggest_loser['code']}) ▼ {biggest_loser['ten_chg']:+.2f}% → {biggest_loser['close']:,.2f} HKD</li>
     </ul>
   </div>
 
@@ -394,7 +393,7 @@ def build_html(data, rows, archive_entries=None, current_ts=None):
 
 def load_archive_index():
     if ARCHIVE_INDEX.exists():
-        with open(ARCHIVE_INDEX, "r", encoding="utf-8") as f:
+        with open(ARCHIVE_INDEX) as f:
             return json.load(f)
     return []
 
@@ -406,7 +405,11 @@ def save_archive_index(dates):
 
 
 def archive_today(data, rows, archive_entries):
-    """Save a timestamped archive snapshot. Multiple runs per day are preserved."""
+    """Save a timestamped archive snapshot. Multiple runs per day are preserved.
+
+    Slug format: YYYY-MM-DD_HHMM  (e.g. 2026-08-13_1530)
+    Filename:    <slug>.html       (e.g. 2026-08-13_1530.html)
+    """
     now = datetime.now(HK_TZ)
     today_slug = now.strftime("%Y-%m-%d_%H%M")
     archive_html = build_html(data, rows, archive_entries=archive_entries, current_ts=today_slug)
@@ -418,6 +421,7 @@ def archive_today(data, rows, archive_entries):
     if today_slug not in archive_entries:
         archive_entries.insert(0, today_slug)
     else:
+        # move to top in case the slug already existed (shouldn't normally)
         archive_entries.remove(today_slug)
         archive_entries.insert(0, today_slug)
     save_archive_index(archive_entries)
@@ -430,11 +434,14 @@ def main():
     data = fetch_data()
     rows = compute_stock_stats(data["stocks"])
 
+    # Load existing archive entries (list of slugs, newest first)
     archive_entries = load_archive_index()
     print(f"  → Existing archives: {len(archive_entries)}")
 
+    # 1. Save today's archive snapshot (timestamped)
     archive_entries = archive_today(data, rows, archive_entries)
 
+    # 2. Generate the latest report.html
     html = build_html(data, rows, archive_entries=archive_entries, current_ts=None)
     PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
