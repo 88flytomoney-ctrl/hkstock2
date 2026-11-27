@@ -452,7 +452,7 @@
         {
           "date": "2026-11-27",
           "dateShort": "11/27",
-          "close": 345.8,
+          "close": 345.6,
           "open": 340.0,
           "high": 346.0,
           "low": 339.6,
@@ -517,7 +517,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "持有"
     },
     "02828": {
       "name": "恒生中國企業",
@@ -863,7 +863,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "持有"
     },
     "01347": {
       "name": "華虹宏力",
@@ -1036,7 +1036,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "持有"
+      "recommendation": "買入"
     },
     "01088": {
       "name": "中國神華",
@@ -1208,8 +1208,8 @@
           "is_predicted": true
         }
       ],
-      "has_ai": false,
-      "recommendation": "持有"
+      "has_ai": true,
+      "recommendation": "賣出"
     },
     "02513": {
       "name": "智譜",
@@ -1555,7 +1555,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "賣出"
+      "recommendation": "持有"
     },
     "01810": {
       "name": "小米集團－Ｗ",
@@ -3403,7 +3403,7 @@
         }
       ],
       "has_ai": true,
-      "recommendation": "持有"
+      "recommendation": "賣出"
     }
   },
   "indices": {
